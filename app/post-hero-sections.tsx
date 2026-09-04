@@ -114,10 +114,16 @@ function FeatureTitle({ title }: { title: string }) {
   );
 }
 
-export default function PostHeroSections() {
+export default function PostHeroSections({
+  transitionOnly = false,
+}: {
+  transitionOnly?: boolean;
+}) {
   const rootRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (transitionOnly) return;
+
     const root = rootRef.current;
     if (!root) return;
 
@@ -235,7 +241,7 @@ export default function PostHeroSections() {
       timers.forEach((timer) => window.clearTimeout(timer));
       motionPreference.removeEventListener('change', handleMotionChange);
     };
-  }, []);
+  }, [transitionOnly]);
 
   useEffect(() => {
     const root = rootRef.current;
@@ -519,7 +525,9 @@ export default function PostHeroSections() {
 
   return (
     <div className="post-hero-sections" ref={rootRef}>
-      <section
+      {transitionOnly ? null : (
+        <>
+          <section
         id="trusted-by"
         className="trusted-brands"
         aria-labelledby="trusted-brands-title"
@@ -547,9 +555,9 @@ export default function PostHeroSections() {
             </li>
           ))}
         </ul>
-      </section>
+          </section>
 
-      <section className="access-manifesto" aria-labelledby="access-manifesto-title">
+          <section className="access-manifesto" aria-labelledby="access-manifesto-title">
         <div className="access-manifesto__inner">
           <span className="access-manifesto__label">
             Российское решение для корпоративной безопасности
@@ -561,9 +569,9 @@ export default function PostHeroSections() {
             облачных сервисов.
           </h2>
         </div>
-      </section>
+          </section>
 
-      <section className="passwork-is" aria-labelledby="passwork-is-title">
+          <section className="passwork-is" aria-labelledby="passwork-is-title">
         <h2 className="sr-only" id="passwork-is-title">
           Что обеспечивает Пассворк
         </h2>
@@ -593,7 +601,9 @@ export default function PostHeroSections() {
             ))}
           </div>
         </div>
-      </section>
+          </section>
+        </>
+      )}
 
       <section
         className="stack-transition"
