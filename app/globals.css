@@ -5695,7 +5695,9 @@ img {
 }
 
 .figma-hero > .figma-hero__aurora {
-  top: 107px;
+  top: 0;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 107px, #000 400px);
+  mask-image: linear-gradient(to bottom, transparent 107px, #000 400px);
 }
 
 .figma-hero__aurora > i {
@@ -5711,8 +5713,8 @@ img {
   left: -8%;
   width: 74%;
   height: 62%;
-  background: radial-gradient(closest-side, rgb(64 118 236 / 55%), rgb(40 80 190 / 18%) 55%, transparent 74%);
-  animation: figma-hero-aurora-a 13s ease-in-out infinite alternate;
+  background: radial-gradient(closest-side, rgb(64 118 236 / 60%), rgb(40 80 190 / 20%) 55%, transparent 74%);
+  animation: figma-hero-aurora-a 9s ease-in-out infinite alternate;
 }
 
 .figma-hero__aurora--top > i:nth-child(2) {
@@ -5720,8 +5722,8 @@ img {
   right: -16%;
   width: 76%;
   height: 66%;
-  background: radial-gradient(closest-side, rgb(120 96 255 / 42%), rgb(70 60 200 / 14%) 55%, transparent 74%);
-  animation: figma-hero-aurora-b 17s ease-in-out infinite alternate;
+  background: radial-gradient(closest-side, rgb(120 96 255 / 48%), rgb(70 60 200 / 16%) 55%, transparent 74%);
+  animation: figma-hero-aurora-b 12s ease-in-out infinite alternate;
 }
 
 .figma-hero__aurora--top > i:nth-child(3) {
@@ -5729,8 +5731,8 @@ img {
   left: 28%;
   width: 60%;
   height: 50%;
-  background: radial-gradient(closest-side, rgb(80 200 255 / 30%), rgb(60 140 220 / 10%) 55%, transparent 74%);
-  animation: figma-hero-aurora-c 11s ease-in-out infinite alternate;
+  background: radial-gradient(closest-side, rgb(80 200 255 / 36%), rgb(60 140 220 / 12%) 55%, transparent 74%);
+  animation: figma-hero-aurora-c 8s ease-in-out infinite alternate;
 }
 
 .figma-hero__aurora--stage > i:nth-child(1) {
@@ -5738,8 +5740,8 @@ img {
   left: -14%;
   width: 84%;
   height: 82%;
-  background: radial-gradient(closest-side, rgb(150 205 255 / 46%), rgb(90 150 245 / 16%) 55%, transparent 74%);
-  animation: figma-hero-aurora-b 12s ease-in-out infinite alternate;
+  background: radial-gradient(closest-side, rgb(150 205 255 / 50%), rgb(90 150 245 / 18%) 55%, transparent 74%);
+  animation: figma-hero-aurora-b 9s ease-in-out infinite alternate;
 }
 
 .figma-hero__aurora--stage > i:nth-child(2) {
@@ -5747,8 +5749,8 @@ img {
   right: -18%;
   width: 92%;
   height: 88%;
-  background: radial-gradient(closest-side, rgb(170 150 255 / 38%), rgb(110 110 240 / 12%) 55%, transparent 74%);
-  animation: figma-hero-aurora-a 15s ease-in-out infinite alternate;
+  background: radial-gradient(closest-side, rgb(170 150 255 / 44%), rgb(110 110 240 / 14%) 55%, transparent 74%);
+  animation: figma-hero-aurora-a 11s ease-in-out infinite alternate;
 }
 
 .figma-hero__aurora--stage > i:nth-child(3) {
@@ -5756,14 +5758,14 @@ img {
   left: 24%;
   width: 64%;
   height: 70%;
-  background: radial-gradient(closest-side, rgb(90 220 255 / 34%), rgb(70 170 240 / 10%) 55%, transparent 74%);
-  animation: figma-hero-aurora-c 10s ease-in-out infinite alternate;
+  background: radial-gradient(closest-side, rgb(90 220 255 / 40%), rgb(70 170 240 / 12%) 55%, transparent 74%);
+  animation: figma-hero-aurora-c 7.5s ease-in-out infinite alternate;
 }
 
 @keyframes figma-hero-aurora-a {
   0% {
-    opacity: 0.75;
-    transform: translate3d(-10%, 6%, 0) scale(0.95);
+    opacity: 0.7;
+    transform: translate3d(-14%, 8%, 0) scale(0.92);
   }
 
   50% {
@@ -5772,30 +5774,30 @@ img {
 
   100% {
     opacity: 0.8;
-    transform: translate3d(18%, -12%, 0) scale(1.2);
+    transform: translate3d(22%, -16%, 0) scale(1.26);
   }
 }
 
 @keyframes figma-hero-aurora-b {
   0% {
     opacity: 0.85;
-    transform: translate3d(12%, -6%, 0) scale(1.12);
+    transform: translate3d(16%, -8%, 0) scale(1.16);
   }
 
   50% {
-    opacity: 0.65;
+    opacity: 0.6;
   }
 
   100% {
     opacity: 1;
-    transform: translate3d(-16%, 12%, 0) scale(0.9);
+    transform: translate3d(-20%, 16%, 0) scale(0.88);
   }
 }
 
 @keyframes figma-hero-aurora-c {
   0% {
-    opacity: 0.6;
-    transform: translate3d(-8%, -10%, 0) scale(1);
+    opacity: 0.55;
+    transform: translate3d(-12%, -14%, 0) scale(0.98);
   }
 
   50% {
@@ -5804,7 +5806,7 @@ img {
 
   100% {
     opacity: 0.7;
-    transform: translate3d(10%, 14%, 0) scale(1.18);
+    transform: translate3d(14%, 18%, 0) scale(1.22);
   }
 }
 
@@ -6544,7 +6546,9 @@ img {
   }
 
   .figma-hero > .figma-hero__aurora {
-    top: 78px;
+    top: 0;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 78px, #000 260px);
+    mask-image: linear-gradient(to bottom, transparent 78px, #000 260px);
   }
 
   .figma-hero__copy {
