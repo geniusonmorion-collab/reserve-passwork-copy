@@ -6481,14 +6481,6 @@ img {
   line-height: 1.1;
 }
 
-.infra-flow__gate > small {
-  margin-top: 7px;
-  color: #66717f;
-  font-family: var(--font-display);
-  font-size: 7px;
-  line-height: 1;
-}
-
 .infra-flow__servers {
   position: absolute;
   top: 29px;

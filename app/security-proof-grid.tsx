@@ -172,7 +172,6 @@ function InfrastructureArtwork() {
               />
             </svg>
             <strong>Проверка доступа</strong>
-            <small>Локальная политика</small>
           </div>
 
           <span className="infra-flow__route infra-flow__route--approved" />
