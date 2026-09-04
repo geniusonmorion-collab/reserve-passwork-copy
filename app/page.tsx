@@ -2,6 +2,7 @@
 
 import PostHeroSections from './post-hero-sections';
 import ClientLogoRotator from './client-logo-rotator';
+import LiveDashboard from './live-dashboard';
 import SecurityProofGrid from './security-proof-grid';
 
 const navigation = [
@@ -93,11 +94,7 @@ export default function Home() {
               src="/assets/figma-9206/hero-texture.png"
               alt=""
             />
-            <img
-              className="figma-hero__product"
-              src="/assets/figma-9206/product-screen.png"
-              alt=""
-            />
+            <LiveDashboard />
           </div>
         </section>
 
