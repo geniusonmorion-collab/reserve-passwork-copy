@@ -1,6 +1,3 @@
-'use client';
-
-import { useEffect, useRef } from 'react';
 import type { CSSProperties } from 'react';
 
 const securityProofs = [
@@ -247,129 +244,14 @@ function SecurityProofVisual({
 }
 
 export default function SecurityProofGrid() {
-  const gridRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const grid = gridRef.current;
-    if (!grid) return;
-
-    const cards = Array.from(
-      grid.querySelectorAll<HTMLElement>('.figma-security-card'),
-    );
-    const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
-    const visibility = new Map<HTMLElement, number>();
-    let activeCard: HTMLElement | null = null;
-    let focusFrame = 0;
-
-    const setActiveCard = (nextCard: HTMLElement | null) => {
-      activeCard = nextCard;
-      cards.forEach((card) =>
-        card.classList.toggle('is-active', card === nextCard),
-      );
-    };
-
-    const activateBestVisibleCard = () => {
-      if (document.hidden) {
-        setActiveCard(null);
-        return;
-      }
-
-      let nextCard: HTMLElement | null = null;
-      let nextRatio = 0;
-
-      visibility.forEach((ratio, card) => {
-        if (ratio > nextRatio) {
-          nextCard = card;
-          nextRatio = ratio;
-        }
-      });
-
-      if (nextRatio >= 0.55) setActiveCard(nextCard);
-      else if (!activeCard || (visibility.get(activeCard) ?? 0) < 0.3) {
-        setActiveCard(null);
-      }
-    };
-
-    const cleanups = cards.map((card) => {
-      const handlePointerEnter = () => {
-        if (finePointer.matches && !document.hidden) setActiveCard(card);
-      };
-      const handlePointerLeave = () => {
-        if (finePointer.matches && !card.contains(document.activeElement)) {
-          setActiveCard(null);
-        }
-      };
-      const handleFocusIn = () => setActiveCard(card);
-      const handleFocusOut = () => {
-        if (focusFrame) window.cancelAnimationFrame(focusFrame);
-        focusFrame = window.requestAnimationFrame(() => {
-          focusFrame = 0;
-          if (!card.contains(document.activeElement) && !card.matches(':hover')) {
-            setActiveCard(null);
-          }
-        });
-      };
-      const handlePointerDown = () => {
-        if (!finePointer.matches) setActiveCard(card);
-      };
-
-      card.addEventListener('pointerenter', handlePointerEnter);
-      card.addEventListener('pointerleave', handlePointerLeave);
-      card.addEventListener('focusin', handleFocusIn);
-      card.addEventListener('focusout', handleFocusOut);
-      card.addEventListener('pointerdown', handlePointerDown);
-
-      return () => {
-        card.removeEventListener('pointerenter', handlePointerEnter);
-        card.removeEventListener('pointerleave', handlePointerLeave);
-        card.removeEventListener('focusin', handleFocusIn);
-        card.removeEventListener('focusout', handleFocusOut);
-        card.removeEventListener('pointerdown', handlePointerDown);
-      };
-    });
-
-    const handleVisibilityChange = () => {
-      if (document.hidden) setActiveCard(null);
-      else if (!finePointer.matches) activateBestVisibleCard();
-    };
-    const handlePointerModeChange = () => {
-      setActiveCard(null);
-      if (!finePointer.matches) activateBestVisibleCard();
-    };
-
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-    finePointer.addEventListener('change', handlePointerModeChange);
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          visibility.set(entry.target as HTMLElement, entry.intersectionRatio);
-        });
-        if (!finePointer.matches) activateBestVisibleCard();
-      },
-      { threshold: [0, 0.3, 0.55, 0.7, 1] },
-    );
-
-    cards.forEach((card) => observer.observe(card));
-
-    return () => {
-      observer.disconnect();
-      cleanups.forEach((cleanup) => cleanup());
-      if (focusFrame) window.cancelAnimationFrame(focusFrame);
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
-      finePointer.removeEventListener('change', handlePointerModeChange);
-    };
-  }, []);
-
   return (
-    <div className="figma-security-grid" ref={gridRef} role="list">
+    <div className="figma-security-grid" role="list">
       {securityProofs.map((proof) => (
         <article
-          aria-label={`${proof.title}. Интерактивная демонстрация`}
-          className={`figma-security-card is-${proof.kind}`}
+          aria-label={proof.title}
+          className={`figma-security-card is-${proof.kind} is-active`}
           key={proof.title}
           role="listitem"
-          tabIndex={0}
         >
           <SecurityProofVisual kind={proof.kind} />
           <div className="figma-security-card__copy">
