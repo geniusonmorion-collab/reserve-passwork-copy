@@ -142,30 +142,78 @@ function InfrastructureArtwork() {
         <div className="infra-flow">
           <div className="infra-flow__client">
             <span className="infra-flow__device">
-              <i>PW</i>
+              <span className="infra-flow__screen">
+                <span className="infra-flow__avatar" />
+                <span className="infra-flow__client-progress">
+                  <i />
+                </span>
+              </span>
             </span>
-            <small>Клиент Passwork</small>
+            <span className="infra-flow__device-base">
+              <i />
+            </span>
           </div>
 
-          <span className="infra-flow__route infra-flow__route--request" />
+          <span className="infra-flow__route">
+            <i />
+          </span>
 
-          <div className="infra-flow__gate">
-            <span className="infra-flow__gate-ring" />
-            <svg viewBox="0 0 50 58">
-              <path
-                className="infra-flow__shield"
-                d="M25 2 45 10v15c0 14-8.5 24.5-20 31C13.5 49.5 5 39 5 25V10L25 2Z"
-              />
-              <path
-                className="infra-flow__check"
-                d="m15 29 7 7 14-16"
-                pathLength="1"
-              />
-            </svg>
-            <strong>Проверка доступа</strong>
+          <div className="infra-flow__status">
+            <span className="infra-flow__spinner">
+              <svg viewBox="0 0 18 18">
+                {Array.from({ length: 12 }, (_, index) => (
+                  <path
+                    d="M9 1.5v1.25"
+                    key={index}
+                    style={
+                      {
+                        '--spinner-step': `${index}`,
+                      } as CSSProperties
+                    }
+                    transform={`rotate(${index * 30} 9 9)`}
+                  />
+                ))}
+              </svg>
+            </span>
+            <span className="infra-flow__status-copy">
+              <strong>Аутентификация...</strong>
+              <strong>Доступ подтверждён</strong>
+            </span>
           </div>
 
-          <span className="infra-flow__route infra-flow__route--approved" />
+          <svg
+            className="infra-flow__branches"
+            viewBox="0 0 120 126"
+            preserveAspectRatio="none"
+          >
+            <path
+              className="infra-flow__branch-base"
+              d="M0 63h27c7 0 10-3 14-9l19-29c4-6 9-8 17-8h43"
+            />
+            <path
+              className="infra-flow__branch-base"
+              d="M0 63h120"
+            />
+            <path
+              className="infra-flow__branch-base"
+              d="M0 63h27c7 0 10 3 14 9l19 29c4 6 9 8 17 8h43"
+            />
+            <path
+              className="infra-flow__branch-pulse infra-flow__branch-pulse--top"
+              d="M0 63h27c7 0 10-3 14-9l19-29c4-6 9-8 17-8h43"
+              pathLength="1"
+            />
+            <path
+              className="infra-flow__branch-pulse infra-flow__branch-pulse--middle"
+              d="M0 63h120"
+              pathLength="1"
+            />
+            <path
+              className="infra-flow__branch-pulse infra-flow__branch-pulse--bottom"
+              d="M0 63h27c7 0 10 3 14 9l19 29c4 6 9 8 17 8h43"
+              pathLength="1"
+            />
+          </svg>
 
           <div className="infra-flow__servers">
             {Array.from({ length: 3 }, (_, rackIndex) => (
@@ -173,23 +221,34 @@ function InfrastructureArtwork() {
                 className="infra-flow__rack"
                 key={rackIndex}
                 style={
-                  { '--rack-delay': `${rackIndex * 120}ms` } as CSSProperties
+                  {
+                    '--rack-delay': `${rackIndex * 180}ms`,
+                  } as CSSProperties
                 }
               >
-                {Array.from({ length: 3 }, (_, ledIndex) => (
-                  <i
-                    key={ledIndex}
-                    style={
-                      {
-                        '--led-delay': `${rackIndex * 120 + ledIndex * 70}ms`,
-                      } as CSSProperties
-                    }
-                  />
-                ))}
-                <b />
+                <span className="infra-flow__rack-fan">
+                  <i />
+                </span>
+                <span className="infra-flow__rack-signal">
+                  <i />
+                  <i />
+                  <i />
+                </span>
+                <span className="infra-flow__rack-vents" />
+                <span className="infra-flow__rack-leds">
+                  {Array.from({ length: 12 }, (_, ledIndex) => (
+                    <i
+                      key={ledIndex}
+                      style={
+                        {
+                          '--led-delay': `${ledIndex * 35}ms`,
+                        } as CSSProperties
+                      }
+                    />
+                  ))}
+                </span>
               </span>
             ))}
-            <small>Локальные серверы</small>
           </div>
         </div>
       </div>
