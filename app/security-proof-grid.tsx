@@ -32,40 +32,42 @@ const securityProofs = [
   },
 ] as const;
 
-const cipherTokens = [
-  ['П', '8F'],
-  ['А', '04'],
-  ['С', '71'],
-  ['С', 'C2'],
-  ['В', 'A9'],
-  ['О', '3D'],
-  ['Р', 'E8'],
-  ['К', '16'],
+const trustCode = ['5', '0', '6', '3', '4', '✓'] as const;
+const cipherCodes = [
+  'K7A·91F·04C',
+  'D2E·83B·71A',
+  '9C4·16F·A83',
+  'G34·12·2015',
 ] as const;
 
-function FstecVisual() {
+function TrustLevelVisual() {
   return (
-    <div className="security-proof-motion security-proof-motion--fstec" aria-hidden="true">
-      <div className="fstec-radar">
-        <span className="fstec-radar__ring fstec-radar__ring--outer" />
-        <span className="fstec-radar__ring fstec-radar__ring--middle" />
-        <span className="fstec-radar__ring fstec-radar__ring--inner" />
-        <span className="fstec-radar__sweep" />
-        <span className="fstec-radar__dot fstec-radar__dot--one" />
-        <span className="fstec-radar__dot fstec-radar__dot--two" />
-        <span className="fstec-radar__dot fstec-radar__dot--three" />
-
-        <span className="fstec-badge">
-          <img src="/assets/icon-security-a.svg" alt="" />
-          <strong>4</strong>
-          <small>УД</small>
-        </span>
-      </div>
-
-      <div className="fstec-verification">
-        <span className="fstec-verification__pulse" />
-        <span>СЕРТИФИКАТ № 5063</span>
-        <img src="/assets/check-circle-blue.svg" alt="" />
+    <div className="clerk-proof clerk-proof--trust" aria-hidden="true">
+      <div className="proof-mfa">
+        <span className="proof-mfa__eyebrow">ПРОВЕРКА СЕРТИФИКАТА</span>
+        <div className="proof-mfa__cells">
+          {trustCode.map((symbol, index) => (
+            <span
+              className="proof-mfa__cell"
+              key={`${symbol}-${index}`}
+              style={
+                { '--proof-delay': `${index * 78}ms` } as CSSProperties
+              }
+            >
+              <i />
+              <b>{symbol}</b>
+            </span>
+          ))}
+        </div>
+        <div className="proof-mfa__status">
+          <span className="proof-mfa__spinner" />
+          <span>4 УРОВЕНЬ ДОВЕРИЯ ПОДТВЕРЖДЁН</span>
+          <time>5063</time>
+        </div>
+        <span className="proof-mfa__rail" />
+        <span className="proof-mfa__node proof-mfa__node--one" />
+        <span className="proof-mfa__node proof-mfa__node--two" />
+        <span className="proof-mfa__node proof-mfa__node--three" />
       </div>
     </div>
   );
@@ -73,40 +75,35 @@ function FstecVisual() {
 
 function GostVisual() {
   return (
-    <div className="security-proof-motion security-proof-motion--gost" aria-hidden="true">
-      <div className="gost-console">
-        <div className="gost-console__header">
-          <span className="gost-console__key">
-            <span />
-          </span>
-          <span>КУЗНЕЧИК · 256 БИТ</span>
-          <i />
+    <div className="clerk-proof clerk-proof--gost" aria-hidden="true">
+      <div className="proof-magic">
+        <div className="proof-magic__glyphs">
+          <span>4A 6C F2 91 07 3B 88 D1 5E 0A 74 C9 16 EF</span>
+          <span>9D 31 A8 60 42 C7 F5 0B E3 19 67 AA 2E 8C</span>
+          <span>B7 E0 54 1C 93 6F 2A D8 05 71 CC 3E A4 89</span>
+          <span>0F A2 79 4D E6 18 B3 5C 90 27 FD 61 8A 34</span>
         </div>
 
-        <div className="gost-cipher">
-          {cipherTokens.map(([plain, encrypted], index) => (
+        <div className="proof-magic__token">
+          {cipherCodes.map((code, index) => (
             <span
-              className="gost-token"
-              key={`${plain}-${encrypted}`}
+              key={code}
               style={
-                {
-                  '--token-delay': `${index * 70}ms`,
-                } as CSSProperties
+                { '--proof-delay': `${index * -600}ms` } as CSSProperties
               }
             >
-              <span className="gost-token__plain">{plain}</span>
-              <span className="gost-token__encrypted">{encrypted}</span>
+              {code}
             </span>
           ))}
-          <span className="gost-cipher__scanner" />
         </div>
 
-        <div className="gost-console__footer">
-          <span>БЛОК 128</span>
-          <span className="gost-console__progress">
-            <i />
+        <div className="proof-magic__credential">
+          <span className="proof-magic__halo" />
+          <span className="proof-magic__icon">
+            <img src="/assets/icon-security-a.svg" alt="" />
           </span>
-          <img src="/assets/check-circle-blue.svg" alt="" />
+          <strong>ГОСТ</strong>
+          <small>Р 34.12–2015</small>
         </div>
       </div>
     </div>
@@ -114,94 +111,84 @@ function GostVisual() {
 }
 
 function InfrastructureVisual() {
+  const rows = [
+    ['Сервер', 'локальный'],
+    ['Контур', 'закрытый'],
+    ['Хранилище', 'внутри'],
+  ] as const;
+
   return (
-    <div
-      className="security-proof-motion security-proof-motion--infrastructure"
-      aria-hidden="true"
-    >
-      <div className="infrastructure-zone">
-        <div className="infrastructure-zone__header">
-          <span>
-            <i /> ЛОКАЛЬНЫЙ КОНТУР
-          </span>
-          <img src="/assets/check-circle-blue.svg" alt="" />
-        </div>
+    <div className="clerk-proof clerk-proof--session" aria-hidden="true">
+      <div className="proof-session">
+        <span className="proof-session__branch proof-session__branch--left" />
+        <span className="proof-session__branch proof-session__branch--right" />
+        <span className="proof-session__signal" />
 
-        <svg
-          className="infrastructure-network"
-          viewBox="0 0 360 112"
-          preserveAspectRatio="none"
-        >
-          <path d="M22 25H111L142 48" />
-          <path d="M22 87H111L142 64" />
-          <path d="M338 25H249L218 48" />
-          <path d="M338 87H249L218 64" />
-        </svg>
-
-        <span className="infrastructure-node infrastructure-node--one" />
-        <span className="infrastructure-node infrastructure-node--two" />
-        <span className="infrastructure-node infrastructure-node--three" />
-        <span className="infrastructure-node infrastructure-node--four" />
-
-        <div className="infrastructure-rack">
-          <div className="infrastructure-rack__title">
-            <img src="/assets/icon-devops.svg" alt="" />
-            <span>PASSWORK</span>
+        <div className="proof-session__panel">
+          <div className="proof-session__device">
+            <span>
+              <img src="/assets/icon-devops.svg" alt="" />
+            </span>
+            <strong>PASSWORK</strong>
           </div>
-          {[0, 1, 2].map((row) => (
-            <span className="infrastructure-rack__row" key={row}>
-              <i />
-              <i />
-              <b />
+          <div className="proof-session__details">
+            {rows.map(([label, value]) => (
+              <span key={label}>
+                <small>{label}</small>
+                <b>{value}</b>
+              </span>
+            ))}
+          </div>
+          <div className="proof-session__footer">
+            <i />
+            <span>РАЗВЁРНУТО ON-PREMISE</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function DataBoundaryVisual() {
+  return (
+    <div className="clerk-proof clerk-proof--airgap" aria-hidden="true">
+      <div className="proof-airgap">
+        <div className="proof-airgap__status">
+          <span className="proof-airgap__spinner" />
+          <strong>Исходящие запросы заблокированы</strong>
+          <time>0</time>
+        </div>
+        <div className="proof-airgap__rail">
+          {[0, 1, 2, 3].map((index) => (
+            <span
+              className="proof-airgap__node"
+              key={index}
+              style={
+                {
+                  '--proof-node-delay': `${260 + index * 170}ms`,
+                  '--proof-node-top': `${index * 22 + 7}px`,
+                } as CSSProperties
+              }
+            >
+              <i>×</i>
             </span>
           ))}
         </div>
+        <span className="proof-airgap__boundary">ВНЕШНИЕ API · НЕТ</span>
       </div>
     </div>
   );
 }
 
-function DataVisual() {
-  return (
-    <div className="security-proof-motion security-proof-motion--data" aria-hidden="true">
-      <div className="data-airgap">
-        <div className="data-airgap__labels">
-          <span>ЛОКАЛЬНЫЙ КОНТУР</span>
-          <span>ВНЕШНИЙ API</span>
-        </div>
-
-        {[0, 1, 2].map((lane) => (
-          <span className={`data-lane data-lane--${lane + 1}`} key={lane}>
-            <i
-              style={
-                {
-                  '--packet-delay': `${lane * 420}ms`,
-                } as CSSProperties
-              }
-            />
-          </span>
-        ))}
-
-        <span className="data-airgap__external-lines" />
-
-        <span className="data-airgap__gate">
-          <i />
-        </span>
-
-        <div className="data-airgap__status">
-          <img src="/assets/check-circle-blue.svg" alt="" />
-          <span>0 исходящих соединений</span>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function SecurityProofVisual({ kind }: { kind: (typeof securityProofs)[number]['kind'] }) {
-  if (kind === 'fstec') return <FstecVisual />;
+function SecurityProofVisual({
+  kind,
+}: {
+  kind: (typeof securityProofs)[number]['kind'];
+}) {
+  if (kind === 'fstec') return <TrustLevelVisual />;
   if (kind === 'gost') return <GostVisual />;
   if (kind === 'infrastructure') return <InfrastructureVisual />;
-  return <DataVisual />;
+  return <DataBoundaryVisual />;
 }
 
 export default function SecurityProofGrid() {
@@ -209,75 +196,114 @@ export default function SecurityProofGrid() {
 
   useEffect(() => {
     const grid = gridRef.current;
-
     if (!grid) return;
 
     const cards = Array.from(
       grid.querySelectorAll<HTMLElement>('.figma-security-card'),
     );
-    const visibleCards = new Set<HTMLElement>();
-    const hoverQuery = window.matchMedia('(hover: hover) and (pointer: fine)');
+    const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
+    const visibility = new Map<HTMLElement, number>();
+    let activeCard: HTMLElement | null = null;
+    let focusFrame = 0;
 
-    const syncAnimations = () => {
-      cards.forEach((card) => {
-        card.classList.toggle(
-          'is-active',
-          visibleCards.has(card) &&
-            !document.hidden &&
-            (!hoverQuery.matches || card.matches(':hover')),
-        );
-      });
+    const setActiveCard = (nextCard: HTMLElement | null) => {
+      activeCard = nextCard;
+      cards.forEach((card) => card.classList.toggle('is-active', card === nextCard));
     };
 
-    cards.forEach((card) => {
-      card.addEventListener('pointerenter', syncAnimations);
-      card.addEventListener('pointerleave', syncAnimations);
-    });
+    const activateBestVisibleCard = () => {
+      if (document.hidden) {
+        setActiveCard(null);
+        return;
+      }
 
-    document.addEventListener('visibilitychange', syncAnimations);
-    hoverQuery.addEventListener('change', syncAnimations);
+      let nextCard: HTMLElement | null = null;
+      let nextRatio = 0;
 
-    if (!('IntersectionObserver' in window)) {
-      cards.forEach((card) => visibleCards.add(card));
-      syncAnimations();
+      visibility.forEach((ratio, card) => {
+        if (ratio > nextRatio) {
+          nextCard = card;
+          nextRatio = ratio;
+        }
+      });
+
+      if (nextRatio >= 0.55) setActiveCard(nextCard);
+      else if (!activeCard || (visibility.get(activeCard) ?? 0) < 0.3) {
+        setActiveCard(null);
+      }
+    };
+
+    const cleanups = cards.map((card) => {
+      const handlePointerEnter = () => {
+        if (finePointer.matches && !document.hidden) setActiveCard(card);
+      };
+      const handlePointerLeave = () => {
+        if (
+          finePointer.matches &&
+          !card.contains(document.activeElement)
+        ) {
+          setActiveCard(null);
+        }
+      };
+      const handleFocusIn = () => setActiveCard(card);
+      const handleFocusOut = () => {
+        if (focusFrame) window.cancelAnimationFrame(focusFrame);
+        focusFrame = window.requestAnimationFrame(() => {
+          focusFrame = 0;
+          if (!card.contains(document.activeElement) && !card.matches(':hover')) {
+            setActiveCard(null);
+          }
+        });
+      };
+      const handlePointerDown = () => {
+        if (!finePointer.matches) setActiveCard(card);
+      };
+
+      card.addEventListener('pointerenter', handlePointerEnter);
+      card.addEventListener('pointerleave', handlePointerLeave);
+      card.addEventListener('focusin', handleFocusIn);
+      card.addEventListener('focusout', handleFocusOut);
+      card.addEventListener('pointerdown', handlePointerDown);
 
       return () => {
-        cards.forEach((card) => {
-          card.removeEventListener('pointerenter', syncAnimations);
-          card.removeEventListener('pointerleave', syncAnimations);
-        });
-        document.removeEventListener('visibilitychange', syncAnimations);
-        hoverQuery.removeEventListener('change', syncAnimations);
+        card.removeEventListener('pointerenter', handlePointerEnter);
+        card.removeEventListener('pointerleave', handlePointerLeave);
+        card.removeEventListener('focusin', handleFocusIn);
+        card.removeEventListener('focusout', handleFocusOut);
+        card.removeEventListener('pointerdown', handlePointerDown);
       };
-    }
+    });
+
+    const handleVisibilityChange = () => {
+      if (document.hidden) setActiveCard(null);
+      else if (!finePointer.matches) activateBestVisibleCard();
+    };
+    const handlePointerModeChange = () => {
+      setActiveCard(null);
+      if (!finePointer.matches) activateBestVisibleCard();
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    finePointer.addEventListener('change', handlePointerModeChange);
 
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          const card = entry.target as HTMLElement;
-
-          if (entry.isIntersecting) visibleCards.add(card);
-          else visibleCards.delete(card);
+          visibility.set(entry.target as HTMLElement, entry.intersectionRatio);
         });
-
-        syncAnimations();
+        if (!finePointer.matches) activateBestVisibleCard();
       },
-      {
-        threshold: 0.12,
-        rootMargin: '0px 0px -8% 0px',
-      },
+      { threshold: [0, 0.3, 0.55, 0.7, 1] },
     );
 
     cards.forEach((card) => observer.observe(card));
 
     return () => {
       observer.disconnect();
-      cards.forEach((card) => {
-        card.removeEventListener('pointerenter', syncAnimations);
-        card.removeEventListener('pointerleave', syncAnimations);
-      });
-      document.removeEventListener('visibilitychange', syncAnimations);
-      hoverQuery.removeEventListener('change', syncAnimations);
+      cleanups.forEach((cleanup) => cleanup());
+      if (focusFrame) window.cancelAnimationFrame(focusFrame);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      finePointer.removeEventListener('change', handlePointerModeChange);
     };
   }, []);
 
@@ -285,9 +311,11 @@ export default function SecurityProofGrid() {
     <div className="figma-security-grid" ref={gridRef} role="list">
       {securityProofs.map((proof) => (
         <article
+          aria-label={`${proof.title}. Интерактивная демонстрация`}
           className={`figma-security-card is-${proof.kind}`}
           key={proof.title}
           role="listitem"
+          tabIndex={0}
         >
           <SecurityProofVisual kind={proof.kind} />
           <div className="figma-security-card__copy">

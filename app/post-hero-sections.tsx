@@ -258,7 +258,6 @@ export default function PostHeroSections({
     const firstFrame = 10;
     const holdFrame = 62;
     const lastFrame = 75;
-    const frameRate = 45;
     const frameImages = Array.from(
       { length: lastFrame - firstFrame + 1 },
       (_, index) => {
@@ -271,53 +270,10 @@ export default function PostHeroSections({
       },
     );
 
-    type TransitionPhase =
-      | 'hidden'
-      | 'prelude'
-      | 'active'
-      | 'leaving'
-      | 'past'
-      | 'static';
-
-    let phase: TransitionPhase = 'hidden';
-    let phaseStartedAt = performance.now();
     let requestedFrame = firstFrame;
     let paintedFrame = -1;
     let scrollFrame = 0;
-    let sequenceFrame = 0;
-    let entranceFrame = 0;
-    let entranceUnlockTimer = 0;
-    let entranceCompletionTimer = 0;
-    let entranceLocked = false;
-    let previousDocumentOverflow = '';
     let disposed = false;
-
-    const unlockEntrance = () => {
-      if (!entranceLocked) return;
-      entranceLocked = false;
-      if (entranceUnlockTimer) {
-        window.clearTimeout(entranceUnlockTimer);
-        entranceUnlockTimer = 0;
-      }
-      if (entranceCompletionTimer) {
-        window.clearTimeout(entranceCompletionTimer);
-        entranceCompletionTimer = 0;
-      }
-      document.documentElement.style.overflow = previousDocumentOverflow;
-      document.documentElement.classList.remove('is-stack-transition-locked');
-    };
-
-    const lockEntrance = () => {
-      if (entranceLocked) return;
-      entranceLocked = true;
-      previousDocumentOverflow = document.documentElement.style.overflow;
-      document.documentElement.style.overflow = 'hidden';
-      document.documentElement.classList.add('is-stack-transition-locked');
-      entranceUnlockTimer = window.setTimeout(() => {
-        entranceUnlockTimer = 0;
-        finishEntrance();
-      }, 2800);
-    };
 
     const paintFrame = (frameNumber: number) => {
       requestedFrame = Math.min(Math.max(frameNumber, firstFrame), lastFrame);
@@ -340,17 +296,6 @@ export default function PostHeroSections({
       canvas.dataset.ready = 'true';
     };
 
-    function finishEntrance() {
-      if (!entranceLocked || disposed) return;
-      if (entranceCompletionTimer) {
-        window.clearTimeout(entranceCompletionTimer);
-        entranceCompletionTimer = 0;
-      }
-      paintFrame(lastFrame);
-      setPhase('leaving');
-      unlockEntrance();
-    }
-
     frameImages.forEach((image, index) => {
       image.addEventListener('load', () => {
         if (disposed) return;
@@ -361,144 +306,23 @@ export default function PostHeroSections({
       });
     });
 
-    const queueSequence = () => {
-      if (sequenceFrame) return;
-      sequenceFrame = window.requestAnimationFrame(playSequence);
-    };
-
-    function playSequence(now: number) {
-      sequenceFrame = 0;
-      const elapsed = Math.max(now - phaseStartedAt, 0);
-
-      if (phase === 'prelude') {
-        const range = holdFrame - firstFrame - 12;
-        const cycle = range * 2;
-        const step = Math.floor((elapsed * frameRate) / 1000) % cycle;
-        const pingPongStep = step <= range ? step : cycle - step;
-        paintFrame(firstFrame + pingPongStep);
-        queueSequence();
-        return;
-      }
-
-      if (phase === 'active') {
-        const frame = Math.min(
-          lastFrame,
-          firstFrame + Math.floor((elapsed * frameRate) / 1000),
-        );
-        paintFrame(frame);
-        if (frame < lastFrame) {
-          queueSequence();
-        } else if (entranceLocked && !entranceCompletionTimer) {
-          entranceCompletionTimer = window.setTimeout(() => {
-            entranceCompletionTimer = 0;
-            finishEntrance();
-          }, 600);
-        }
-        return;
-      }
-
-      if (phase === 'leaving') {
-        paintFrame(lastFrame);
-        return;
-      }
-
-      paintFrame(phase === 'past' ? lastFrame : holdFrame);
-    }
-
-    const applyPhaseClasses = (nextPhase: TransitionPhase) => {
-      transition.classList.toggle('is-near', nextPhase !== 'hidden');
-      transition.classList.toggle('is-playing', nextPhase === 'active');
-      transition.classList.toggle('is-leaving', nextPhase === 'leaving');
-      transition.classList.toggle('is-past', nextPhase === 'past');
-      transition.classList.toggle('is-static', nextPhase === 'static');
-    };
-
-    function setPhase(nextPhase: TransitionPhase) {
-      if (phase === nextPhase) return;
-
-      const previousPhase = phase;
-      phase = nextPhase;
-      phaseStartedAt = performance.now();
-
-      transition.classList.toggle(
-        'is-entering',
-        nextPhase === 'active' &&
-          (previousPhase === 'hidden' || previousPhase === 'prelude'),
-      );
-
-      if (
-        nextPhase === 'active' &&
-        (previousPhase === 'hidden' || previousPhase === 'prelude')
-      ) {
-        const viewportHeight = Math.max(window.innerHeight, 1);
-        const timeline = document.querySelector<HTMLElement>('.passwork-timeline');
-        const transitionTop =
-          transition.getBoundingClientRect().top + window.scrollY;
-        const timelineTop = timeline
-          ? timeline.getBoundingClientRect().top + window.scrollY
-          : transitionTop - viewportHeight;
-        const entryScrollPosition = Math.max(Math.ceil(timelineTop + 100), 0);
-        lockEntrance();
-        window.scrollTo({ top: entryScrollPosition, behavior: 'auto' });
-      }
-
-      if (
-        nextPhase === 'hidden' ||
-        nextPhase === 'past' ||
-        nextPhase === 'static'
-      ) {
-        unlockEntrance();
-      }
-
-      if (entranceFrame) {
-        window.cancelAnimationFrame(entranceFrame);
-        entranceFrame = 0;
-      }
-
-      if (nextPhase === 'active' && previousPhase === 'hidden') {
-        applyPhaseClasses('prelude');
-        entranceFrame = window.requestAnimationFrame(() => {
-          entranceFrame = 0;
-          if (phase === 'active') applyPhaseClasses('active');
-        });
-      } else {
-        applyPhaseClasses(nextPhase);
-      }
-
-      if (nextPhase === 'hidden') paintFrame(firstFrame);
-      if (nextPhase === 'past') paintFrame(lastFrame);
-      if (nextPhase === 'static') paintFrame(holdFrame);
-
-      queueSequence();
-    }
-
     const updateTransition = () => {
       scrollFrame = 0;
 
       if (motionPreference.matches) {
-        setPhase('static');
+        paintFrame(holdFrame);
         return;
       }
 
-      if (entranceLocked) {
-        setPhase('active');
-        return;
-      }
-
-      const viewportHeight = Math.max(window.innerHeight, 1);
       const bounds = transition.getBoundingClientRect();
+      const scrubRange = Math.max(
+        transition.offsetHeight - window.innerHeight,
+        1,
+      );
+      const progress = Math.min(Math.max(-bounds.top / scrubRange, 0), 1);
+      const frame = firstFrame + Math.round(progress * (lastFrame - firstFrame));
 
-      if (bounds.bottom <= -viewportHeight) {
-        setPhase('past');
-      } else if (bounds.top > viewportHeight * 1.25) {
-        setPhase('hidden');
-      } else if (bounds.top > viewportHeight) {
-        setPhase('prelude');
-      } else if (bounds.bottom <= 0) {
-        setPhase('leaving');
-      } else {
-        setPhase('active');
-      }
+      paintFrame(frame);
     };
 
     const queueTransitionUpdate = () => {
@@ -514,9 +338,6 @@ export default function PostHeroSections({
     return () => {
       disposed = true;
       if (scrollFrame) window.cancelAnimationFrame(scrollFrame);
-      if (sequenceFrame) window.cancelAnimationFrame(sequenceFrame);
-      if (entranceFrame) window.cancelAnimationFrame(entranceFrame);
-      unlockEntrance();
       window.removeEventListener('scroll', queueTransitionUpdate);
       window.removeEventListener('resize', queueTransitionUpdate);
       motionPreference.removeEventListener('change', queueTransitionUpdate);
