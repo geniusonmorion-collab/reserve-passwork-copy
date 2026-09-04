@@ -6409,12 +6409,24 @@ img {
   border-left: 1px solid rgb(255 255 255 / 8%);
 }
 
-.figma-sector-card > img {
+.figma-sector-card__icon {
   position: absolute;
   top: 23px;
   left: 23px;
+  display: grid;
   width: 32px;
   height: 32px;
+  background: #298dff;
+  place-items: center;
+}
+
+.figma-sector-card__icon svg {
+  width: 20px;
+  height: 20px;
+  stroke: #fff;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.5;
 }
 
 .figma-sector-card > div {
