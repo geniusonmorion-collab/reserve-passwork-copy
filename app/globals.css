@@ -6300,11 +6300,6 @@ img {
 .infra-flow {
   position: absolute;
   inset: 0;
-  background: radial-gradient(
-    circle at 82% 50%,
-    rgb(74 167 255 / 6%),
-    transparent 32%
-  );
   transform-origin: center;
 }
 
