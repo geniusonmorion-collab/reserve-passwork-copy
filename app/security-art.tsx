@@ -47,12 +47,6 @@ const gostRows = (() => {
 const PILL_PLAIN = 'user@passwork.ru';
 const PILL_CIPHER = '8F2C71A04E9BD3C7';
 
-const blockedEvents = [
-  ['telemetry.vendor.io', 'Заблокировано · 14:09'],
-  ['api.analytics.com', 'Заблокировано · 14:10'],
-  ['cdn.cloud-sync.net', 'Заблокировано · 14:12'],
-] as const;
-
 /* Задержки мигания светодиодов — псевдослучайные, но стабильные. */
 const ledDelays = (() => {
   const random = seeded(0x51ed);
@@ -197,15 +191,11 @@ function DataScene() {
         <path className="sp-line" d="M24 44v14q0 8 6 14l28 28q6 6 6 14v98" />
         <path className="sp-beam sp-beam--warn" d="M24 44v14q0 8 6 14l28 28q6 6 6 14v98" pathLength={100} />
       </svg>
-      {blockedEvents.map(([host, meta], index) => (
-        <div className="sp-event" key={host} style={{ '--i': index } as CSSProperties}>
+      {Array.from({ length: 3 }, (_, index) => (
+        <div className="sp-event" key={index} style={{ '--i': index } as CSSProperties}>
           <i className="sp-node">
             <b />
           </i>
-          <span className="sp-event__copy">
-            <strong>{host}</strong>
-            <small>{meta}</small>
-          </span>
         </div>
       ))}
     </>
