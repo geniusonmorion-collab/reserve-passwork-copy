@@ -6008,19 +6008,19 @@ img {
   top: 104px;
   left: 50%;
   display: flex;
-  gap: 16px;
+  gap: 18px;
   transform: translateX(-50%);
 }
 
 .clerk-mfa__cell {
   position: relative;
   display: grid;
-  width: 46px;
-  height: 58px;
+  width: 58px;
+  height: 72px;
   place-items: center;
   overflow: hidden;
   border: 1px solid rgb(255 255 255 / 1.5%);
-  border-radius: 8px;
+  border-radius: 10px;
   background: #080a0d;
   box-shadow:
     0 14px 24px 5px rgb(0 0 0 / 22%),
@@ -6554,7 +6554,7 @@ img {
 
   .clerk-mfa {
     top: 28px;
-    transform: translateX(-50%) scale(0.72);
+    transform: translateX(-50%) scale(0.58);
     transform-origin: top center;
   }
 
