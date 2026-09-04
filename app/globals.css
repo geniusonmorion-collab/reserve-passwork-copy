@@ -5602,7 +5602,7 @@ img {
 .figma-hero__base {
   position: absolute;
   z-index: 0;
-  top: 20px;
+  top: 107px;
   right: 12px;
   bottom: 0;
   left: 12px;
@@ -8476,7 +8476,7 @@ img {
   }
 
   .figma-hero__base {
-    top: 12px;
+    top: 78px;
     right: 0;
     left: 0;
   }
