@@ -5942,7 +5942,7 @@ img {
 .figma-security-card.is-gost {
   background: linear-gradient(
     150.33532265245196deg,
-    #0f1011 67.959%,
+    #0f1011 -67.959%,
     rgb(100 114 129 / 24%) 6.4257%,
     #030303 82.711%
   );
@@ -5970,7 +5970,7 @@ img {
 .figma-security-card.is-data {
   background: linear-gradient(
     36.193681621123275deg,
-    #0f1011 57.956%,
+    #0f1011 -57.956%,
     rgb(100 114 129 / 24%) 3.6332%,
     #030303 66.796%
   );
