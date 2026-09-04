@@ -6036,7 +6036,8 @@ img {
   );
 }
 
-.figma-security-card.is-infrastructure {
+.figma-security-card.is-infrastructure,
+.figma-security-card.is-data {
   background: linear-gradient(
     -81.52475749626663deg,
     #1f2327 3.8195%,
@@ -6053,15 +6054,6 @@ img {
 .figma-security-card.is-infrastructure,
 .figma-security-card.is-data {
   border-top: 1px solid rgb(255 255 255 / 8%);
-}
-
-.figma-security-card.is-data {
-  background: linear-gradient(
-    163.82deg,
-    #0f1011 15.709%,
-    rgb(100 114 129 / 24%) 48.604%,
-    #030303 100%
-  );
 }
 
 /* Shared interaction language for the four security illustrations. */
