@@ -5671,13 +5671,101 @@ img {
   z-index: 0;
   inset: 0 12px;
   border-radius: 6px;
+  /* верх прозрачный: base-градиент продолжается без шва, синий поднимается снизу */
   background: radial-gradient(
       ellipse 52% 92% at 50% 100%,
       rgb(8 9 10 / 0%) 0%,
       rgb(15 39 93 / 25%) 50%,
       rgb(22 68 176 / 50%) 100%
     ),
-    linear-gradient(180deg, #000 10%, #316bcc 70.406%, #fff 100%);
+    linear-gradient(180deg, rgb(9 34 88 / 0%) 0%, rgb(9 34 88 / 0%) 8%, #316bcc 70.406%, #fff 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 26%);
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 26%);
+}
+
+/* Лёгкое переливание фона: два медленных пятна света на чистых градиентах и transform */
+.figma-hero__aurora {
+  position: absolute;
+  z-index: 1;
+  inset: 0 12px;
+  overflow: hidden;
+  border-radius: 6px;
+  pointer-events: none;
+}
+
+.figma-hero > .figma-hero__aurora {
+  top: 107px;
+}
+
+.figma-hero__aurora::before,
+.figma-hero__aurora::after {
+  position: absolute;
+  border-radius: 50%;
+  content: "";
+  will-change: transform;
+}
+
+.figma-hero__aurora--top::before {
+  top: -14%;
+  left: 4%;
+  width: 70%;
+  height: 58%;
+  background: radial-gradient(closest-side, rgb(56 104 220 / 26%), rgb(40 80 190 / 10%) 55%, transparent 74%);
+  animation: figma-hero-aurora-a 26s ease-in-out infinite alternate;
+}
+
+.figma-hero__aurora--top::after {
+  top: -4%;
+  right: -14%;
+  width: 72%;
+  height: 62%;
+  background: radial-gradient(closest-side, rgb(90 140 255 / 16%), rgb(50 96 210 / 7%) 55%, transparent 74%);
+  animation: figma-hero-aurora-b 32s ease-in-out infinite alternate;
+}
+
+.figma-hero__aurora--stage::before {
+  top: 22%;
+  left: -10%;
+  width: 84%;
+  height: 78%;
+  background: radial-gradient(closest-side, rgb(120 176 255 / 22%), rgb(80 140 240 / 9%) 55%, transparent 74%);
+  animation: figma-hero-aurora-b 24s ease-in-out infinite alternate;
+}
+
+.figma-hero__aurora--stage::after {
+  top: 30%;
+  right: -16%;
+  width: 92%;
+  height: 84%;
+  background: radial-gradient(closest-side, rgb(150 200 255 / 18%), rgb(90 150 245 / 7%) 55%, transparent 74%);
+  animation: figma-hero-aurora-a 30s ease-in-out infinite alternate;
+}
+
+@keyframes figma-hero-aurora-a {
+  from {
+    transform: translate3d(-6%, 4%, 0) scale(1);
+  }
+
+  to {
+    transform: translate3d(12%, -8%, 0) scale(1.14);
+  }
+}
+
+@keyframes figma-hero-aurora-b {
+  from {
+    transform: translate3d(8%, -4%, 0) scale(1.08);
+  }
+
+  to {
+    transform: translate3d(-12%, 8%, 0) scale(0.94);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .figma-hero__aurora::before,
+  .figma-hero__aurora::after {
+    animation: none;
+  }
 }
 
 .figma-hero__texture {
@@ -6390,6 +6478,15 @@ img {
     top: 78px;
     right: 0;
     left: 0;
+  }
+
+  .figma-hero__aurora {
+    right: 0;
+    left: 0;
+  }
+
+  .figma-hero > .figma-hero__aurora {
+    top: 78px;
   }
 
   .figma-hero__copy {
