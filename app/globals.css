@@ -6298,12 +6298,14 @@ img {
 }
 
 .infra-flow {
-  overflow: hidden;
-  border: 1px solid rgb(255 255 255 / 5%);
-  border-radius: 10px;
-  background:
-    radial-gradient(circle at 82% 50%, rgb(74 167 255 / 6%), transparent 32%),
-    rgb(255 255 255 / 1.4%);
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 82% 50%,
+    rgb(74 167 255 / 6%),
+    transparent 32%
+  );
+  transform-origin: center;
 }
 
 .infra-flow__client {
@@ -7451,11 +7453,13 @@ img {
   }
 
   .figma-security-card.is-infrastructure .clerk-session {
-    top: 5px;
+    top: 2px;
     width: 640px;
     max-width: none;
-    transform: translateX(-50%) scale(0.99);
-    transform-origin: top center;
+  }
+
+  .figma-security-card.is-infrastructure .infra-flow {
+    transform: scale(0.99);
   }
 
   .figma-security-card.is-data > .clerk-art--fraud {
@@ -7858,11 +7862,13 @@ img {
   }
 
   .clerk-session {
-    top: 3px;
+    top: -29px;
     width: 640px;
     max-width: none;
-    transform: translateX(-50%) scale(0.62);
-    transform-origin: top center;
+  }
+
+  .infra-flow {
+    transform: scale(0.52);
   }
 
   .clerk-fraud {

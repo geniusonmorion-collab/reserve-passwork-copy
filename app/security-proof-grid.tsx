@@ -147,58 +147,60 @@ function MagicLinksArtwork() {
 function InfrastructureArtwork() {
   return (
     <div className="clerk-art clerk-art--session" aria-hidden="true">
-      <div className="clerk-session infra-flow">
-        <div className="infra-flow__client">
-          <span className="infra-flow__device">
-            <i>PW</i>
-          </span>
-          <small>Клиент Passwork</small>
-        </div>
-
-        <span className="infra-flow__route infra-flow__route--request" />
-
-        <div className="infra-flow__gate">
-          <span className="infra-flow__gate-ring" />
-          <svg viewBox="0 0 50 58">
-            <path
-              className="infra-flow__shield"
-              d="M25 2 45 10v15c0 14-8.5 24.5-20 31C13.5 49.5 5 39 5 25V10L25 2Z"
-            />
-            <path
-              className="infra-flow__check"
-              d="m15 29 7 7 14-16"
-              pathLength="1"
-            />
-          </svg>
-          <strong>Проверка доступа</strong>
-          <small>Локальная политика</small>
-        </div>
-
-        <span className="infra-flow__route infra-flow__route--approved" />
-
-        <div className="infra-flow__servers">
-          {Array.from({ length: 3 }, (_, rackIndex) => (
-            <span
-              className="infra-flow__rack"
-              key={rackIndex}
-              style={
-                { '--rack-delay': `${rackIndex * 120}ms` } as CSSProperties
-              }
-            >
-              {Array.from({ length: 3 }, (_, ledIndex) => (
-                <i
-                  key={ledIndex}
-                  style={
-                    {
-                      '--led-delay': `${rackIndex * 120 + ledIndex * 70}ms`,
-                    } as CSSProperties
-                  }
-                />
-              ))}
-              <b />
+      <div className="clerk-session">
+        <div className="infra-flow">
+          <div className="infra-flow__client">
+            <span className="infra-flow__device">
+              <i>PW</i>
             </span>
-          ))}
-          <small>Локальные серверы</small>
+            <small>Клиент Passwork</small>
+          </div>
+
+          <span className="infra-flow__route infra-flow__route--request" />
+
+          <div className="infra-flow__gate">
+            <span className="infra-flow__gate-ring" />
+            <svg viewBox="0 0 50 58">
+              <path
+                className="infra-flow__shield"
+                d="M25 2 45 10v15c0 14-8.5 24.5-20 31C13.5 49.5 5 39 5 25V10L25 2Z"
+              />
+              <path
+                className="infra-flow__check"
+                d="m15 29 7 7 14-16"
+                pathLength="1"
+              />
+            </svg>
+            <strong>Проверка доступа</strong>
+            <small>Локальная политика</small>
+          </div>
+
+          <span className="infra-flow__route infra-flow__route--approved" />
+
+          <div className="infra-flow__servers">
+            {Array.from({ length: 3 }, (_, rackIndex) => (
+              <span
+                className="infra-flow__rack"
+                key={rackIndex}
+                style={
+                  { '--rack-delay': `${rackIndex * 120}ms` } as CSSProperties
+                }
+              >
+                {Array.from({ length: 3 }, (_, ledIndex) => (
+                  <i
+                    key={ledIndex}
+                    style={
+                      {
+                        '--led-delay': `${rackIndex * 120 + ledIndex * 70}ms`,
+                      } as CSSProperties
+                    }
+                  />
+                ))}
+                <b />
+              </span>
+            ))}
+            <small>Локальные серверы</small>
+          </div>
         </div>
       </div>
     </div>
