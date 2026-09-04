@@ -5911,7 +5911,10 @@ img {
 .figma-security-card {
   position: relative;
   min-width: 0;
+  overflow: hidden;
   background: #0f1011;
+  container-type: inline-size;
+  isolation: isolate;
 }
 
 .figma-security-card.is-fstec {
@@ -5942,8 +5945,976 @@ img {
   );
 }
 
+.security-proof-motion {
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  right: 0;
+  left: 0;
+  overflow: hidden;
+  color: #d0d6e0;
+  pointer-events: none;
+  user-select: none;
+}
+
+.security-proof-motion--fstec,
+.security-proof-motion--gost {
+  height: 400px;
+}
+
+.security-proof-motion--infrastructure,
+.security-proof-motion--data {
+  height: 185px;
+}
+
+.fstec-radar {
+  position: absolute;
+  top: 25px;
+  left: 50%;
+  width: 310px;
+  height: 310px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgb(42 124 255 / 7%), transparent 64%);
+  transform: translateX(-50%);
+}
+
+.fstec-radar__ring {
+  position: absolute;
+  border: 1px solid rgb(208 214 224 / 11%);
+  border-radius: 50%;
+}
+
+.fstec-radar__ring--outer {
+  inset: 0;
+}
+
+.fstec-radar__ring--middle {
+  inset: 48px;
+}
+
+.fstec-radar__ring--inner {
+  inset: 96px;
+  border-color: rgb(42 124 255 / 26%);
+}
+
+.fstec-radar__sweep {
+  position: absolute;
+  inset: 4px;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 20deg,
+    transparent 0deg 285deg,
+    rgb(42 124 255 / 3%) 305deg,
+    rgb(42 124 255 / 30%) 350deg,
+    transparent 360deg
+  );
+  -webkit-mask: radial-gradient(circle, transparent 0 24%, #000 58%, transparent 96%);
+  mask: radial-gradient(circle, transparent 0 24%, #000 58%, transparent 96%);
+  opacity: 0.75;
+}
+
+.fstec-radar__dot {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border: 1px solid rgb(42 124 255 / 62%);
+  border-radius: 50%;
+  background: #0f1011;
+  box-shadow: 0 0 14px rgb(42 124 255 / 30%);
+}
+
+.fstec-radar__dot--one {
+  top: 36px;
+  left: 90px;
+}
+
+.fstec-radar__dot--two {
+  top: 167px;
+  right: 28px;
+}
+
+.fstec-radar__dot--three {
+  bottom: 48px;
+  left: 48px;
+}
+
+.fstec-badge {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  width: 86px;
+  height: 102px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgb(208 214 224 / 12%);
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgb(30 32 35 / 96%), rgb(11 12 13 / 98%));
+  box-shadow:
+    inset 0 1px rgb(255 255 255 / 5%),
+    0 20px 70px rgb(0 0 0 / 55%);
+  transform: translate(-50%, -50%);
+}
+
+.fstec-badge::before {
+  position: absolute;
+  inset: 9px;
+  border: 1px solid rgb(42 124 255 / 12%);
+  border-radius: 12px;
+  content: '';
+}
+
+.fstec-badge img {
+  width: 49px;
+  height: 60px;
+  opacity: 0.58;
+}
+
+.fstec-badge strong {
+  position: absolute;
+  top: 38px;
+  left: 50%;
+  color: #f7f8f8;
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1;
+  transform: translateX(-50%);
+}
+
+.fstec-badge small {
+  position: absolute;
+  bottom: 13px;
+  left: 50%;
+  color: #76808f;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 7px;
+  letter-spacing: 0.12em;
+  transform: translateX(-50%);
+}
+
+.fstec-verification {
+  position: absolute;
+  top: 335px;
+  left: 50%;
+  display: flex;
+  width: 206px;
+  height: 34px;
+  align-items: center;
+  gap: 8px;
+  padding: 0 10px;
+  border: 1px solid rgb(255 255 255 / 8%);
+  border-radius: 7px;
+  background: rgb(13 14 16 / 88%);
+  color: #717986;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 8px;
+  letter-spacing: 0.06em;
+  transform: translateX(-50%);
+}
+
+.fstec-verification > img {
+  width: 14px;
+  height: 14px;
+  margin-left: auto;
+}
+
+.fstec-verification__pulse {
+  width: 5px;
+  height: 5px;
+  flex: none;
+  border-radius: 50%;
+  background: #2a7cff;
+  box-shadow: 0 0 0 0 rgb(42 124 255 / 45%);
+}
+
+.figma-security-card.is-active .fstec-radar__sweep {
+  animation: proof-fstec-sweep 3.4s cubic-bezier(0.4, 0, 0.2, 1) 1 both;
+}
+
+.figma-security-card.is-active .fstec-radar__ring--middle {
+  animation: proof-fstec-ring 2.2s ease-in-out 1 both;
+}
+
+.figma-security-card.is-active .fstec-radar__ring--inner {
+  animation: proof-fstec-ring 2.2s ease-in-out 240ms 1 both;
+}
+
+.figma-security-card.is-active .fstec-radar__dot {
+  animation: proof-fstec-dot 1.8s ease-out 1 both;
+}
+
+.figma-security-card.is-active .fstec-radar__dot--two {
+  animation-delay: 700ms;
+}
+
+.figma-security-card.is-active .fstec-radar__dot--three {
+  animation-delay: 1.4s;
+}
+
+.figma-security-card.is-active .fstec-badge {
+  animation: proof-fstec-badge 2.4s cubic-bezier(0.76, 0, 0.24, 1) 1 both;
+}
+
+.figma-security-card.is-active .fstec-verification__pulse {
+  animation: proof-status-pulse 1.8s ease-out 1 both;
+}
+
+.gost-console {
+  position: absolute;
+  top: 72px;
+  left: 50%;
+  width: min(380px, calc(100% - 54px));
+  height: 210px;
+  overflow: hidden;
+  border: 1px solid rgb(255 255 255 / 9%);
+  border-radius: 12px;
+  background:
+    linear-gradient(180deg, rgb(28 30 33 / 86%), rgb(12 13 14 / 94%)),
+    #111214;
+  box-shadow:
+    inset 0 1px rgb(255 255 255 / 4%),
+    0 30px 80px rgb(0 0 0 / 38%);
+  transform: translateX(-50%);
+}
+
+.gost-console__header,
+.gost-console__footer {
+  display: flex;
+  align-items: center;
+  color: #747d89;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 8px;
+  letter-spacing: 0.06em;
+}
+
+.gost-console__header {
+  height: 43px;
+  gap: 8px;
+  padding: 0 15px;
+  border-bottom: 1px solid rgb(255 255 255 / 7%);
+}
+
+.gost-console__header > i {
+  width: 5px;
+  height: 5px;
+  margin-left: auto;
+  border-radius: 50%;
+  background: #2a7cff;
+  box-shadow: 0 0 12px rgb(42 124 255 / 50%);
+}
+
+.gost-console__key {
+  position: relative;
+  display: block;
+  width: 17px;
+  height: 17px;
+  border: 1px solid rgb(208 214 224 / 22%);
+  border-radius: 50%;
+}
+
+.gost-console__key::after {
+  position: absolute;
+  top: 7px;
+  left: 11px;
+  width: 8px;
+  height: 1px;
+  background: rgb(208 214 224 / 35%);
+  box-shadow: 4px 2px rgb(208 214 224 / 22%);
+  content: '';
+  transform: rotate(-35deg);
+  transform-origin: left center;
+}
+
+.gost-console__key > span {
+  position: absolute;
+  inset: 5px;
+  border: 1px solid rgb(208 214 224 / 32%);
+  border-radius: 50%;
+}
+
+.gost-cipher {
+  position: relative;
+  display: grid;
+  height: 112px;
+  align-items: center;
+  padding: 0 17px;
+  gap: 6px;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+}
+
+.gost-token {
+  position: relative;
+  display: block;
+  min-width: 0;
+  height: 42px;
+  overflow: hidden;
+  border: 1px solid rgb(255 255 255 / 8%);
+  border-radius: 6px;
+  background: rgb(4 5 6 / 45%);
+  color: #bec5cf;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 13px;
+}
+
+.gost-token__plain,
+.gost-token__encrypted {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gost-token__encrypted {
+  color: #58a0ff;
+  font-size: 9px;
+  opacity: 0;
+  transform: translateY(7px);
+}
+
+.gost-cipher__scanner {
+  position: absolute;
+  z-index: 2;
+  top: 18px;
+  bottom: 18px;
+  left: 7px;
+  width: 42px;
+  background: linear-gradient(90deg, transparent, rgb(42 124 255 / 18%), transparent);
+  filter: blur(2px);
+  opacity: 0;
+  transform: translateX(-52px);
+}
+
+.gost-console__footer {
+  height: 53px;
+  gap: 11px;
+  padding: 0 15px;
+  border-top: 1px solid rgb(255 255 255 / 7%);
+}
+
+.gost-console__footer > img {
+  width: 14px;
+  height: 14px;
+  margin-left: auto;
+}
+
+.gost-console__progress {
+  position: relative;
+  width: 86px;
+  height: 3px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 7%);
+}
+
+.gost-console__progress > i {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #2a7cff, #62bdff);
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+.figma-security-card.is-active .gost-token__plain {
+  animation: proof-gost-plain 2.6s cubic-bezier(0.76, 0, 0.24, 1)
+    var(--token-delay) 1 both;
+}
+
+.figma-security-card.is-active .gost-token__encrypted {
+  animation: proof-gost-encrypted 2.6s cubic-bezier(0.76, 0, 0.24, 1)
+    var(--token-delay) 1 both;
+}
+
+.figma-security-card.is-active .gost-token {
+  animation: proof-gost-cell 2.6s ease-in-out var(--token-delay) 1 both;
+}
+
+.figma-security-card.is-active .gost-cipher__scanner {
+  animation: proof-gost-scan 2.6s cubic-bezier(0.76, 0, 0.24, 1) 1 both;
+}
+
+.figma-security-card.is-active .gost-console__progress > i {
+  animation: proof-gost-progress 2.6s cubic-bezier(0.76, 0, 0.24, 1) 1 both;
+}
+
+.infrastructure-zone,
+.data-airgap {
+  position: absolute;
+  left: 50%;
+  overflow: hidden;
+  border: 1px solid rgb(255 255 255 / 8%);
+  border-radius: 10px;
+  background: rgb(12 13 15 / 72%);
+  box-shadow: inset 0 1px rgb(255 255 255 / 3%);
+  transform: translateX(-50%);
+}
+
+.infrastructure-zone {
+  top: 18px;
+  width: min(520px, calc(100% - 56px));
+  height: 148px;
+}
+
+.infrastructure-zone__header {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  height: 30px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 11px;
+  border-bottom: 1px solid rgb(255 255 255 / 7%);
+  color: #717986;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 7px;
+  letter-spacing: 0.07em;
+}
+
+.infrastructure-zone__header span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.infrastructure-zone__header i {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #2a7cff;
+  box-shadow: 0 0 10px rgb(42 124 255 / 50%);
+}
+
+.infrastructure-zone__header img {
+  width: 13px;
+  height: 13px;
+}
+
+.infrastructure-network {
+  position: absolute;
+  z-index: 0;
+  right: 0;
+  bottom: 3px;
+  left: 0;
+  width: 100%;
+  height: 112px;
+}
+
+.infrastructure-network path {
+  fill: none;
+  stroke: rgb(116 125 137 / 24%);
+  stroke-dasharray: 4 7;
+  stroke-linecap: round;
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.infrastructure-node {
+  position: absolute;
+  z-index: 2;
+  width: 8px;
+  height: 8px;
+  border: 1px solid rgb(88 160 255 / 48%);
+  border-radius: 50%;
+  background: #111317;
+  box-shadow: 0 0 0 0 rgb(42 124 255 / 22%);
+}
+
+.infrastructure-node--one {
+  top: 51px;
+  left: 5.8%;
+}
+
+.infrastructure-node--two {
+  bottom: 20px;
+  left: 5.8%;
+}
+
+.infrastructure-node--three {
+  top: 51px;
+  right: 5.8%;
+}
+
+.infrastructure-node--four {
+  right: 5.8%;
+  bottom: 20px;
+}
+
+.infrastructure-rack {
+  position: absolute;
+  z-index: 2;
+  top: 43px;
+  left: 50%;
+  width: 112px;
+  height: 88px;
+  padding: 8px;
+  border: 1px solid rgb(255 255 255 / 10%);
+  border-radius: 8px;
+  background: linear-gradient(180deg, #1c1e22, #0d0e10);
+  box-shadow: 0 16px 42px rgb(0 0 0 / 45%);
+  transform: translateX(-50%);
+}
+
+.infrastructure-rack__title {
+  display: flex;
+  height: 16px;
+  align-items: center;
+  gap: 5px;
+  color: #828b98;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 6px;
+  letter-spacing: 0.08em;
+}
+
+.infrastructure-rack__title img {
+  width: 11px;
+  height: 11px;
+}
+
+.infrastructure-rack__row {
+  display: flex;
+  height: 17px;
+  align-items: center;
+  gap: 4px;
+  margin-top: 4px;
+  padding: 0 5px;
+  border: 1px solid rgb(255 255 255 / 7%);
+  border-radius: 3px;
+  background: rgb(255 255 255 / 2%);
+}
+
+.infrastructure-rack__row i {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: #2a7cff;
+  opacity: 0.35;
+}
+
+.infrastructure-rack__row b {
+  width: 42px;
+  height: 2px;
+  margin-left: auto;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 10%);
+}
+
+.figma-security-card.is-active .infrastructure-network path {
+  animation: proof-network-flow 1.3s linear 1 both;
+}
+
+.figma-security-card.is-active .infrastructure-network path:nth-child(2),
+.figma-security-card.is-active .infrastructure-network path:nth-child(4) {
+  animation-direction: reverse;
+}
+
+.figma-security-card.is-active .infrastructure-node {
+  animation: proof-network-node 1.4s ease-out 1 both;
+}
+
+.figma-security-card.is-active .infrastructure-node--two {
+  animation-delay: 600ms;
+}
+
+.figma-security-card.is-active .infrastructure-node--three {
+  animation-delay: 1.2s;
+}
+
+.figma-security-card.is-active .infrastructure-node--four {
+  animation-delay: 1.8s;
+}
+
+.figma-security-card.is-active .infrastructure-rack__row i {
+  animation: proof-rack-light 1.1s ease-out 1 both;
+}
+
+.figma-security-card.is-active .infrastructure-rack__row:nth-child(3) i {
+  animation-delay: 350ms;
+}
+
+.figma-security-card.is-active .infrastructure-rack__row:nth-child(4) i {
+  animation-delay: 700ms;
+}
+
+.data-airgap {
+  top: 17px;
+  width: min(430px, calc(100% - 42px));
+  height: 154px;
+}
+
+.data-airgap__labels {
+  position: absolute;
+  top: 12px;
+  right: 13px;
+  left: 13px;
+  display: flex;
+  justify-content: space-between;
+  color: #69717c;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 6px;
+  letter-spacing: 0.06em;
+}
+
+.data-airgap__labels span:last-child {
+  color: #4e535b;
+}
+
+.data-lane {
+  position: absolute;
+  right: calc(50% + 19px);
+  left: 16px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgb(113 121 134 / 33%));
+}
+
+.data-lane--1 {
+  top: 48px;
+}
+
+.data-lane--2 {
+  top: 76px;
+}
+
+.data-lane--3 {
+  top: 104px;
+}
+
+.data-lane > i {
+  position: absolute;
+  top: -3px;
+  left: 0;
+  width: 7px;
+  height: 7px;
+  border-radius: 2px;
+  background: #58a0ff;
+  box-shadow: 0 0 12px rgb(42 124 255 / 42%);
+  opacity: 0;
+}
+
+.data-airgap__external-lines {
+  position: absolute;
+  top: 48px;
+  right: 16px;
+  bottom: 48px;
+  left: calc(50% + 19px);
+  background: repeating-linear-gradient(
+    180deg,
+    rgb(255 255 255 / 5%) 0 1px,
+    transparent 1px 28px
+  );
+  -webkit-mask: linear-gradient(90deg, #000, transparent 86%);
+  mask: linear-gradient(90deg, #000, transparent 86%);
+  opacity: 0.55;
+}
+
+.data-airgap__gate {
+  position: absolute;
+  z-index: 3;
+  top: 34px;
+  bottom: 34px;
+  left: 50%;
+  width: 1px;
+  background: rgb(255 255 255 / 10%);
+  transform: translateX(-50%);
+}
+
+.data-airgap__gate > i {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 32px;
+  height: 32px;
+  border: 1px solid rgb(88 160 255 / 42%);
+  border-radius: 50%;
+  background: #111317;
+  box-shadow: 0 0 0 0 rgb(42 124 255 / 26%);
+  transform: translate(-50%, -50%);
+}
+
+.data-airgap__gate > i::after {
+  position: absolute;
+  top: 15px;
+  left: 8px;
+  width: 15px;
+  height: 1px;
+  background: #58a0ff;
+  content: '';
+  transform: rotate(-45deg);
+}
+
+.data-airgap__status {
+  position: absolute;
+  right: 12px;
+  bottom: 10px;
+  left: 12px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: #717986;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 7px;
+}
+
+.data-airgap__status img {
+  width: 13px;
+  height: 13px;
+}
+
+.figma-security-card.is-active .data-lane > i {
+  animation: proof-data-block 2.6s cubic-bezier(0.64, 0, 0.36, 1)
+    var(--packet-delay) 1 both;
+}
+
+.figma-security-card.is-active .data-airgap__gate > i {
+  animation: proof-data-gate 2.6s ease-out 1 both;
+}
+
+@keyframes proof-fstec-sweep {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes proof-fstec-ring {
+  0% {
+    border-color: rgb(208 214 224 / 9%);
+    box-shadow: 0 0 0 0 rgb(42 124 255 / 0%);
+  }
+
+  55% {
+    border-color: rgb(42 124 255 / 26%);
+    box-shadow: 0 0 32px rgb(42 124 255 / 8%);
+  }
+
+  100% {
+    border-color: rgb(42 124 255 / 18%);
+    box-shadow: 0 0 24px rgb(42 124 255 / 5%);
+  }
+}
+
+@keyframes proof-fstec-dot {
+  0% {
+    background: #0f1011;
+    box-shadow: 0 0 0 0 rgb(42 124 255 / 22%);
+    opacity: 0.36;
+  }
+
+  32% {
+    background: #58a0ff;
+    box-shadow: 0 0 0 8px rgb(42 124 255 / 0%);
+    opacity: 1;
+  }
+
+  100% {
+    background: #58a0ff;
+    box-shadow: 0 0 10px rgb(42 124 255 / 28%);
+    opacity: 0.82;
+  }
+}
+
+@keyframes proof-fstec-badge {
+  0% {
+    border-color: rgb(208 214 224 / 12%);
+    box-shadow:
+      inset 0 1px rgb(255 255 255 / 5%),
+      0 20px 70px rgb(0 0 0 / 55%);
+  }
+
+  50% {
+    border-color: rgb(42 124 255 / 25%);
+    box-shadow:
+      inset 0 1px rgb(255 255 255 / 7%),
+      0 20px 70px rgb(0 0 0 / 55%),
+      0 0 42px rgb(42 124 255 / 10%);
+  }
+
+  100% {
+    border-color: rgb(42 124 255 / 22%);
+    box-shadow:
+      inset 0 1px rgb(255 255 255 / 7%),
+      0 20px 70px rgb(0 0 0 / 55%),
+      0 0 34px rgb(42 124 255 / 8%);
+  }
+}
+
+@keyframes proof-status-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgb(42 124 255 / 42%);
+  }
+
+  70%,
+  100% {
+    box-shadow: 0 0 0 8px rgb(42 124 255 / 0%);
+  }
+}
+
+@keyframes proof-gost-plain {
+  0%,
+  12% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  42%,
+  100% {
+    opacity: 0;
+    transform: translateY(-7px);
+  }
+}
+
+@keyframes proof-gost-encrypted {
+  0%,
+  12% {
+    opacity: 0;
+    transform: translateY(7px);
+  }
+
+  42%,
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes proof-gost-cell {
+  0%,
+  14% {
+    border-color: rgb(255 255 255 / 8%);
+    background: rgb(4 5 6 / 45%);
+    box-shadow: none;
+  }
+
+  42% {
+    border-color: rgb(42 124 255 / 26%);
+    background: rgb(42 124 255 / 5%);
+    box-shadow: 0 0 18px rgb(42 124 255 / 6%);
+  }
+
+  100% {
+    border-color: rgb(42 124 255 / 15%);
+    background: rgb(42 124 255 / 3%);
+    box-shadow: 0 0 12px rgb(42 124 255 / 3%);
+  }
+}
+
+@keyframes proof-gost-scan {
+  0%,
+  8% {
+    opacity: 0;
+    transform: translateX(-52px);
+  }
+
+  14% {
+    opacity: 1;
+  }
+
+  64% {
+    opacity: 0.7;
+    transform: translateX(360px);
+  }
+
+  76%,
+  100% {
+    opacity: 0;
+    transform: translateX(360px);
+  }
+}
+
+@keyframes proof-gost-progress {
+  0%,
+  10% {
+    transform: scaleX(0);
+  }
+
+  68%,
+  100% {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes proof-network-flow {
+  to {
+    stroke-dashoffset: -22;
+  }
+}
+
+@keyframes proof-network-node {
+  0% {
+    background: #111317;
+    box-shadow: 0 0 0 0 rgb(42 124 255 / 18%);
+  }
+
+  32% {
+    background: #58a0ff;
+    box-shadow: 0 0 0 8px rgb(42 124 255 / 0%);
+  }
+
+  100% {
+    background: #58a0ff;
+    box-shadow: 0 0 8px rgb(42 124 255 / 28%);
+  }
+}
+
+@keyframes proof-rack-light {
+  0% {
+    opacity: 0.28;
+  }
+
+  50% {
+    box-shadow: 0 0 8px rgb(42 124 255 / 80%);
+    opacity: 1;
+  }
+
+  100% {
+    box-shadow: 0 0 5px rgb(42 124 255 / 45%);
+    opacity: 0.82;
+  }
+}
+
+@keyframes proof-data-block {
+  0% {
+    left: 0;
+    opacity: 0;
+    transform: scale(0.7);
+  }
+
+  14% {
+    opacity: 1;
+  }
+
+  58% {
+    left: calc(100% - 7px);
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  67%,
+  100% {
+    left: calc(100% - 7px);
+    opacity: 0;
+    transform: scale(0.25);
+  }
+}
+
+@keyframes proof-data-gate {
+  0%,
+  48%,
+  100% {
+    border-color: rgb(88 160 255 / 30%);
+    box-shadow: 0 0 0 0 rgb(42 124 255 / 20%);
+  }
+
+  60% {
+    border-color: rgb(88 160 255 / 68%);
+    box-shadow: 0 0 0 10px rgb(42 124 255 / 0%);
+  }
+}
+
 .figma-security-card__copy {
   position: absolute;
+  z-index: 2;
   right: 24px;
   bottom: 27px;
   left: 28px;
@@ -6294,6 +7265,56 @@ img {
   .figma-security-card p {
     font-size: 17px;
     line-height: 1.35;
+  }
+
+  .figma-security-card::after {
+    position: absolute;
+    z-index: 1;
+    inset: 54px 0 0;
+    background: linear-gradient(180deg, transparent, rgb(15 16 17 / 97%) 44%);
+    content: '';
+    pointer-events: none;
+  }
+
+  .security-proof-motion {
+    height: 120px;
+    opacity: 0.78;
+  }
+
+  .fstec-radar {
+    top: -70px;
+    transform: translateX(-50%) scale(0.62);
+    transform-origin: top center;
+  }
+
+  .fstec-verification {
+    top: 78px;
+    transform: translateX(-50%) scale(0.74);
+    transform-origin: top center;
+  }
+
+  .gost-console {
+    top: 8px;
+    width: 380px;
+    max-width: none;
+    transform: translateX(-50%) scale(0.62);
+    transform-origin: top center;
+  }
+
+  .infrastructure-zone {
+    top: 7px;
+    width: 360px;
+    max-width: none;
+    transform: translateX(-50%) scale(0.7);
+    transform-origin: top center;
+  }
+
+  .data-airgap {
+    top: 6px;
+    width: 360px;
+    max-width: none;
+    transform: translateX(-50%) scale(0.7);
+    transform-origin: top center;
   }
 
   .figma-certification {
@@ -7579,6 +8600,13 @@ html.is-stack-transition-locked body {
     animation: none;
     opacity: 1;
     transform: none;
+  }
+
+  .figma-security-card.is-active .security-proof-motion *,
+  .figma-security-card.is-active .security-proof-motion *::before,
+  .figma-security-card.is-active .security-proof-motion *::after {
+    animation: none !important;
+    transition: none !important;
   }
 
   .use-cases-showcase__progress > span {

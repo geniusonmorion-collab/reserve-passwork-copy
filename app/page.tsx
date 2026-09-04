@@ -2,39 +2,13 @@
 
 import PostHeroSections from './post-hero-sections';
 import ClientLogoRotator from './client-logo-rotator';
+import SecurityProofGrid from './security-proof-grid';
 
 const navigation = [
   { label: 'Компания', href: '#company' },
   { label: 'Ресурсы', href: '#resources' },
   { label: 'Поддержка', href: '#certification' },
   { label: 'Цены', href: '#certification' },
-] as const;
-
-const securityProofs = [
-  {
-    title: 'ФСТЭК России, 4 уровень доверия',
-    description:
-      'Соответствует требованиям госсектора и критической инфраструктуры',
-    className: 'is-fstec',
-  },
-  {
-    title: 'ГОСТ-шифрование',
-    description:
-      'Подтверждает соответствие требованиям безопасности госсектора и критической инфраструктуры',
-    className: 'is-gost',
-  },
-  {
-    title: 'Размещение внутри инфраструктуры',
-    description:
-      'Полное развёртывание на серверах заказчика без зависимости от облачных провайдеров',
-    className: 'is-infrastructure',
-  },
-  {
-    title: 'Отсутствие передачи данных',
-    description:
-      'Без телеметрии, внешних API и зависимости от зарубежных сервисов',
-    className: 'is-data',
-  },
 ] as const;
 
 const sectors = [
@@ -139,19 +113,7 @@ export default function Home() {
               </span>
             </h2>
 
-            <div className="figma-security-grid">
-              {securityProofs.map((proof) => (
-                <article
-                  className={`figma-security-card ${proof.className}`}
-                  key={proof.title}
-                >
-                  <div className="figma-security-card__copy">
-                    <h3>{proof.title}</h3>
-                    <p>{proof.description}</p>
-                  </div>
-                </article>
-              ))}
-            </div>
+            <SecurityProofGrid />
 
             <section
               className="figma-certification"
