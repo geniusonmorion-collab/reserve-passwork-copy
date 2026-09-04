@@ -6030,16 +6030,16 @@ img {
   transform: translateY(10px) scale(0.4);
 }
 
-.figma-security-card.is-active .clerk-mfa__cell {
+.figma-security-card:is(:hover, :focus-visible) .clerk-mfa__cell {
   animation: clerk-mfa-cell-in 5.2s cubic-bezier(0.22, 1, 0.36, 1)
     var(--clerk-delay) infinite both;
 }
 
-.figma-security-card.is-active .clerk-mfa__cell::before {
+.figma-security-card:is(:hover, :focus-visible) .clerk-mfa__cell::before {
   animation: clerk-mfa-glow-in 5.2s ease var(--clerk-delay) infinite both;
 }
 
-.figma-security-card.is-active .clerk-mfa__cell i {
+.figma-security-card:is(:hover, :focus-visible) .clerk-mfa__cell i {
   animation: clerk-mfa-dot-in 5.2s cubic-bezier(0.22, 1, 0.36, 1)
     calc(var(--clerk-delay) + 90ms) infinite both;
 }
@@ -6077,11 +6077,11 @@ img {
   white-space: nowrap;
 }
 
-.figma-security-card.is-active .clerk-magic__glyphs span {
+.figma-security-card:is(:hover, :focus-visible) .clerk-magic__glyphs span {
   animation: clerk-glyphs-forward 3s linear var(--clerk-delay) infinite;
 }
 
-.figma-security-card.is-active .clerk-magic__glyphs span:nth-child(even) {
+.figma-security-card:is(:hover, :focus-visible) .clerk-magic__glyphs span:nth-child(even) {
   animation-name: clerk-glyphs-reverse;
 }
 
@@ -6163,16 +6163,16 @@ img {
   opacity: 1;
 }
 
-.figma-security-card.is-active .clerk-magic__token span {
+.figma-security-card:is(:hover, :focus-visible) .clerk-magic__token span {
   animation: clerk-code-scramble 2.4s steps(1, end) infinite;
   animation-delay: var(--clerk-delay);
 }
 
-.figma-security-card.is-active .clerk-magic__token::before {
+.figma-security-card:is(:hover, :focus-visible) .clerk-magic__token::before {
   animation: clerk-magic-chip-cycle 6s linear infinite;
 }
 
-.figma-security-card.is-active .clerk-magic__token::after {
+.figma-security-card:is(:hover, :focus-visible) .clerk-magic__token::after {
   animation: clerk-magic-beam-cycle 6s linear infinite;
 }
 
@@ -6270,21 +6270,21 @@ img {
   font-size: 7px;
 }
 
-.figma-security-card.is-active .clerk-magic__identity {
+.figma-security-card:is(:hover, :focus-visible) .clerk-magic__identity {
   animation: clerk-identity-in 6s cubic-bezier(0.7, 0, 0.3, 1) infinite both;
 }
 
-.figma-security-card.is-active .clerk-magic__portrait-draw {
+.figma-security-card:is(:hover, :focus-visible) .clerk-magic__portrait-draw {
   animation: clerk-portrait-draw 6s cubic-bezier(0.22, 1, 0.36, 1)
     160ms infinite both;
 }
 
-.figma-security-card.is-active .clerk-magic__portrait-draw--inner {
+.figma-security-card:is(:hover, :focus-visible) .clerk-magic__portrait-draw--inner {
   animation-duration: 6s;
   animation-delay: 340ms;
 }
 
-.figma-security-card.is-active .clerk-magic__scan {
+.figma-security-card:is(:hover, :focus-visible) .clerk-magic__scan {
   animation: clerk-portrait-scan 6s linear 120ms infinite both;
 }
 
@@ -6505,37 +6505,37 @@ img {
     color 700ms ease 450ms;
 }
 
-.figma-security-card.is-active .clerk-laptop__screen {
+.figma-security-card:is(:hover, :focus-visible) .clerk-laptop__screen {
   animation: clerk-laptop-cycle 6s cubic-bezier(0.65, 0, 0.35, 1) infinite;
 }
 
-.figma-security-card.is-active .clerk-laptop__screen::before {
+.figma-security-card:is(:hover, :focus-visible) .clerk-laptop__screen::before {
   animation: clerk-laptop-shade-cycle 6s ease infinite;
 }
 
-.figma-security-card.is-active .clerk-laptop__screen b {
+.figma-security-card:is(:hover, :focus-visible) .clerk-laptop__screen b {
   animation: clerk-laptop-logo-cycle 6s ease infinite;
 }
 
-.figma-security-card.is-active .clerk-laptop__shine {
+.figma-security-card:is(:hover, :focus-visible) .clerk-laptop__shine {
   animation: clerk-laptop-shine 6s ease infinite both;
 }
 
-.figma-security-card.is-active .clerk-session__rows small {
+.figma-security-card:is(:hover, :focus-visible) .clerk-session__rows small {
   animation: clerk-session-label-cycle 6s cubic-bezier(0.65, 0, 0.35, 1)
     calc(520ms + var(--clerk-delay)) infinite both;
 }
 
-.figma-security-card.is-active .clerk-session__rows b {
+.figma-security-card:is(:hover, :focus-visible) .clerk-session__rows b {
   animation: clerk-session-value-cycle 6s cubic-bezier(0.65, 0, 0.35, 1)
     calc(720ms + var(--clerk-delay)) infinite both;
 }
 
-.figma-security-card.is-active .clerk-session__button {
+.figma-security-card:is(:hover, :focus-visible) .clerk-session__button {
   animation: clerk-session-button-cycle 6s ease 900ms infinite both;
 }
 
-.figma-security-card.is-active .clerk-session__trace {
+.figma-security-card:is(:hover, :focus-visible) .clerk-session__trace {
   animation: clerk-session-trace 6s linear infinite both;
 }
 
@@ -6684,26 +6684,26 @@ img {
   transform: translateY(7px);
 }
 
-.figma-security-card.is-active .clerk-fraud__status strong {
+.figma-security-card:is(:hover, :focus-visible) .clerk-fraud__status strong {
   animation: clerk-fraud-status-cycle 5.4s ease infinite;
 }
 
-.figma-security-card.is-active .clerk-fraud__spinner {
+.figma-security-card:is(:hover, :focus-visible) .clerk-fraud__spinner {
   border-color: #4aa7ff;
   animation: clerk-spinner 1.6s linear infinite;
 }
 
-.figma-security-card.is-active .clerk-fraud__node b {
+.figma-security-card:is(:hover, :focus-visible) .clerk-fraud__node b {
   animation: clerk-block-node 5.4s cubic-bezier(0.22, 1, 0.36, 1)
     calc(250ms + var(--clerk-delay)) infinite both;
 }
 
-.figma-security-card.is-active .clerk-fraud__event-copy strong {
+.figma-security-card:is(:hover, :focus-visible) .clerk-fraud__event-copy strong {
   animation: clerk-event-title 5.4s ease calc(300ms + var(--clerk-delay))
     infinite both;
 }
 
-.figma-security-card.is-active .clerk-fraud__event-copy small {
+.figma-security-card:is(:hover, :focus-visible) .clerk-fraud__event-copy small {
   animation: clerk-event-detail 5.4s cubic-bezier(0.22, 1, 0.36, 1)
     calc(380ms + var(--clerk-delay)) infinite both;
 }

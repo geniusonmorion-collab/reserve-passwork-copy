@@ -248,10 +248,11 @@ export default function SecurityProofGrid() {
     <div className="figma-security-grid" role="list">
       {securityProofs.map((proof) => (
         <article
-          aria-label={proof.title}
-          className={`figma-security-card is-${proof.kind} is-active`}
+          aria-label={`${proof.title}. Анимация запускается при наведении`}
+          className={`figma-security-card is-${proof.kind}`}
           key={proof.title}
           role="listitem"
+          tabIndex={0}
         >
           <SecurityProofVisual kind={proof.kind} />
           <div className="figma-security-card__copy">
