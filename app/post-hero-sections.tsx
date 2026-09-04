@@ -605,10 +605,7 @@ export default function PostHeroSections({
         </>
       )}
 
-      <section
-        className="stack-transition"
-        aria-labelledby="stack-transition-title"
-      >
+      <section className="stack-transition" aria-label="Синий переход">
         <div className="stack-transition__stage">
           <canvas
             className="stack-transition__canvas"
@@ -616,11 +613,6 @@ export default function PostHeroSections({
             height="900"
             aria-hidden="true"
           />
-          <h2 id="stack-transition-title" className="stack-transition__title">
-            <span>Основа корпоративной</span>
-            <span>безопасности</span>
-          </h2>
-          <span className="stack-transition__marker" aria-hidden="true" />
         </div>
       </section>
     </div>
