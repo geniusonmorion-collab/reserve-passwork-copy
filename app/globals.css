@@ -6032,7 +6032,7 @@ img {
   height: 854px;
   margin-top: 80px;
   overflow: hidden;
-  border-radius: 7px;
+  border-radius: 20px;
   grid-template-columns: 59.2565% 40.7435%;
   grid-template-rows: 507px 347px;
 }
@@ -6395,7 +6395,7 @@ img {
   margin-top: 124px;
   overflow: hidden;
   border: 1px solid rgb(255 255 255 / 8%);
-  border-radius: 7px;
+  border-radius: 20px;
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
@@ -6644,11 +6644,11 @@ img {
   }
 
   .figma-security-card:first-child {
-    border-radius: 7px 7px 0 0;
+    border-radius: 20px 20px 0 0;
   }
 
   .figma-security-card:last-child {
-    border-radius: 0 0 7px 7px;
+    border-radius: 0 0 20px 20px;
   }
 
   .figma-security-card__copy,
@@ -6742,6 +6742,22 @@ img {
     border: 1px solid rgb(255 255 255 / 8%) !important;
   }
 
+  .figma-sector-card:first-child {
+    border-radius: 20px 0 0;
+  }
+
+  .figma-sector-card:nth-child(2) {
+    border-radius: 0 20px 0 0;
+  }
+
+  .figma-sector-card:nth-last-child(2) {
+    border-radius: 0 0 0 20px;
+  }
+
+  .figma-sector-card:last-child {
+    border-radius: 0 0 20px;
+  }
+
   .figma-sector-card h3 {
     font-size: 18px;
   }
@@ -6767,6 +6783,20 @@ img {
 
   .figma-sectors {
     grid-template-columns: 1fr;
+  }
+
+  .figma-sector-card,
+  .figma-sector-card:nth-child(2),
+  .figma-sector-card:nth-last-child(2) {
+    border-radius: 0;
+  }
+
+  .figma-sector-card:first-child {
+    border-radius: 20px 20px 0 0;
+  }
+
+  .figma-sector-card:last-child {
+    border-radius: 0 0 20px 20px;
   }
 }
 
