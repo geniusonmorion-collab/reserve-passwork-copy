@@ -45,12 +45,6 @@ const magicGlyphRows = [
   'A3F81D9C620E475BB27D106AF39C58E4',
 ] as const;
 
-const sessionRows = [
-  ['Сервер', 'Passwork Server'],
-  ['Контур', 'Локальная сеть'],
-  ['Размещение', 'On-premise'],
-] as const;
-
 const blockedRows = [
   ['telemetry.passwork', 'Заблокировано · 0 запросов'],
   ['external.api', 'Заблокировано · 0 запросов'],
@@ -150,38 +144,61 @@ function MagicLinksArtwork() {
   );
 }
 
-function SessionArtwork() {
+function InfrastructureArtwork() {
   return (
     <div className="clerk-art clerk-art--session" aria-hidden="true">
-      <div className="clerk-session">
-        <span className="clerk-session__wing clerk-session__wing--left" />
-        <span className="clerk-session__wing clerk-session__wing--right" />
-        <span className="clerk-session__trace" />
+      <div className="clerk-session infra-flow">
+        <div className="infra-flow__client">
+          <span className="infra-flow__device">
+            <i>PW</i>
+          </span>
+          <small>Клиент Passwork</small>
+        </div>
 
-        <div className="clerk-session__panel">
-          <div className="clerk-laptop">
-            <span className="clerk-laptop__screen">
-              <i className="clerk-laptop__shine" />
-              <b>PW</b>
+        <span className="infra-flow__route infra-flow__route--request" />
+
+        <div className="infra-flow__gate">
+          <span className="infra-flow__gate-ring" />
+          <svg viewBox="0 0 50 58">
+            <path
+              className="infra-flow__shield"
+              d="M25 2 45 10v15c0 14-8.5 24.5-20 31C13.5 49.5 5 39 5 25V10L25 2Z"
+            />
+            <path
+              className="infra-flow__check"
+              d="m15 29 7 7 14-16"
+              pathLength="1"
+            />
+          </svg>
+          <strong>Проверка доступа</strong>
+          <small>Локальная политика</small>
+        </div>
+
+        <span className="infra-flow__route infra-flow__route--approved" />
+
+        <div className="infra-flow__servers">
+          {Array.from({ length: 3 }, (_, rackIndex) => (
+            <span
+              className="infra-flow__rack"
+              key={rackIndex}
+              style={
+                { '--rack-delay': `${rackIndex * 120}ms` } as CSSProperties
+              }
+            >
+              {Array.from({ length: 3 }, (_, ledIndex) => (
+                <i
+                  key={ledIndex}
+                  style={
+                    {
+                      '--led-delay': `${rackIndex * 120 + ledIndex * 70}ms`,
+                    } as CSSProperties
+                  }
+                />
+              ))}
+              <b />
             </span>
-            <span className="clerk-laptop__base" />
-          </div>
-
-          <div className="clerk-session__rows">
-            {sessionRows.map(([label, value], index) => (
-              <span
-                key={label}
-                style={
-                  { '--clerk-delay': `${index * 50}ms` } as CSSProperties
-                }
-              >
-                <small>{label}</small>
-                <b>{value}</b>
-              </span>
-            ))}
-          </div>
-
-          <div className="clerk-session__button">Внутри инфраструктуры</div>
+          ))}
+          <small>Локальные серверы</small>
         </div>
       </div>
     </div>
@@ -239,7 +256,7 @@ function SecurityProofVisual({
 }) {
   if (kind === 'fstec') return <MfaArtwork />;
   if (kind === 'gost') return <MagicLinksArtwork />;
-  if (kind === 'infrastructure') return <SessionArtwork />;
+  if (kind === 'infrastructure') return <InfrastructureArtwork />;
   return <FraudArtwork />;
 }
 
