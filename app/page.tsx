@@ -1,40 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
 
 import PostHeroSections from './post-hero-sections';
+import ClientLogoRotator from './client-logo-rotator';
 
 const navigation = [
   { label: 'Компания', href: '#company' },
   { label: 'Ресурсы', href: '#resources' },
   { label: 'Поддержка', href: '#certification' },
   { label: 'Цены', href: '#certification' },
-] as const;
-
-const clientLogos = [
-  {
-    name: 'ВкусВилл',
-    src: '/assets/client-logos/vkusvill.png',
-    className: 'is-vkusvill',
-  },
-  {
-    name: 'ПИК',
-    src: '/assets/figma-9206/logo-pik.svg',
-    className: 'is-pik',
-  },
-  {
-    name: 'ВТБ',
-    src: '/assets/figma-9206/logo-vtb.svg',
-    className: 'is-vtb',
-  },
-  {
-    name: 'Иви',
-    src: '/assets/figma-9206/logo-ivi.svg',
-    className: 'is-ivi',
-  },
-  {
-    name: 'Okko',
-    src: '/assets/client-logos/okko.png',
-    className: 'is-okko',
-  },
 ] as const;
 
 const securityProofs = [
@@ -154,15 +127,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="figma-client-logos" aria-label="Клиенты Пассворка">
-          <div className="figma-shell figma-client-logos__row">
-            {clientLogos.map((logo) => (
-              <div className={`figma-client-logo ${logo.className}`} key={logo.name}>
-                <img src={logo.src} alt={logo.name} />
-              </div>
-            ))}
-          </div>
-        </section>
+        <ClientLogoRotator />
 
         <section className="figma-security" id="company">
           <div className="figma-shell">

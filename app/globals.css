@@ -5715,44 +5715,167 @@ img {
 }
 
 .figma-client-logo {
-  display: flex;
+  position: relative;
+  display: block;
   width: 121px;
   height: 70px;
   flex: none;
+  overflow: hidden;
+  contain: paint;
+}
+
+.figma-client-logo__track {
+  width: 100%;
+  height: 210px;
+  transform: translate3d(0, 0, 0);
+  transform-origin: 50% 50%;
+  will-change: transform;
+}
+
+.figma-client-logos__row.is-animating .figma-client-logo__track {
+  animation: figma-client-logo-roll 6.66s linear var(--logo-delay) infinite both;
+}
+
+.figma-client-logo__frame {
+  display: flex;
+  width: 100%;
+  height: 70px;
   align-items: center;
   justify-content: center;
 }
 
-.figma-client-logo img {
+.figma-client-logos__row.is-animating
+  .figma-client-logo__frame:nth-child(1) {
+  animation: figma-client-logo-first 6.66s linear var(--logo-delay) infinite both;
+}
+
+.figma-client-logos__row.is-animating
+  .figma-client-logo__frame:nth-child(2) {
+  animation: figma-client-logo-second 6.66s linear var(--logo-delay) infinite both;
+}
+
+.figma-client-logos__row.is-animating
+  .figma-client-logo__frame:nth-child(3) {
+  animation: figma-client-logo-third 6.66s linear var(--logo-delay) infinite both;
+}
+
+.figma-client-logo__frame img {
+  display: block;
   max-width: 100%;
   max-height: 100%;
+  filter: grayscale(1) brightness(0) invert(1);
   object-fit: contain;
 }
 
-.figma-client-logo.is-vkusvill img {
+.figma-client-logo__frame.is-vkusvill img {
   width: 91px;
   height: 12px;
-  filter: grayscale(1) brightness(4);
 }
 
-.figma-client-logo.is-pik img {
+.figma-client-logo__frame.is-open-mobile-platform img {
+  width: 86px;
+  height: 31px;
+}
+
+.figma-client-logo__frame.is-pik img {
   width: 77px;
   height: 24px;
 }
 
-.figma-client-logo.is-vtb img {
+.figma-client-logo__frame.is-cherkizovo img {
+  width: 115px;
+  height: 24px;
+}
+
+.figma-client-logo__frame.is-vtb img {
   width: 85px;
   height: 31px;
 }
 
-.figma-client-logo.is-ivi img {
+.figma-client-logo__frame.is-dit-moscow img {
+  width: 93px;
+  height: 33px;
+}
+
+.figma-client-logo__frame.is-ivi img {
   width: 68px;
   height: 36px;
 }
 
-.figma-client-logo.is-okko img {
+.figma-client-logo__frame.is-hh img {
+  width: 47px;
+  height: 47px;
+}
+
+.figma-client-logo__frame.is-okko img {
   width: 110px;
   height: 64px;
+  object-fit: cover;
+}
+
+.figma-client-logo__frame.is-sber-health img {
+  width: 115px;
+  height: 39px;
+}
+
+@keyframes figma-client-logo-roll {
+  0%,
+  25% {
+    transform: translate3d(0, 0, 0);
+    animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+  }
+
+  40%,
+  75% {
+    transform: translate3d(0, -70px, 0);
+    animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+  }
+
+  90%,
+  100% {
+    transform: translate3d(0, -140px, 0);
+  }
+}
+
+@keyframes figma-client-logo-first {
+  0%,
+  32% {
+    opacity: 1;
+  }
+
+  40%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes figma-client-logo-second {
+  0%,
+  25% {
+    opacity: 0;
+  }
+
+  33%,
+  82% {
+    opacity: 1;
+  }
+
+  90%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes figma-client-logo-third {
+  0%,
+  75% {
+    opacity: 0;
+  }
+
+  83%,
+  100% {
+    opacity: 1;
+  }
 }
 
 .figma-security {
@@ -7451,6 +7574,13 @@ html.is-stack-transition-locked body {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .figma-client-logos__row.is-animating .figma-client-logo__track,
+  .figma-client-logos__row.is-animating .figma-client-logo__frame {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+
   .use-cases-showcase__progress > span {
     transition: none;
   }
