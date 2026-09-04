@@ -27,22 +27,11 @@ const securityProofs = [
   },
 ] as const;
 
-const cipherCodes = [
-  'Yb9WrnC5nFrvvz',
-  '4A6CF291073B88',
-  'D2E83B71A9C416',
-  'GOST34122015',
-] as const;
-
-const magicGlyphRows = [
-  '4A6CF291073B88D15E0A74C916EF3D27',
-  '9D31A86042C7F50BE31967AA2E8C7014',
-  'B7E0541C936F2AD80571CC3EA4896DF2',
-  '0FA2794DE618B35C9027FD618A34C7E9',
-  '53D8A1F6B2940CE77A163D8BF01942C5',
-  'C74E1960AD3F825B41E69C087D2FA536',
-  '18B6F03A4D97CE251F68A2DB930C547E',
-  'A3F81D9C620E475BB27D106AF39C58E4',
+const gostCipherRows = [
+  '4A6C F291 073B',
+  '88D1 5E0A 74C9',
+  '16EF 3D27 A9B4',
+  'C702 5F18 6E93',
 ] as const;
 
 const blockedRows = [
@@ -71,73 +60,75 @@ function MfaArtwork() {
   );
 }
 
-function MagicLinksArtwork() {
+function GostEncryptionArtwork() {
   return (
-    <div className="clerk-art clerk-art--magic" aria-hidden="true">
-      <div className="clerk-magic">
-        <div className="clerk-magic__glyphs">
-          {magicGlyphRows.map((row, index) => (
-            <span
-              key={row}
-              style={
-                {
-                  '--clerk-delay': `${index * -180}ms`,
-                  '--clerk-direction': index % 2 ? '-1' : '1',
-                } as CSSProperties
-              }
-            >
-              {row}
+    <div className="clerk-art clerk-art--gost" aria-hidden="true">
+      <div className="gost-flow">
+        <div className="gost-flow__source">
+          <div className="gost-flow__document">
+            <span className="gost-flow__document-head">
+              <i />
+              <i />
+              <i />
             </span>
-          ))}
-        </div>
-        <span className="clerk-magic__shade" />
-
-        <div className="clerk-magic__token">
-          {cipherCodes.map((code, index) => (
-            <span
-              key={code}
-              style={
-                { '--clerk-delay': `${index * -600}ms` } as CSSProperties
-              }
-            >
-              {code}
-            </span>
-          ))}
-        </div>
-
-        <span className="clerk-magic__dome" />
-        <div className="clerk-magic__identity">
-          <div className="clerk-magic__portrait">
-            <svg
-              viewBox="0 0 80 96"
-              fill="none"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="1.5"
-            >
-              <path
-                className="clerk-magic__portrait-shadow"
-                d="M26.22 78.25c2.679-3.522 1.485-17.776 1.485-17.776-1.084-2.098-1.918-4.288-2.123-5.619-3.573 0-3.7-8.05-3.827-9.937-.102-1.509 1.403-1.383 2.169-1.132-.298-1.3-.92-5.408-1.021-11.446C22.775 24.794 30.94 17.75 40 17.75h.005c9.059 0 17.225 7.044 17.097 14.59-.102 6.038-.723 10.147-1.021 11.446.765-.251 2.271-.377 2.169 1.132-.128 1.887-.254 9.937-3.827 9.937-.205 1.331-1.039 3.521-2.123 5.619 0 0-1.194 14.254 1.485 17.776"
-              />
-              <path
-                className="clerk-magic__portrait-shadow"
-                d="M27.705 60.474a26.884 26.884 0 0 0 1.577 2.682c1.786 2.642 5.36 6.792 10.718 6.792h.005c5.358 0 8.932-4.15 10.718-6.792a26.884 26.884 0 0 0 1.577-2.682"
-              />
-              <path
-                className="clerk-magic__portrait-draw"
-                pathLength="1"
-                d="M26.22 78.25c2.679-3.522 1.485-17.776 1.485-17.776-1.084-2.098-1.918-4.288-2.123-5.619-3.573 0-3.7-8.05-3.827-9.937-.102-1.509 1.403-1.383 2.169-1.132-.298-1.3-.92-5.408-1.021-11.446C22.775 24.794 30.94 17.75 40 17.75h.005c9.059 0 17.225 7.044 17.097 14.59-.102 6.038-.723 10.147-1.021 11.446.765-.251 2.271-.377 2.169 1.132-.128 1.887-.254 9.937-3.827 9.937-.205 1.331-1.039 3.521-2.123 5.619 0 0-1.194 14.254 1.485 17.776"
-              />
-              <path
-                className="clerk-magic__portrait-draw clerk-magic__portrait-draw--inner"
-                pathLength="1"
-                d="M27.705 60.474a26.884 26.884 0 0 0 1.577 2.682c1.786 2.642 5.36 6.792 10.718 6.792h.005c5.358 0 8.932-4.15 10.718-6.792a26.884 26.884 0 0 0 1.577-2.682"
-              />
-            </svg>
-            <span className="clerk-magic__scan" />
+            {['74%', '56%', '66%'].map((width, index) => (
+              <span
+                className="gost-flow__source-line"
+                key={width}
+                style={
+                  {
+                    '--gost-delay': `${index * 90}ms`,
+                    '--gost-line-width': width,
+                  } as CSSProperties
+                }
+              >
+                <i />
+              </span>
+            ))}
           </div>
+          <small>Открытые данные</small>
+        </div>
+
+        <span className="gost-flow__route gost-flow__route--in" />
+
+        <div className="gost-flow__cipher">
+          <span className="gost-flow__cipher-ring" />
+          <svg viewBox="0 0 64 64">
+            <path
+              className="gost-flow__lock-shackle"
+              d="M20 29v-8c0-7 5-12 12-12s12 5 12 12v8"
+            />
+            <rect
+              className="gost-flow__lock-body"
+              x="14"
+              y="27"
+              width="36"
+              height="29"
+              rx="5"
+            />
+            <path className="gost-flow__keyhole" d="M32 37v9" />
+          </svg>
           <strong>ГОСТ 34.12</strong>
-          <small>локальный ключ</small>
+        </div>
+
+        <span className="gost-flow__route gost-flow__route--out" />
+
+        <div className="gost-flow__result">
+          <div className="gost-flow__output">
+            {gostCipherRows.map((row, index) => (
+              <span
+                key={row}
+                style={
+                  { '--gost-delay': `${index * 85}ms` } as CSSProperties
+                }
+              >
+                {row}
+              </span>
+            ))}
+            <i className="gost-flow__output-scan" />
+            <i className="gost-flow__seal">✓</i>
+          </div>
+          <small>Зашифровано</small>
         </div>
       </div>
     </div>
@@ -256,7 +247,7 @@ function SecurityProofVisual({
   kind: (typeof securityProofs)[number]['kind'];
 }) {
   if (kind === 'fstec') return <MfaArtwork />;
-  if (kind === 'gost') return <MagicLinksArtwork />;
+  if (kind === 'gost') return <GostEncryptionArtwork />;
   if (kind === 'infrastructure') return <InfrastructureArtwork />;
   return <FraudArtwork />;
 }
