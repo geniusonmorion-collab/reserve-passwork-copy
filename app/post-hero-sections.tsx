@@ -315,11 +315,11 @@ export default function PostHeroSections({
       }
 
       const bounds = transition.getBoundingClientRect();
-      const scrubRange = Math.max(
-        transition.offsetHeight - window.innerHeight,
+      const transitionHeight = Math.max(transition.offsetHeight, 1);
+      const progress = Math.min(
+        Math.max((window.innerHeight - bounds.top) / transitionHeight, 0),
         1,
       );
-      const progress = Math.min(Math.max(-bounds.top / scrubRange, 0), 1);
       const frame = firstFrame + Math.round(progress * (lastFrame - firstFrame));
 
       paintFrame(frame);
