@@ -5493,16 +5493,6 @@ img {
   transform: translateX(-50%);
 }
 
-.figma-site-header::after {
-  position: absolute;
-  top: 72px;
-  right: 2px;
-  left: 8px;
-  height: 1px;
-  background: rgb(255 255 255 / 8%);
-  content: '';
-}
-
 .figma-brand {
   position: relative;
   display: block;
@@ -6509,12 +6499,6 @@ img {
     width: calc(100% - 24px);
     height: 66px;
     padding: 12px;
-  }
-
-  .figma-site-header::after {
-    top: 62px;
-    right: 0;
-    left: 0;
   }
 
   .figma-brand {
