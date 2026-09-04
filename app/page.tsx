@@ -68,7 +68,11 @@ export default function Home() {
       <main>
         <section className="figma-hero" aria-labelledby="hero-title">
           <div className="figma-hero__base" aria-hidden="true" />
-          <span className="figma-hero__aurora figma-hero__aurora--top" aria-hidden="true" />
+          <span className="figma-hero__aurora figma-hero__aurora--top" aria-hidden="true">
+            <i />
+            <i />
+            <i />
+          </span>
 
           <div className="figma-hero__copy">
             <h1 id="hero-title">
@@ -90,7 +94,11 @@ export default function Home() {
 
           <div className="figma-hero__visual" aria-hidden="true">
             <span className="figma-hero__visual-gradient" />
-            <span className="figma-hero__aurora figma-hero__aurora--stage" />
+            <span className="figma-hero__aurora figma-hero__aurora--stage">
+              <i />
+              <i />
+              <i />
+            </span>
             <img
               className="figma-hero__texture"
               src="/assets/figma-9206/hero-texture.png"
