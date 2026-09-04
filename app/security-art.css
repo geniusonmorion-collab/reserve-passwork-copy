@@ -70,8 +70,7 @@
   opacity: 0.55;
 }
 
-.sp-status__check svg,
-.sp-badge svg {
+.sp-status__check svg {
   width: 10px;
   height: 10px;
   fill: none;
@@ -237,29 +236,6 @@
   line-height: 20px;
 }
 
-.sp-badge {
-  display: grid;
-  width: 18px;
-  height: 18px;
-  place-items: center;
-  border-radius: 50%;
-  background: var(--cyan);
-  box-shadow: 0 0 12px rgb(78 201 255 / 50%);
-  transform: scale(0);
-}
-
-.sp-gost__sub {
-  position: absolute;
-  top: 232px;
-  right: 0;
-  left: 0;
-  color: var(--muted);
-  font-family: var(--mono);
-  font-size: 12.5px;
-  line-height: 16px;
-  text-align: center;
-}
-
 .figma-security-card:is(:hover, :focus-visible) .sp-gost__rows span {
   animation: sp-drift 16s linear infinite alternate;
 }
@@ -293,10 +269,6 @@
 
 .figma-security-card:is(:hover, :focus-visible) .sp-lock__shackle {
   animation: sp-shackle 0.42s cubic-bezier(0.3, 1.4, 0.5, 1) 1.25s both;
-}
-
-.figma-security-card:is(:hover, :focus-visible) .sp-badge {
-  animation: sp-pop 0.45s cubic-bezier(0.3, 1.5, 0.5, 1) 1.7s both;
 }
 
 /* ---------- Размещение внутри инфраструктуры ---------- */
@@ -1056,7 +1028,6 @@
     transform: none;
   }
 
-  .sp-badge,
   .sp-status__check {
     transform: scale(1);
   }

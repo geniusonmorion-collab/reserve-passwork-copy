@@ -92,13 +92,7 @@ function GostScene() {
       </div>
       <div className="sp-gost__title">
         <strong>ГОСТ Р 34.12-2015</strong>
-        <i className="sp-badge">
-          <svg viewBox="0 0 12 12" aria-hidden="true">
-            <path d="m2.6 6.3 2.3 2.3 4.6-4.9" />
-          </svg>
-        </i>
       </div>
-      <small className="sp-gost__sub">Кузнечик · 256-битный ключ</small>
     </>
   );
 }
