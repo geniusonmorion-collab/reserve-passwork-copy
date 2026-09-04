@@ -5898,14 +5898,24 @@ img {
 }
 
 .figma-security-grid {
+  position: relative;
   display: grid;
-  height: 933px;
+  height: 854px;
   margin-top: 80px;
   overflow: hidden;
-  border: 1px solid rgb(255 255 255 / 8%);
   border-radius: 7px;
   grid-template-columns: 59.2565% 40.7435%;
-  grid-template-rows: 586px 347px;
+  grid-template-rows: 507px 347px;
+}
+
+.figma-security-grid::after {
+  position: absolute;
+  z-index: 5;
+  inset: 0;
+  border: 1px solid rgb(255 255 255 / 8%);
+  border-radius: inherit;
+  content: '';
+  pointer-events: none;
 }
 
 .figma-security-card {
@@ -5940,7 +5950,7 @@ img {
   background: linear-gradient(
     163.82deg,
     #0f1011 15.709%,
-    rgb(100 114 129 / 20%) 48.604%,
+    rgb(100 114 129 / 24%) 48.604%,
     #030303 82.339%
   );
 }
@@ -7206,28 +7216,72 @@ img {
 }
 
 @container (max-width: 360px) {
-  .clerk-magic,
-  .clerk-fraud {
+  .clerk-magic {
     width: 430px;
     max-width: none;
     transform: translateX(-50%) scale(0.82);
     transform-origin: top center;
   }
+
+  .clerk-fraud {
+    width: 360px;
+    max-width: none;
+    transform: translateX(-50%) scale(0.76);
+    transform-origin: top center;
+  }
 }
+
+@media (min-width: 768px) {
+  .figma-security-card.is-fstec > .clerk-art--mfa {
+    top: auto;
+    bottom: 0;
+    height: 340px;
+  }
+
+  .figma-security-card.is-gost > .clerk-art--magic {
+    top: 285px;
+    height: 199px;
+  }
+
+  .figma-security-card.is-gost .clerk-magic {
+    top: 0;
+    width: 440px;
+    max-width: none;
+    transform: translateX(-50%) scale(0.667);
+    transform-origin: top center;
+  }
+
+  .figma-security-card.is-infrastructure > .clerk-art--session {
+    top: 160px;
+    height: 181px;
+  }
+
+  .figma-security-card.is-infrastructure .clerk-session {
+    top: 5px;
+    width: 640px;
+    max-width: none;
+    transform: translateX(-50%) scale(0.99);
+    transform-origin: top center;
+  }
+
+  .figma-security-card.is-data > .clerk-art--fraud {
+    top: auto;
+    bottom: 0;
+    height: 185px;
+  }
+}
+
 .figma-security-card__copy {
   position: absolute;
   z-index: 2;
-  right: 24px;
-  bottom: 27px;
-  left: 28px;
+  top: 27px;
+  right: 27px;
+  bottom: auto;
+  left: 27px;
   display: flex;
   flex-direction: column;
-  gap: 36px;
-}
-
-.figma-security-card.is-gost .figma-security-card__copy,
-.figma-security-card.is-data .figma-security-card__copy {
-  left: 23px;
+  align-items: flex-start;
+  gap: 12px;
 }
 
 .figma-security-card h3,
@@ -7237,24 +7291,33 @@ img {
 
 .figma-security-card h3 {
   color: #d0d6e0;
-  font-size: 36px;
+  font-size: 24px;
   font-weight: 500;
   letter-spacing: -0.15px;
-  line-height: 1;
+  line-height: 22px;
 }
 
 .figma-security-card.is-gost h3,
 .figma-security-card.is-data h3 {
-  font-size: 32px;
+  font-size: 20px;
 }
 
 .figma-security-card p {
-  max-width: 555px;
+  max-width: 493px;
   color: #8a8f98;
-  font-size: 24px;
+  font-size: 16px;
   font-weight: 400;
   letter-spacing: -0.15px;
   line-height: 26px;
+}
+
+.figma-security-card.is-fstec p {
+  max-width: 398px;
+  font-size: 20px;
+}
+
+.figma-security-card.is-infrastructure p {
+  max-width: 385px;
 }
 
 .figma-certification {
@@ -7370,13 +7433,6 @@ img {
     line-height: 42px;
   }
 
-  .figma-security-card h3,
-  .figma-security-card.is-gost h3,
-  .figma-security-card.is-data h3 {
-    font-size: 28px;
-  }
-
-  .figma-security-card p,
   .figma-certification__copy p {
     font-size: 20px;
     line-height: 25px;
@@ -7537,7 +7593,7 @@ img {
   }
 
   .figma-security-card {
-    min-height: 270px;
+    min-height: 300px;
     border: 1px solid rgb(255 255 255 / 8%) !important;
   }
 
@@ -7552,22 +7608,31 @@ img {
   .figma-security-card__copy,
   .figma-security-card.is-gost .figma-security-card__copy,
   .figma-security-card.is-data .figma-security-card__copy {
+    top: auto;
     right: 22px;
     bottom: 24px;
     left: 22px;
-    gap: 22px;
+    gap: 12px;
   }
 
-  .figma-security-card h3,
+  .figma-security-card h3 {
+    font-size: 24px;
+    line-height: 22px;
+  }
+
   .figma-security-card.is-gost h3,
   .figma-security-card.is-data h3 {
-    font-size: 27px;
-    line-height: 1.05;
+    font-size: 20px;
   }
 
   .figma-security-card p {
-    font-size: 17px;
-    line-height: 1.35;
+    max-width: 100%;
+    font-size: 16px;
+    line-height: 22px;
+  }
+
+  .figma-security-card.is-fstec p {
+    font-size: 16px;
   }
 
   .figma-security-card::after {
