@@ -6,7 +6,7 @@ export const LIVE_DASHBOARD_MARKUP = `
 <div class="pw-app">
   <aside class="pw-side">
     <div class="pw-side__top">
-      <div class="pw-search" data-id="search"><svg class="pw-ico" viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.6"/><path d="M10.5 10.5 14 14"/></svg><span>Поиск</span></div>
+      <div class="pw-search" data-id="search"><svg class="pw-ico" viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.6"/><path d="M10.5 10.5 14 14"/></svg><span class="pw-search__field"><span class="pw-search__placeholder">Поиск</span><span class="pw-search__value"></span><i class="pw-search__caret"></i></span><span class="pw-search__clear" data-act="search-clear"><svg class="pw-ico" viewBox="0 0 16 16"><path d="M4 4l8 8M12 4l-8 8"/></svg></span></div>
       <nav class="pw-nav">
         <div class="pw-nav-item" data-id="recent"><svg class="pw-ico" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.2"/><path d="M8 4.6V8l2.4 1.5"/></svg><span>Недавние</span></div>
         <div class="pw-nav-item" data-id="fav"><svg class="pw-ico" viewBox="0 0 16 16"><path d="m8 1.9 1.9 3.9 4.3.6-3.1 3 .7 4.3L8 11.7l-3.8 2 .7-4.3-3.1-3 4.3-.6z"/></svg><span>Избранные</span></div>
@@ -78,7 +78,7 @@ export const LIVE_DASHBOARD_MARKUP = `
     </header>
     <div class="pw-body">
       <section class="pw-list">
-        <div class="pw-label">Папки</div>
+        <div class="pw-label pw-label--folders">Папки</div>
         <div class="pw-folders">
           <div class="pw-folder" data-id="servers"><svg viewBox="0 0 22 18"><path fill="#23aad9" d="M1 3.4A1.9 1.9 0 0 1 2.9 1.5h5l2 2h9.2A1.9 1.9 0 0 1 21 5.4v9.2a1.9 1.9 0 0 1-1.9 1.9H2.9A1.9 1.9 0 0 1 1 14.6z"/></svg><span>Серверы</span></div>
           <div class="pw-folder" data-id="mail"><svg viewBox="0 0 22 18"><path fill="#3bc78f" d="M1 3.4A1.9 1.9 0 0 1 2.9 1.5h5l2 2h9.2A1.9 1.9 0 0 1 21 5.4v9.2a1.9 1.9 0 0 1-1.9 1.9H2.9A1.9 1.9 0 0 1 1 14.6z"/></svg><span>Почта</span></div>

@@ -137,13 +137,60 @@ export function initLiveDashboard(embed: HTMLElement): () => void {
     totpSlot: Math.floor(Date.now() / 30000),
     menu: null as HTMLElement | null,
     menuTimer: 0,
+    query: '',
+  };
+
+  type Hit = { entry: Entry; at?: number; hint?: string; chip?: string };
+  const searchHits = (raw: string): Hit[] => {
+    const q = raw.trim().toLowerCase();
+    if (!q) return ENTRIES.map((entry) => ({ entry }));
+    return ENTRIES.flatMap((entry): Hit[] => {
+      const at = entry.name.toLowerCase().indexOf(q);
+      if (at >= 0) return [{ entry, at }];
+      if (entry.login.toLowerCase().includes(q)) return [{ entry, hint: entry.login }];
+      const chip = entry.tags.find((tag) => tag.toLowerCase().includes(q));
+      return chip ? [{ entry, chip }] : [];
+    });
   };
 
   const renderItems = () => {
-    itemsEl.innerHTML = ENTRIES.map(
-      (e) =>
-        `<div class="pw-item${e.id === state.entry.id ? ' is-selected' : ''}" data-id="${e.id}">${e.dot ? '<i class="pw-item__dot"></i>' : ''}${glyph(e.icon)}<span>${e.name}</span></div>`,
-    ).join('');
+    const q = state.query.trim();
+    const hits = searchHits(q);
+    const list = $('.pw-list');
+    if (list) list.classList.toggle('is-searching', q.length > 0);
+    const label = $('.pw-label--second');
+    if (label) label.textContent = q ? `Результаты · ${hits.length}` : 'Название';
+    itemsEl.innerHTML =
+      hits
+        .map(({ entry: e, at, hint, chip }) => {
+          const name =
+            at == null
+              ? e.name
+              : `${e.name.slice(0, at)}<mark>${e.name.slice(at, at + q.length)}</mark>${e.name.slice(at + q.length)}`;
+          const extra = hint
+            ? `<span class="pw-item__hint">${hint}</span>`
+            : chip
+              ? `<span class="pw-item__hint pw-item__hint--chip">${chip}</span>`
+              : '';
+          return `<div class="pw-item${e.id === state.entry.id ? ' is-selected' : ''}" data-id="${e.id}">${e.dot ? '<i class="pw-item__dot"></i>' : ''}${glyph(e.icon)}<span>${name}</span>${extra}</div>`;
+        })
+        .join('') || '<div class="pw-list__empty">Ничего не найдено</div>';
+  };
+
+  /* ---------- поиск: набор запроса, живая фильтрация ---------- */
+  const searchEl = $('.pw-search');
+  const searchValue = $('.pw-search__value');
+  const setQuery = (q: string) => {
+    state.query = q;
+    if (searchValue) searchValue.textContent = q;
+    if (searchEl) searchEl.classList.toggle('has-value', q.length > 0);
+    renderItems();
+  };
+  const searchFocus = () => searchEl?.classList.add('is-focused');
+  const searchBlur = () => searchEl?.classList.remove('is-focused');
+  const clearSearch = () => {
+    setQuery('');
+    searchBlur();
   };
 
   const secretHTML = () =>
@@ -367,6 +414,14 @@ export function initLiveDashboard(embed: HTMLElement): () => void {
       };
       requestAnimationFrame(step);
     });
+
+  const typeSearch = async (text: string) => {
+    for (const ch of text) {
+      if (!alive) return;
+      setQuery(state.query + ch);
+      await sleep(random(70, 160));
+    }
+  };
 
   /* ---------- курсоры ---------- */
   const cursors: Cursor[] = [];
@@ -640,7 +695,24 @@ export function initLiveDashboard(embed: HTMLElement): () => void {
           await c.idle(500, 800);
         }
       }
-      if (await c.go('[data-id="search"]')) await c.idle(800, 1300);
+      if (await c.go('[data-id="search"]', { fx: 0.42 })) {
+        await c.idle(250, 450);
+        await c.click(() => searchFocus());
+        await c.idle(350, 600);
+        await typeSearch('admin');
+        await c.idle(900, 1400);
+        if (await c.go(() => $$('.pw-item')[0])) await c.idle(500, 800);
+        if (await c.go(() => $$('.pw-item')[2])) {
+          await c.idle(300, 500);
+          await c.click((el) => selectEntry(el?.getAttribute('data-id') ?? ''));
+          await c.idle(2000, 3000);
+        }
+        if (await c.go('[data-act="search-clear"]')) {
+          await c.idle(250, 450);
+          await c.click(() => clearSearch());
+          await c.idle(500, 900);
+        }
+      }
       if (await c.go('.pw-nav-item[data-id="hidden"]')) await c.idle(600, 1000);
       if (await c.go('.pw-tree-row[data-id="budget"]')) {
         await c.idle(300, 500);
@@ -679,6 +751,7 @@ export function initLiveDashboard(embed: HTMLElement): () => void {
     if (!resizeObserver) window.removeEventListener('resize', fit);
     intersection?.disconnect();
     closeMenu();
+    clearSearch();
     app.querySelectorAll('.pw-toast, .pw-hl').forEach((el) => {
       if (el.classList.contains('pw-toast')) el.remove();
       else el.classList.remove('pw-hl');
