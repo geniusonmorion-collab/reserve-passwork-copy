@@ -5932,10 +5932,28 @@ img {
 
 .figma-security-card.is-fstec {
   background: linear-gradient(
-    161.38deg,
-    #0f1011 15.709%,
-    rgb(100 114 129 / 24%) 48.604%,
-    #030303 82.339%
+    150.48721595634584deg,
+    #061537 10.427%,
+    #1a4d94 55.058%,
+    #092050 103.13%
+  );
+}
+
+.figma-security-card.is-gost {
+  background: linear-gradient(
+    150.33532265245196deg,
+    #0f1011 67.959%,
+    rgb(100 114 129 / 24%) 6.4257%,
+    #030303 82.711%
+  );
+}
+
+.figma-security-card.is-infrastructure {
+  background: linear-gradient(
+    -81.52475749626663deg,
+    #1f2327 3.8195%,
+    #222932 52.056%,
+    #030303 101.52%
   );
 }
 
@@ -5951,10 +5969,10 @@ img {
 
 .figma-security-card.is-data {
   background: linear-gradient(
-    163.82deg,
-    #0f1011 15.709%,
-    rgb(100 114 129 / 24%) 48.604%,
-    #030303 82.339%
+    36.193681621123275deg,
+    #0f1011 57.956%,
+    rgb(100 114 129 / 24%) 3.6332%,
+    #030303 66.796%
   );
 }
 
