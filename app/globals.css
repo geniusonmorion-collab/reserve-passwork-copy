@@ -6306,7 +6306,7 @@ img {
 .infra-flow__client {
   position: absolute;
   top: 41px;
-  left: 34px;
+  left: -5px;
   display: flex;
   width: 116px;
   height: 96px;
@@ -6379,13 +6379,13 @@ img {
 }
 
 .infra-flow__route--request {
-  left: 150px;
-  width: 105px;
+  right: calc(50% + 65px);
+  left: 111px;
 }
 
 .infra-flow__route--approved {
-  left: 385px;
-  width: 95px;
+  right: 126px;
+  left: calc(50% + 65px);
 }
 
 .infra-flow__route::before {
@@ -6417,7 +6417,7 @@ img {
   position: absolute;
   z-index: 2;
   top: 23px;
-  left: 255px;
+  left: 50%;
   display: flex;
   width: 130px;
   height: 132px;
@@ -6431,6 +6431,7 @@ img {
   box-shadow:
     inset 0 1px rgb(255 255 255 / 5%),
     0 2px 14px rgb(0 0 0 / 25%);
+  transform: translateX(-50%);
 }
 
 .infra-flow__gate svg {
@@ -6491,7 +6492,7 @@ img {
 .infra-flow__servers {
   position: absolute;
   top: 29px;
-  left: 480px;
+  right: 0;
   display: flex;
   width: 126px;
   flex-direction: column;
@@ -7095,27 +7096,32 @@ img {
   0%,
   5%,
   100% {
+    left: -3px;
     opacity: 0;
-    transform: translate(0, -50%) scale(0.7);
+    transform: translateY(-50%) scale(0.7);
   }
 
   8% {
+    left: -3px;
     opacity: 1;
   }
 
   29% {
+    left: calc(100% - 3px);
     opacity: 1;
-    transform: translate(105px, -50%) scale(1);
+    transform: translateY(-50%) scale(1);
   }
 
   31% {
+    left: calc(100% - 3px);
     opacity: 0;
-    transform: translate(105px, -50%) scale(0.7);
+    transform: translateY(-50%) scale(0.7);
   }
 
   31.01% {
+    left: -3px;
     opacity: 0;
-    transform: translate(0, -50%) scale(0.7);
+    transform: translateY(-50%) scale(0.7);
   }
 }
 
@@ -7249,27 +7255,32 @@ img {
   0%,
   45%,
   100% {
+    left: -3px;
     opacity: 0;
-    transform: translate(0, -50%) scale(0.7);
+    transform: translateY(-50%) scale(0.7);
   }
 
   48% {
+    left: -3px;
     opacity: 1;
   }
 
   68% {
+    left: calc(100% - 3px);
     opacity: 1;
-    transform: translate(95px, -50%) scale(1);
+    transform: translateY(-50%) scale(1);
   }
 
   70% {
+    left: calc(100% - 3px);
     opacity: 0;
-    transform: translate(95px, -50%) scale(0.7);
+    transform: translateY(-50%) scale(0.7);
   }
 
   70.01% {
+    left: -3px;
     opacity: 0;
-    transform: translate(0, -50%) scale(0.7);
+    transform: translateY(-50%) scale(0.7);
   }
 }
 
@@ -7448,13 +7459,16 @@ img {
   }
 
   .figma-security-card.is-infrastructure .clerk-session {
-    top: 2px;
-    width: 640px;
+    top: 1px;
+    right: 27px;
+    left: 27px;
+    width: auto;
     max-width: none;
+    transform: none;
   }
 
   .figma-security-card.is-infrastructure .infra-flow {
-    transform: scale(0.99);
+    transform: none;
   }
 
   .figma-security-card.is-data > .clerk-art--fraud {
