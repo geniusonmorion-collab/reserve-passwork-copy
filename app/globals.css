@@ -6082,10 +6082,18 @@ img {
   );
 }
 
-.figma-security-card.is-infrastructure,
-.figma-security-card.is-data {
+.figma-security-card.is-infrastructure {
   background: linear-gradient(
     -81.52475749626663deg,
+    #1f2327 3.8195%,
+    #222932 52.056%,
+    #030303 101.52%
+  );
+}
+
+.figma-security-card.is-data {
+  background: linear-gradient(
+    81.52475749626663deg,
     #1f2327 3.8195%,
     #222932 52.056%,
     #030303 101.52%
