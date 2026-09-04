@@ -5944,7 +5944,7 @@ img {
     161.38deg,
     #0f1011 15.709%,
     rgb(100 114 129 / 24%) 48.604%,
-    #030303 82.339%
+    #030303 100%
   );
 }
 
@@ -5972,7 +5972,7 @@ img {
     163.82deg,
     #0f1011 15.709%,
     rgb(100 114 129 / 24%) 48.604%,
-    #030303 82.339%
+    #030303 100%
   );
 }
 
@@ -6158,7 +6158,8 @@ img {
 
   .figma-security-card.is-gost > .clerk-art--gost {
     top: 228px;
-    height: 252px;
+    bottom: 0;
+    height: auto;
   }
 
   .figma-security-card.is-infrastructure > .clerk-art--session {
