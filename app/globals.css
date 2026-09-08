@@ -5590,22 +5590,15 @@ img {
   position: relative;
   height: 1331px;
   overflow: hidden;
-  background: #000;
+  background: #08090a;
   isolation: isolate;
 }
 
 .figma-hero__base {
   position: absolute;
   z-index: 0;
-  top: 20px;
-  right: 20px;
-  bottom: 0;
-  left: 20px;
-  background: linear-gradient(
-    178.07429400975423deg,
-    rgb(0 0 0) 2.2999%,
-    rgb(6 16 34) 35.884%
-  );
+  inset: 0;
+  background: #08090a;
 }
 
 .figma-hero__copy {
@@ -5708,20 +5701,72 @@ img {
 }
 
 .figma-hero__visual-gradient {
+  --figma-hero-background-inset: 12px;
   position: absolute;
   z-index: 0;
-  inset: 0 12px;
+  inset: 0 var(--figma-hero-background-inset);
+  width: 100%;
+  max-width: calc(
+    min(100vw, 1920px) - (var(--figma-hero-background-inset) * 2)
+  );
+  margin: 0 auto;
+  overflow: hidden;
   border-radius: 6px;
-  /* Точные параметры слоёв из Figma 473:454. Проценты радиусов пересчитаны
-     из матрицы SVG: 995.97 / 1896 и 478.4 / 832. */
+  /* Актуальный фон hero Linear: нейтральный светлый пол с затемнением по краям. */
   background: radial-gradient(
       ellipse 52.5300632911% 57.5% at 50% 100%,
       rgb(8 9 10 / 0%) 0%,
       rgb(8 9 10 / 50%) 100%
     ),
-    linear-gradient(180deg, rgb(8 9 10) 10%, rgb(105 159 249) 100%);
+    linear-gradient(180deg, rgb(8 9 10) 10%, rgb(208 214 224) 100%);
   background-repeat: no-repeat;
   background-size: 100% 100%;
+}
+
+/* Linear держит этот PNG на фиксированном 1920px-холсте. Растягивание под
+   viewport ломает рассчитанные в картинке мягкие края и создаёт «плечи». */
+.figma-hero__texture {
+  position: absolute;
+  z-index: 1;
+  bottom: -9px;
+  left: 50%;
+  display: block;
+  width: 1920px;
+  max-width: none;
+  height: auto;
+  pointer-events: none;
+  transform: translate(
+    calc(-50% - 5px),
+    var(--pw-parallax, 0px)
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    #000 80px,
+    #000 calc(100% - 80px),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    #000 80px,
+    #000 calc(100% - 80px),
+    transparent 100%
+  );
+}
+
+/* Второй оригинальный слой Linear: светлая рассеянная подсветка пола. */
+.figma-hero__shade {
+  position: absolute;
+  z-index: 2;
+  bottom: 0;
+  left: 50%;
+  display: block;
+  width: 100%;
+  max-width: 1920px;
+  height: auto;
+  pointer-events: none;
+  transform: translateX(-50%);
 }
 
 .figma-hero__product {
@@ -5738,20 +5783,52 @@ img {
   transform: translate(-50%, var(--pw-parallax, 0px));
 }
 
-/* Контактная тень под мокапом: рисуется CSS и масштабируется вместе с ним,
-   поэтому не расходится с основанием ни на одной ширине экрана */
-.figma-hero__product::after {
+/* Едва заметное зерно поверх мокапа — тот же 512px asset и масштаб, что у Linear. */
+.figma-hero__product::before {
   position: absolute;
-  z-index: -1;
-  right: 4%;
-  bottom: -46px;
-  left: 4%;
-  height: 120px;
-  border-radius: 50%;
-  background: radial-gradient(50% 50% at 50% 50%, rgb(2 6 16 / 78%) 0%, rgb(2 6 16 / 38%) 45%, transparent 72%);
+  z-index: 5;
+  inset: 1px;
+  border-radius: inherit;
+  background-image: url('/assets/linear-hero/grain-default.png');
+  background-size: 256px 256px;
   content: '';
-  filter: blur(14px);
+  mix-blend-mode: overlay;
+  opacity: 0.6;
   pointer-events: none;
+}
+
+@media (max-width: 1280px) {
+  .figma-hero__visual-gradient {
+    --figma-hero-background-inset: 0px;
+  }
+}
+
+@media (max-width: 1024px),
+  (min-width: 1281px) and (max-width: 1440px) {
+  .figma-hero__texture {
+    display: none;
+  }
+}
+
+@media (max-width: 1024px) {
+  .figma-hero__visual-gradient::before {
+    position: absolute;
+    inset: 0;
+    background: rgb(0 0 0 / 40%);
+    content: '';
+    -webkit-mask-image: linear-gradient(to top, #000 0%, #000 60%, transparent 100%);
+    mask-image: linear-gradient(to top, #000 0%, #000 60%, transparent 100%);
+  }
+
+  .figma-hero__shade {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .figma-hero__visual-gradient::before {
+    background: rgb(0 0 0 / 50%);
+  }
 }
 
 .figma-client-logos {
@@ -6485,12 +6562,6 @@ img {
     height: 840px;
   }
 
-  .figma-hero__base {
-    top: 78px;
-    right: 0;
-    left: 0;
-  }
-
   .figma-hero__copy {
     top: 98px;
     width: calc(100% - 32px);
@@ -6539,8 +6610,7 @@ img {
   }
 
   .figma-hero__visual-gradient {
-    right: 0;
-    left: 0;
+    --figma-hero-background-inset: 0px;
   }
 
   .figma-hero__product {
@@ -6549,11 +6619,6 @@ img {
     top: 44px; /* место под вкладки тура */
     width: calc(100% - 24px);
     max-width: none;
-  }
-
-  .figma-hero__product::after {
-    bottom: -24px;
-    height: 70px;
   }
 
   .figma-client-logos {

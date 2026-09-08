@@ -5,7 +5,7 @@
    Все классы с префиксом pw-.
    ============================================================ */
 .pw-embed{
-  /* чёрные чуть приподняты, чтобы мокап садился в синий фон, а не вырезался из него */
+  /* Чёрные чуть приподняты, чтобы мокап мягко садился в световой пол hero. */
   --pw-bg:#17191d; --pw-side:#1b1e22; --pw-line:#232529; --pw-line-soft:#1f2125;
   --pw-text:#e8e9ea; --pw-text-2:#acacac; --pw-text-3:#8f9093; --pw-text-4:#5f6062;
   --pw-blue:#3862b4; --pw-blue-soft:#16263e; --pw-hover:#1f2328; --pw-sel:#212630;
@@ -22,10 +22,7 @@
 .pw-app{
   position:absolute; inset:0; background:var(--pw-bg); border-radius:15px; overflow:hidden;
   display:grid; grid-template-columns:344px 1fr;
-  box-shadow:
-    0 0 0 1px rgba(255,255,255,.06),
-    0 70px 130px -45px rgba(0,0,0,.85),
-    0 28px 64px -34px rgba(0,0,0,.6);
+  box-shadow:0 0 0 1px rgba(255,255,255,.06);
 }
 .pw-app button,.pw-app a{font:inherit;color:inherit;background:none;border:0;padding:0;margin:0;text-decoration:none;cursor:default}
 .pw-app svg{display:block;flex:none}

@@ -92,6 +92,22 @@ export default function Home() {
 
           <div className="figma-hero__visual" aria-hidden="true">
             <span className="figma-hero__visual-gradient" />
+            <img
+              className="figma-hero__texture"
+              src="/assets/figma-9206/hero-texture.png"
+              alt=""
+              width="2560"
+              height="1188"
+              draggable="false"
+            />
+            <img
+              className="figma-hero__shade"
+              src="/assets/linear-hero/shade.png"
+              alt=""
+              width="2560"
+              height="1429"
+              draggable="false"
+            />
             <LiveDashboard />
           </div>
         </section>
