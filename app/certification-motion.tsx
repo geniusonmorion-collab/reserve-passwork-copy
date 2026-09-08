@@ -1,106 +1,154 @@
 'use client';
 
-import Image from 'next/image';
 import { useEffect, useRef } from 'react';
 import './certification-motion.css';
 
-/** A decorative certificate, animated only while its panel is on screen. */
+const LEVELS = [0, 1, 2, 3];
+const TOP = 'M-6-79Q0-82 6-79L164-3Q170 0 164 3L6 79Q0 82-6 79L-164 3Q-170 0-164-3Z';
+const SIDES = 'M-168 0V17Q-168 20-163 23L-6 99Q0 102 6 99L163 23Q168 20 168 17V0L6 79Q0 82-6 79Z';
+
+/** Four abstract trust layers; decorative motion never carries unique information. */
 export default function CertificationMotion() {
-  const sceneRef = useRef<HTMLDivElement>(null);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const stackRef = useRef<SVGGElement>(null);
+  const guidesRef = useRef<SVGPathElement>(null);
+  const plateRefs = useRef<(SVGGElement | null)[]>([]);
 
   useEffect(() => {
-    const scene = sceneRef.current;
-    const card = scene?.closest('article');
-    if (!scene || !card) return;
+    const root = rootRef.current;
+    const stack = stackRef.current;
+    const card = root?.closest('article');
+    if (!root || !stack || !card) return;
 
-    const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const pointer = window.matchMedia('(hover: hover) and (pointer: fine)');
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
+    const plates = plateRefs.current.filter((plate): plate is SVGGElement => plate !== null);
+    const values = LEVELS.map(() => ({ x: 0, y: 0, vx: 0, vy: 0 }));
     let visible = false;
+    let hovered = false;
+    let cursorX = 0;
+    let cursorY = 0;
+    let focus = -1;
     let frame = 0;
-    let x = 0;
-    let y = 0;
+    let lastTime = 0;
+    let elapsed = 0;
+    let spread = 0;
+    let spreadVelocity = 0;
 
-    const resetTilt = () => {
-      cancelAnimationFrame(frame);
-      frame = 0;
-      scene.style.setProperty('--certificate-tilt-x', '0deg');
-      scene.style.setProperty('--certificate-tilt-y', '0deg');
+    const render = (now: number) => {
+      const dt = lastTime ? Math.min((now - lastTime) / 1000, 0.032) : 1 / 60;
+      lastTime = now;
+      elapsed += dt;
+      // A short opening gesture also makes the movement visible on touch screens.
+      const entrance = elapsed < 2.4 ? Math.sin(Math.min(elapsed / 2.4, 1) * Math.PI) * 0.75 : 0;
+      const targetSpread = hovered ? 1 : entrance;
+      spreadVelocity += ((targetSpread - spread) * 125 - spreadVelocity * 17) * dt;
+      spread += spreadVelocity * dt;
+
+      stack.setAttribute('transform', `translate(${cursorX * spread * 7} ${cursorY * spread * 3}) rotate(${cursorX * spread * 2},320,260)`);
+      plates.forEach((plate, index) => {
+        const value = values[index];
+        const wave = Math.sin(elapsed * 1.25 - index * 0.65) * (2 + index * 1.1);
+        const selected = hovered && focus === index;
+        const targetY = -spread * (index * 19 + (selected ? 13 : 0)) + wave;
+        const targetX = cursorX * spread * (index + 1) * 6;
+        const stiffness = 145 - index * 12;
+        value.vy += ((targetY - value.y) * stiffness - value.vy * 17) * dt;
+        value.vx += ((targetX - value.x) * stiffness - value.vx * 17) * dt;
+        value.y += value.vy * dt;
+        value.x += value.vx * dt;
+        plate.setAttribute('transform', `translate(${value.x.toFixed(3)} ${value.y.toFixed(3)})`);
+      });
+      const top = values[3];
+      const bottom = values[0];
+      guidesRef.current?.setAttribute('d', `M${152 + top.x} ${214 + top.y}L${152 + bottom.x} ${333 + bottom.y}M${488 + top.x} ${214 + top.y}L${488 + bottom.x} ${333 + bottom.y}M${320 + top.x} ${296 + top.y}L${320 + bottom.x} ${416 + bottom.y}`);
+      frame = requestAnimationFrame(render);
+    };
+
+    const clearPointer = () => {
+      hovered = false;
+      focus = -1;
+      root.dataset.hovered = 'false';
+      plates.forEach(plate => { plate.dataset.selected = 'false'; });
     };
     const sync = () => {
-      scene.dataset.active = String(visible && !document.hidden && !motion.matches);
-      if (visible) scene.dataset.entered = 'true';
-      if (motion.matches || !visible || document.hidden) resetTilt();
+      cancelAnimationFrame(frame);
+      frame = 0;
+      lastTime = 0;
+      if (reducedMotion.matches) {
+        clearPointer();
+        stack.removeAttribute('transform');
+        plates.forEach(plate => plate.removeAttribute('transform'));
+        values.forEach(value => { value.x = value.y = value.vx = value.vy = 0; });
+        guidesRef.current?.setAttribute('d', 'M152 214V333M488 214V333M320 296V416');
+        spread = spreadVelocity = 0;
+      } else if (visible && !document.hidden) {
+        frame = requestAnimationFrame(render);
+      }
+    };
+    const move = (event: PointerEvent) => {
+      if (reducedMotion.matches || !finePointer.matches || event.pointerType === 'touch') return;
+      const cardBounds = card.getBoundingClientRect();
+      const artBounds = root.getBoundingClientRect();
+      hovered = true;
+      cursorX = Math.max(-1, Math.min(1, ((event.clientX - cardBounds.left) / cardBounds.width - 0.5) * 2));
+      cursorY = Math.max(-1, Math.min(1, ((event.clientY - cardBounds.top) / cardBounds.height - 0.5) * 2));
+      const inArt = event.clientX >= artBounds.left && event.clientX <= artBounds.right;
+      focus = inArt ? Math.max(0, Math.min(3, Math.round((0.78 - (event.clientY - artBounds.top) / artBounds.height) * 5.5))) : -1;
+      root.dataset.hovered = 'true';
+      plates.forEach((plate, index) => { plate.dataset.selected = String(index === focus); });
     };
     const observer = new IntersectionObserver(([entry]) => {
       visible = entry.isIntersecting;
+      if (!visible) clearPointer();
       sync();
-    }, { threshold: 0.2 });
-    const move = (event: PointerEvent) => {
-      if (motion.matches || !pointer.matches || !visible || document.hidden) return;
-      const bounds = card.getBoundingClientRect();
-      x = (event.clientX - bounds.left) / bounds.width - 0.5;
-      y = (event.clientY - bounds.top) / bounds.height - 0.5;
-      if (!frame) frame = requestAnimationFrame(() => {
-        scene.style.setProperty('--certificate-tilt-x', `${-y * 5}deg`);
-        scene.style.setProperty('--certificate-tilt-y', `${x * 7}deg`);
-        frame = 0;
-      });
+    }, { threshold: 0.15 });
+    const visibilityChange = () => {
+      if (document.hidden) clearPointer();
+      sync();
     };
 
     observer.observe(card);
-    document.addEventListener('visibilitychange', sync);
-    motion.addEventListener('change', sync);
+    document.addEventListener('visibilitychange', visibilityChange);
+    reducedMotion.addEventListener('change', sync);
+    finePointer.addEventListener('change', clearPointer);
     card.addEventListener('pointermove', move);
-    card.addEventListener('pointerleave', resetTilt);
+    card.addEventListener('pointerleave', clearPointer);
+    card.addEventListener('pointercancel', clearPointer);
     return () => {
       observer.disconnect();
       cancelAnimationFrame(frame);
-      document.removeEventListener('visibilitychange', sync);
-      motion.removeEventListener('change', sync);
+      document.removeEventListener('visibilitychange', visibilityChange);
+      reducedMotion.removeEventListener('change', sync);
+      finePointer.removeEventListener('change', clearPointer);
       card.removeEventListener('pointermove', move);
-      card.removeEventListener('pointerleave', resetTilt);
+      card.removeEventListener('pointerleave', clearPointer);
+      card.removeEventListener('pointercancel', clearPointer);
     };
   }, []);
 
   return (
-    <div className="certification-motion" ref={sceneRef} aria-hidden="true">
-      <div className="certification-motion__light" />
-      <div className="certification-motion__scene">
-        <div className="certification-motion__back" />
-        <div className="certification-motion__document-wrap">
-          <div className="certification-motion__document">
-            <div className="certification-motion__header">
-              <span className="certification-motion__brand">
-                <Image src="/assets/passwork-symbol.svg" width={24} height={24} alt="" unoptimized />
-                Пассворк
-              </span>
-              <span className="certification-motion__number">№ 5063</span>
-            </div>
-            <div className="certification-motion__body">
-              <span className="certification-motion__eyebrow">Сертификат соответствия</span>
-              <strong className="certification-motion__title">ФСТЭК России</strong>
-              <div className="certification-motion__lines"><i /><i /><i /></div>
-              <div className="certification-motion__level"><strong>4</strong><span>уровень<br />доверия</span></div>
-            </div>
-            <div className="certification-motion__scan" />
-          </div>
-        </div>
-        <div className="certification-motion__medal-wrap">
-          <Image
-            className="certification-motion__medal"
-            src="/assets/fstec-motion/verification-medal.png"
-            alt=""
-            width={1254}
-            height={1254}
-            sizes="(max-width: 767px) 140px, 190px"
-            unoptimized
-          />
-        </div>
-        <div className="certification-motion__confirmation">
-          <Image src="/assets/check-circle-blue.svg" width={22} height={22} alt="" unoptimized />
-          <span>Соответствие подтверждено</span>
-        </div>
-      </div>
+    <div className="certification-motion" ref={rootRef} aria-hidden="true">
+      <svg className="certification-motion__drawing" viewBox="0 0 640 460" fill="none">
+        <g ref={stackRef}>
+          <path ref={guidesRef} className="certification-motion__guides" d="M152 214V333M488 214V333M320 296V416" />
+          {LEVELS.map(index => (
+            <g key={index} transform={`translate(320 ${316 - index * 34})`}>
+              <g className={`certification-motion__plate${index === 3 ? ' is-top' : ''}`} ref={element => { plateRefs.current[index] = element; }}>
+                <path className="certification-motion__side" d={SIDES} />
+                <path className="certification-motion__face" d={TOP} />
+                <path className="certification-motion__edge" d="M-168 17L-6 99Q0 102 6 99L168 17M0 82V100" />
+                {index === 3 && (
+                  <g transform="matrix(1 .48 -1 .48 0 0)">
+                    <rect className="certification-motion__emblem" x="-46" y="-46" width="92" height="92" rx="22" />
+                    <text className="certification-motion__four" textAnchor="middle" dominantBaseline="central">4</text>
+                  </g>
+                )}
+              </g>
+            </g>
+          ))}
+        </g>
+      </svg>
     </div>
   );
 }
