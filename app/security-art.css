@@ -103,26 +103,43 @@
 }
 
 .security-art--data {
-  --sp-period: 3.8s;
+  --sp-period: 5.2s;
 }
 
-.security-art .sp-data-guide {
-  stroke: var(--sp-edge);
-  stroke-width: 2;
-  opacity: .3;
+.security-art .sp-data-frame {
+  fill: var(--sp-face);
+  stroke: #747d8a;
+  stroke-width: 2.5;
+  animation: sp-data-seal var(--sp-period) ease-in-out infinite;
 }
 
-.security-art .sp-data-wall {
-  fill: #242930;
+.security-art .sp-data-records {
   stroke: #a7adb8;
-  stroke-width: 3;
-  animation: sp-data-block var(--sp-period) ease-in-out infinite;
+  stroke-width: 9;
+  stroke-linecap: round;
 }
 
-.security-art .sp-data-packet {
-  fill: #d0d6e0;
-  opacity: .7;
-  animation: sp-data-return var(--sp-period) cubic-bezier(.4, 0, .2, 1) infinite;
+.security-art .sp-data-shackle {
+  stroke: #c1c7d0;
+  stroke-width: 5;
+  stroke-linecap: round;
+  animation: sp-data-close var(--sp-period) cubic-bezier(.4, 0, .2, 1) infinite;
+}
+
+.security-art .sp-data-lock {
+  fill: #1a1e25;
+  stroke: #c1c7d0;
+  stroke-width: 3;
+}
+
+.security-art .sp-data-keyhole {
+  fill: #c1c7d0;
+}
+
+.security-art .sp-data-keyhole-stem {
+  stroke: #c1c7d0;
+  stroke-width: 5;
+  stroke-linecap: round;
 }
 
 /* Paused from SSR onward; only visible illustrations in the active tab run. */
@@ -168,15 +185,15 @@
   28%, 38% { opacity: 1; }
 }
 
-/* A single, large signal reaches the wall, pauses, and returns inside. */
-@keyframes sp-data-return {
-  0%, 10%, 90%, 100% { transform: translateX(0); opacity: .7; }
-  44%, 54% { transform: translateX(256px); opacity: 1; }
+/* Records stay inside the closed frame throughout the locking sequence. */
+@keyframes sp-data-close {
+  0%, 12%, 100% { transform: translateY(-20px); }
+  28%, 88% { transform: translateY(0); }
 }
 
-@keyframes sp-data-block {
-  0%, 30%, 76%, 100% { fill: #242930; stroke: #a7adb8; }
-  44%, 54% { fill: #788391; stroke: #e2e5eb; }
+@keyframes sp-data-seal {
+  0%, 14%, 88%, 100% { stroke: #747d8a; }
+  30%, 62% { stroke: #c1c7d0; }
 }
 
 @media (max-width: 767px) {

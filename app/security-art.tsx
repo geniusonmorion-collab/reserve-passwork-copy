@@ -111,11 +111,12 @@ function InfrastructureScene() {
 function DataScene() {
   return (
     <g data-sp-channel="0">
-      <path className="sp-data-guide" d="M28 140H340" />
-      <rect className="sp-data-wall" x="340" y="28" width="24" height="224" rx="12" />
-      <g className="sp-data-packet">
-        <rect x="28" y="131" width="56" height="18" rx="9" />
-      </g>
+      <rect className="sp-data-frame" x="38" y="82" width="324" height="176" rx="28" />
+      <path className="sp-data-records" d="M104 166H296M104 198H260M104 230H278" />
+      <path className="sp-data-shackle" d="M174 74V50a26 26 0 0 1 52 0v24" />
+      <rect className="sp-data-lock" x="150" y="62" width="100" height="80" rx="18" />
+      <circle className="sp-data-keyhole" cx="200" cy="93" r="7" />
+      <path className="sp-data-keyhole-stem" d="M200 98v13" />
     </g>
   );
 }
