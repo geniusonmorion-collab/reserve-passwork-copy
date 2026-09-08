@@ -1,154 +1,134 @@
 'use client';
 
+import Image from 'next/image';
 import { useEffect, useRef } from 'react';
 import './certification-motion.css';
 
-const LEVELS = [0, 1, 2, 3];
-const TOP = 'M-6-79Q0-82 6-79L164-3Q170 0 164 3L6 79Q0 82-6 79L-164 3Q-170 0-164-3Z';
-const SIDES = 'M-168 0V17Q-168 20-163 23L-6 99Q0 102 6 99L163 23Q168 20 168 17V0L6 79Q0 82-6 79Z';
+const CHECK_TIMES = [1.85, 2.5, 3.15, 3.8];
+const CYCLE_SECONDS = 9;
+const clamp = (value: number) => Math.max(0, Math.min(1, value));
 
-/** Four abstract trust layers; decorative motion never carries unique information. */
+/** An illustrative compliance flow, not an interactive or live certificate check. */
 export default function CertificationMotion() {
   const rootRef = useRef<HTMLDivElement>(null);
-  const stackRef = useRef<SVGGElement>(null);
-  const guidesRef = useRef<SVGPathElement>(null);
-  const plateRefs = useRef<(SVGGElement | null)[]>([]);
 
   useEffect(() => {
     const root = rootRef.current;
-    const stack = stackRef.current;
-    const card = root?.closest('article');
-    if (!root || !stack || !card) return;
-
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
-    const plates = plateRefs.current.filter((plate): plate is SVGGElement => plate !== null);
-    const values = LEVELS.map(() => ({ x: 0, y: 0, vx: 0, vy: 0 }));
+    if (!root) return;
+    const stages = Array.from(root.querySelectorAll<HTMLElement>('[data-flow-stage]'));
+    const gates = Array.from(root.querySelectorAll<HTMLElement>('[data-flow-gate]'));
+    const signals = Array.from(root.querySelectorAll<HTMLElement>('[data-flow-signal]'));
+    const result = root.querySelector<HTMLElement>('[data-flow-result]');
+    const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
     let visible = false;
-    let hovered = false;
-    let cursorX = 0;
-    let cursorY = 0;
-    let focus = -1;
     let frame = 0;
-    let lastTime = 0;
+    let previous = 0;
     let elapsed = 0;
-    let spread = 0;
-    let spreadVelocity = 0;
 
-    const render = (now: number) => {
-      const dt = lastTime ? Math.min((now - lastTime) / 1000, 0.032) : 1 / 60;
-      lastTime = now;
-      elapsed += dt;
-      // A short opening gesture also makes the movement visible on touch screens.
-      const entrance = elapsed < 2.4 ? Math.sin(Math.min(elapsed / 2.4, 1) * Math.PI) * 0.75 : 0;
-      const targetSpread = hovered ? 1 : entrance;
-      spreadVelocity += ((targetSpread - spread) * 125 - spreadVelocity * 17) * dt;
-      spread += spreadVelocity * dt;
-
-      stack.setAttribute('transform', `translate(${cursorX * spread * 7} ${cursorY * spread * 3}) rotate(${cursorX * spread * 2},320,260)`);
-      plates.forEach((plate, index) => {
-        const value = values[index];
-        const wave = Math.sin(elapsed * 1.25 - index * 0.65) * (2 + index * 1.1);
-        const selected = hovered && focus === index;
-        const targetY = -spread * (index * 19 + (selected ? 13 : 0)) + wave;
-        const targetX = cursorX * spread * (index + 1) * 6;
-        const stiffness = 145 - index * 12;
-        value.vy += ((targetY - value.y) * stiffness - value.vy * 17) * dt;
-        value.vx += ((targetX - value.x) * stiffness - value.vx * 17) * dt;
-        value.y += value.vy * dt;
-        value.x += value.vx * dt;
-        plate.setAttribute('transform', `translate(${value.x.toFixed(3)} ${value.y.toFixed(3)})`);
-      });
-      const top = values[3];
-      const bottom = values[0];
-      guidesRef.current?.setAttribute('d', `M${152 + top.x} ${214 + top.y}L${152 + bottom.x} ${333 + bottom.y}M${488 + top.x} ${214 + top.y}L${488 + bottom.x} ${333 + bottom.y}M${320 + top.x} ${296 + top.y}L${320 + bottom.x} ${416 + bottom.y}`);
-      frame = requestAnimationFrame(render);
+    const setState = (element: HTMLElement, state: string) => {
+      if (element.dataset.state !== state) element.dataset.state = state;
     };
-
-    const clearPointer = () => {
-      hovered = false;
-      focus = -1;
-      root.dataset.hovered = 'false';
-      plates.forEach(plate => { plate.dataset.selected = 'false'; });
+    const signal = (index: number, time: number, start: number, end: number) => {
+      const element = signals[index];
+      element.style.setProperty('--signal-progress', `${clamp((time - start) / (end - start)) * 100}%`);
+      setState(element, time >= start && time <= end ? 'moving' : 'hidden');
+    };
+    const paint = (time: number, staticView = false) => {
+      const complete = staticView || time >= 5.45;
+      setState(stages[0], staticView || time >= 0.35 ? 'done' : 'waiting');
+      setState(stages[1], complete ? 'done' : time >= 1.65 ? 'checking' : 'waiting');
+      setState(stages[2], complete ? 'done' : 'waiting');
+      gates.forEach((gate, index) => {
+        const start = CHECK_TIMES[index];
+        setState(gate, staticView || time >= start + 0.4 ? 'done' : time >= start ? 'checking' : 'waiting');
+      });
+      if (result) setState(result, complete ? 'done' : 'waiting');
+      signal(0, time, 0.8, 1.75);
+      signal(1, time, 1.85, 4.2);
+      signal(2, time, 4.45, 5.4);
+      root.style.setProperty('--flow-opacity', String(staticView ? 1 : time >= 8.25 ? 1 - clamp((time - 8.25) / 0.75) * 0.3 : 0.7 + clamp(time / 0.35) * 0.3));
+      if (staticView) signals.forEach(element => setState(element, 'hidden'));
+    };
+    const animate = (now: number) => {
+      if (previous) elapsed += Math.min((now - previous) / 1000, 0.05);
+      previous = now;
+      paint(elapsed % CYCLE_SECONDS);
+      frame = requestAnimationFrame(animate);
     };
     const sync = () => {
       cancelAnimationFrame(frame);
-      frame = 0;
-      lastTime = 0;
-      if (reducedMotion.matches) {
-        clearPointer();
-        stack.removeAttribute('transform');
-        plates.forEach(plate => plate.removeAttribute('transform'));
-        values.forEach(value => { value.x = value.y = value.vx = value.vy = 0; });
-        guidesRef.current?.setAttribute('d', 'M152 214V333M488 214V333M320 296V416');
-        spread = spreadVelocity = 0;
-      } else if (visible && !document.hidden) {
-        frame = requestAnimationFrame(render);
-      }
-    };
-    const move = (event: PointerEvent) => {
-      if (reducedMotion.matches || !finePointer.matches || event.pointerType === 'touch') return;
-      const cardBounds = card.getBoundingClientRect();
-      const artBounds = root.getBoundingClientRect();
-      hovered = true;
-      cursorX = Math.max(-1, Math.min(1, ((event.clientX - cardBounds.left) / cardBounds.width - 0.5) * 2));
-      cursorY = Math.max(-1, Math.min(1, ((event.clientY - cardBounds.top) / cardBounds.height - 0.5) * 2));
-      const inArt = event.clientX >= artBounds.left && event.clientX <= artBounds.right;
-      focus = inArt ? Math.max(0, Math.min(3, Math.round((0.78 - (event.clientY - artBounds.top) / artBounds.height) * 5.5))) : -1;
-      root.dataset.hovered = 'true';
-      plates.forEach((plate, index) => { plate.dataset.selected = String(index === focus); });
+      previous = 0;
+      if (motion.matches) paint(CYCLE_SECONDS - 1, true);
+      else if (visible && !document.hidden) frame = requestAnimationFrame(animate);
     };
     const observer = new IntersectionObserver(([entry]) => {
       visible = entry.isIntersecting;
-      if (!visible) clearPointer();
       sync();
-    }, { threshold: 0.15 });
-    const visibilityChange = () => {
-      if (document.hidden) clearPointer();
-      sync();
-    };
+    }, { threshold: 0.2 });
 
-    observer.observe(card);
-    document.addEventListener('visibilitychange', visibilityChange);
-    reducedMotion.addEventListener('change', sync);
-    finePointer.addEventListener('change', clearPointer);
-    card.addEventListener('pointermove', move);
-    card.addEventListener('pointerleave', clearPointer);
-    card.addEventListener('pointercancel', clearPointer);
+    observer.observe(root);
+    motion.addEventListener('change', sync);
+    document.addEventListener('visibilitychange', sync);
     return () => {
       observer.disconnect();
       cancelAnimationFrame(frame);
-      document.removeEventListener('visibilitychange', visibilityChange);
-      reducedMotion.removeEventListener('change', sync);
-      finePointer.removeEventListener('change', clearPointer);
-      card.removeEventListener('pointermove', move);
-      card.removeEventListener('pointerleave', clearPointer);
-      card.removeEventListener('pointercancel', clearPointer);
+      motion.removeEventListener('change', sync);
+      document.removeEventListener('visibilitychange', sync);
     };
   }, []);
 
   return (
     <div className="certification-motion" ref={rootRef} aria-hidden="true">
-      <svg className="certification-motion__drawing" viewBox="0 0 640 460" fill="none">
-        <g ref={stackRef}>
-          <path ref={guidesRef} className="certification-motion__guides" d="M152 214V333M488 214V333M320 296V416" />
-          {LEVELS.map(index => (
-            <g key={index} transform={`translate(320 ${316 - index * 34})`}>
-              <g className={`certification-motion__plate${index === 3 ? ' is-top' : ''}`} ref={element => { plateRefs.current[index] = element; }}>
-                <path className="certification-motion__side" d={SIDES} />
-                <path className="certification-motion__face" d={TOP} />
-                <path className="certification-motion__edge" d="M-168 17L-6 99Q0 102 6 99L168 17M0 82V100" />
-                {index === 3 && (
-                  <g transform="matrix(1 .48 -1 .48 0 0)">
-                    <rect className="certification-motion__emblem" x="-46" y="-46" width="92" height="92" rx="22" />
-                    <text className="certification-motion__four" textAnchor="middle" dominantBaseline="central">4</text>
-                  </g>
-                )}
-              </g>
-            </g>
-          ))}
-        </g>
-      </svg>
+      <div className="certification-flow__stage" data-flow-stage>
+        <div className="certification-flow__visual">
+          <div className="certification-flow__product">
+            <div className="certification-flow__product-header">
+              <Image src="/assets/passwork-symbol.svg" width={26} height={26} alt="" unoptimized />
+              <span>Пассворк</span>
+            </div>
+            <div className="certification-flow__password"><i /><span>••••••••••</span></div>
+            <div className="certification-flow__password"><i /><span>••••••••</span></div>
+            <div className="certification-flow__password"><i /><span>•••••••••</span></div>
+          </div>
+        </div>
+        <span className="certification-flow__caption">Корпоративные пароли</span>
+      </div>
+
+      <div className="certification-flow__connector"><span data-flow-signal /></div>
+
+      <div className="certification-flow__stage" data-flow-stage>
+        <div className="certification-flow__visual">
+          <div className="certification-flow__checks">
+            <div className="certification-flow__check-line"><span data-flow-signal /></div>
+            {CHECK_TIMES.map((_, index) => (
+              <div className="certification-flow__gate" data-flow-gate key={index}>
+                <span className="certification-flow__gate-number">0{index + 1}</span>
+                <span className="certification-flow__gate-scan" />
+                <span className="certification-flow__gate-check">
+                  <Image src="/assets/check-circle-blue.svg" width={20} height={20} alt="" unoptimized />
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+        <span className="certification-flow__caption">Проверка соответствия</span>
+      </div>
+
+      <div className="certification-flow__connector"><span data-flow-signal /></div>
+
+      <div className="certification-flow__stage" data-flow-stage>
+        <div className="certification-flow__visual">
+          <div className="certification-flow__result" data-flow-result>
+            <span className="certification-flow__result-title">ФСТЭК России</span>
+            <strong>4</strong>
+            <span className="certification-flow__result-level">уровень доверия</span>
+            <span className="certification-flow__result-check">
+              <Image src="/assets/check-circle-blue.svg" width={30} height={30} alt="" unoptimized />
+            </span>
+          </div>
+        </div>
+        <span className="certification-flow__caption">Соответствие подтверждено</span>
+      </div>
     </div>
   );
 }
