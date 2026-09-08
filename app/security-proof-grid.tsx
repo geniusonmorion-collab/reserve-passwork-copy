@@ -1,4 +1,4 @@
-import SecurityArt from './security-art';
+import SecurityPreview from './security-preview';
 
 /* Figma 485:9866: одна большая карточка слева и три компактные справа. */
 const securityProofs = [
@@ -35,7 +35,7 @@ export default function SecurityProofGrid() {
           key={proof.title}
           role="listitem"
         >
-          <SecurityArt kind={proof.kind} />
+          <SecurityPreview kind={proof.kind} />
           <div className="figma-security-card__copy">
             <h3 id={`security-proof-${proof.kind}`}>{proof.title}</h3>
             <p>{proof.description}</p>

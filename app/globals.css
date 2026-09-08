@@ -1,5 +1,5 @@
 @import "./live-dashboard.css";
-@import "./security-art.css";
+@import "./security-preview.css";
 
 @font-face {
   font-family: 'Inter';
@@ -6156,26 +6156,17 @@ img {
 .figma-security-card.is-infrastructure { grid-area: infrastructure; }
 .figma-security-card.is-data { grid-area: data; }
 
-.figma-security-card.is-fstec .security-art > svg {
-  max-width: 560px;
-  max-height: 392px;
-}
-
 .figma-security-card:not(.is-fstec) {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 176px;
+  grid-template-columns: minmax(0, 1fr) 224px;
   align-items: end;
 }
 
-.figma-security-card:not(.is-fstec) .security-art {
+.figma-security-card:not(.is-fstec) .security-preview {
   grid-area: 1 / 2;
   min-height: 0;
   align-self: stretch;
-}
-
-.figma-security-card:not(.is-fstec) .security-art > svg {
-  width: calc(100% - 16px);
-  height: calc(100% - 40px);
+  padding: 24px 14px;
 }
 
 .figma-security-card__copy {
@@ -6361,7 +6352,16 @@ img {
   }
 
   .figma-security-card:not(.is-fstec) {
-    grid-template-columns: minmax(0, 1fr) 144px;
+    display: flex;
+  }
+
+  .figma-security-card:not(.is-fstec) .security-preview {
+    flex-basis: 224px;
+    min-height: 224px;
+  }
+
+  .figma-security-card:not(.is-fstec) .figma-security-card__copy {
+    padding: 0 23px 23px;
   }
 
   .figma-fstec__head {
@@ -6392,8 +6392,13 @@ img {
   }
 
   .figma-security-card:not(.is-fstec) {
+    display: grid;
     min-height: 220px;
-    grid-template-columns: minmax(0, 1fr) 224px;
+    grid-template-columns: minmax(0, 1fr) 280px;
+  }
+
+  .figma-security-card:not(.is-fstec) .figma-security-card__copy {
+    padding: 23px 0 23px 23px;
   }
 }
 
@@ -6529,16 +6534,10 @@ img {
     min-height: 440px;
   }
 
-  .figma-security-card:not(.is-fstec) .security-art {
-    min-height: 230px;
-  }
-
-  .figma-security-card.is-fstec .security-art > svg,
-  .figma-security-card:not(.is-fstec) .security-art > svg {
-    width: calc(100% - 48px);
-    height: calc(100% - 32px);
-    max-width: 340px;
-    max-height: 238px;
+  .figma-security-card:not(.is-fstec) .security-preview {
+    flex-basis: 260px;
+    min-height: 260px;
+    padding: 28px 24px;
   }
 
   .figma-security-card__copy,

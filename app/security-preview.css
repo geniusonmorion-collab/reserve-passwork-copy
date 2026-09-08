@@ -1,0 +1,241 @@
+/* Miniature interface panels inspired by Figma reference 503:10009. */
+.security-preview {
+  --preview-surface: #171a1f;
+  --preview-line: rgb(255 255 255 / 8%);
+  --preview-muted: #8a929e;
+  position: relative;
+  display: grid;
+  place-items: center;
+  flex: 1 0 240px;
+  min-width: 0;
+  min-height: 240px;
+  padding: 28px 16px;
+  overflow: hidden;
+  pointer-events: none;
+  user-select: none;
+  background: radial-gradient(ellipse at 54% 48%, rgb(80 105 137 / 11%), transparent 68%);
+}
+
+.security-preview--fstec {
+  background: radial-gradient(ellipse at 50% 45%, rgb(77 103 142 / 17%), transparent 66%);
+}
+
+.security-preview--infrastructure {
+  background: radial-gradient(ellipse at 54% 48%, rgb(83 114 103 / 12%), transparent 68%);
+}
+
+.security-preview__content {
+  width: min(100%, 264px);
+  color: #d0d6e0;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: -.15px;
+  transition: transform 500ms cubic-bezier(.22, .61, .36, 1);
+}
+
+.security-preview--fstec .security-preview__content {
+  width: min(100% - 48px, 404px);
+}
+
+.security-preview__panel {
+  overflow: hidden;
+  border: 1px solid rgb(255 255 255 / 12%);
+  border-radius: 10px;
+  background: linear-gradient(145deg, #1c2026, var(--preview-surface) 70%);
+  box-shadow: 0 2px 4px rgb(0 0 0 / 16%), 0 16px 40px rgb(0 0 0 / 32%), inset 0 1px rgb(255 255 255 / 3%);
+}
+
+.security-preview__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 44px;
+  padding: 12px;
+  border-bottom: 1px solid var(--preview-line);
+  font-weight: 500;
+}
+
+.security-preview__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+}
+
+.security-preview img {
+  flex-shrink: 0;
+}
+
+.security-preview__certificate .security-preview__header {
+  padding: 18px 22px;
+}
+
+.security-preview__certificate-title {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 30px 22px;
+  color: var(--preview-muted);
+}
+
+.security-preview__certificate-title strong {
+  color: #e2e6ed;
+  font-size: clamp(22px, 2.1vw, 30px);
+  line-height: 1.2;
+  font-weight: 500;
+}
+
+.security-preview__certificate-number {
+  padding: 3px 8px;
+  border: 1px solid var(--preview-line);
+  border-radius: 5px;
+  color: #a9b5c8;
+  background: rgb(94 125 166 / 8%);
+}
+
+.security-preview__certificate-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 22px;
+  border-top: 1px solid var(--preview-line);
+}
+
+.security-preview__trust {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid rgb(78 126 202 / 28%);
+  border-radius: 7px;
+  color: #94baff;
+  background: rgb(54 103 182 / 14%);
+  font-size: 20px;
+}
+
+.security-preview__algorithm {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 14px 12px;
+  color: var(--preview-muted);
+}
+
+.security-preview__algorithm strong {
+  color: #c4d4ed;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.security-preview__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 42px;
+  margin: 0 12px;
+  padding: 10px 0;
+  border-top: 1px solid var(--preview-line);
+}
+
+.security-preview__header + .security-preview__row {
+  border-top: 0;
+}
+
+.security-preview__deployment {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.security-preview__app,
+.security-preview__server {
+  width: 100%;
+  padding: 14px;
+}
+
+.security-preview__connector {
+  height: 22px;
+  border-left: 1px dashed #596574;
+}
+
+.security-preview__server {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.security-preview__local {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 6px;
+  padding: 3px 7px;
+  border-radius: 4px;
+  color: #92b6a7;
+  background: rgb(105 159 138 / 10%);
+}
+
+.security-preview__local > span {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #80aa97;
+}
+
+.security-preview__switch {
+  display: flex;
+  align-items: center;
+  flex: 0 0 26px;
+  height: 15px;
+  padding: 2px;
+  border: 1px solid rgb(255 255 255 / 12%);
+  border-radius: 12px;
+  background: #292e36;
+}
+
+.security-preview__switch > span {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #89909a;
+}
+
+.security-preview__privacy {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 12px;
+  border-top: 1px solid var(--preview-line);
+  color: #a2b8da;
+  background: rgb(52 92 153 / 7%);
+}
+
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .figma-security-card:hover .security-preview__content {
+    transform: translateY(-4px);
+  }
+}
+
+@media (max-width: 767px) {
+  .security-preview {
+    flex-basis: 260px;
+    min-height: 260px;
+    padding: 28px 24px;
+  }
+
+  .security-preview--fstec .security-preview__content {
+    width: min(100%, 404px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .security-preview__content {
+    transition: none;
+  }
+}
