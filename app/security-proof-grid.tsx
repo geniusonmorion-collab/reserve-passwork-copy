@@ -1,4 +1,5 @@
 import ApplicationSectors from './application-sectors';
+import CertificationMotion from './certification-motion';
 
 /* Figma 485:9384: full-width certification panel with four sectors below. */
 
@@ -10,6 +11,7 @@ export default function SecurityProofGrid() {
           <h3 id="security-proof-fstec">ФСТЭК России, 4 уровень доверия</h3>
           <p>Соответствует требованиям госсектора<br />и критической инфраструктуры</p>
         </div>
+        <CertificationMotion />
       </article>
       <ApplicationSectors />
     </div>
