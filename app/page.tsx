@@ -74,7 +74,7 @@ export default function Home() {
             </h1>
             <div className="figma-hero__footer">
               <p className="figma-hero__description">
-                Управление корпоративными паролями, доступами и действиями — в одном
+                Управление корпоративными паролями, доступами и&nbsp;действиями — в одном
                 защищённом контуре
               </p>
               <div className="figma-hero__actions">
