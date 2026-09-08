@@ -6137,14 +6137,13 @@ img {
   overflow: hidden;
   border: 1px solid var(--section-line);
   border-radius: 7px;
-  background: linear-gradient(110.4817deg, #0a111c 9.8042%, #1a2a44 47.613%, #2c4672 91.17%);
+  background: var(--section-surface);
   background-origin: border-box;
   background-repeat: no-repeat;
 }
 
 .figma-security-card.is-fstec {
   min-height: 501px;
-  background-image: radial-gradient(ellipse at 50% 58%, #222224 0%, #19191b 48%, #121214 100%);
 }
 
 .figma-security-card__copy {

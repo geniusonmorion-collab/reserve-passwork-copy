@@ -119,9 +119,6 @@ export default function CertificationMotion() {
           </div>
           <div className="trust-flow__hub">
             <Image src="/assets/icon-security-a.svg" width={37} height={45} alt="" unoptimized />
-            <span className="trust-flow__hub-check">
-              <Image src="/assets/check-circle-blue.svg" width={23} height={23} alt="" unoptimized />
-            </span>
           </div>
         </div>
       </div>

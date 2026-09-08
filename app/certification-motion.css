@@ -85,8 +85,6 @@
   transition: color 900ms, box-shadow 900ms, transform 1100ms var(--trust-ease);
 }
 .trust-flow__hub > img { opacity: .35; transition: opacity 900ms; }
-.trust-flow__hub-check { position: absolute; right: -5px; bottom: 0; padding: 5px; border: 1px solid #414145; border-radius: 50%; background: #222225; opacity: 0; transform: scale(.7); transition: opacity 650ms, transform 850ms var(--trust-ease); }
-.trust-flow__hub-check img { display: block; filter: grayscale(1) brightness(2.4); }
 
 .trust-flow__destination { padding-top: 28px; }
 .trust-flow__resource { position: relative; display: flex; align-items: center; gap: 12px; height: 48px; padding: 0 14px 0 8px; border: 1px solid rgb(255 255 255 / 7%); border-radius: 10px; background: linear-gradient(125deg, #242426, #1b1b1d); box-shadow: 0 1px 0 rgb(255 255 255 / 3%) inset, 0 10px 20px rgb(0 0 0 / 13%); color: #9999a1; text-align: left; font-size: 14px; line-height: 20px; transition: color 800ms, border-color 800ms, box-shadow 800ms, transform 900ms var(--trust-ease); }
@@ -105,7 +103,6 @@
 .certification-motion:is([data-phase='checking'], [data-phase='allowed'], [data-phase='logged']) .trust-flow__hub { color: #ceced4; box-shadow: 0 0 0 1px rgb(255 255 255 / 18%), 0 1px 1px rgb(255 255 255 / 18%) inset, 0 20px 35px rgb(0 0 0 / 30%), 0 0 40px rgb(207 210 236 / 5%); }
 .certification-motion:is([data-phase='checking'], [data-phase='allowed'], [data-phase='logged']) .trust-flow__hub > img { opacity: .65; }
 .certification-motion[data-phase='checking'] .trust-flow__orbital-light { opacity: .85; }
-.certification-motion:is([data-phase='allowed'], [data-phase='logged']) .trust-flow__hub-check { opacity: 1; transform: scale(1); }
 .certification-motion:is([data-phase='allowed'], [data-phase='logged']) .trust-flow__resource--vault,
 .certification-motion:is([data-phase='allowed'], [data-phase='logged']) .trust-flow__resource--passwords,
 .certification-motion[data-phase='logged'] .trust-flow__resource--journal { color: #ceced6; border-color: rgb(225 225 238 / 19%); box-shadow: 0 1px 0 rgb(255 255 255 / 5%) inset, 0 10px 20px rgb(0 0 0 / 18%); }
