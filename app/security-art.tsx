@@ -110,30 +110,13 @@ function InfrastructureScene() {
 
 function DataScene() {
   return (
-    <>
-      <circle className="sp-guide" cx="120" cy="140" r="70" />
-      {[-1, 0, 1].map((row, index) => {
-        const y = 140 + row * 49;
-        const route = row === 0
-          ? 'M158 140H264'
-          : `M152 ${140 + row * 19}H177Q190 ${140 + row * 19} 190 ${140 + row * 32}V${y - row * 10}Q190 ${y} 200 ${y}H264`;
-        return (
-          <g data-sp-channel={row} key={row} style={{ '--phase': `${index * 500}ms` } as CSSProperties}>
-            <path className="sp-route" d={route} />
-            <path className="sp-outside" d={`M275 ${y}H353`} />
-            <path className="sp-packet" d={route} pathLength="100" />
-            <path className="sp-stop" d={`M264 ${y - 7}v14`} />
-            <circle className="sp-endpoint" cx="353" cy={y} r="3" />
-          </g>
-        );
-      })}
-      <path className="sp-boundary" d="M264 55v170" />
-      <rect className="sp-surface" x="80" y="100" width="80" height="80" rx="18" />
-      <g transform="translate(120 139) scale(.72)">
-        <Shield check />
+    <g data-sp-channel="0">
+      <path className="sp-data-guide" d="M28 140H340" />
+      <rect className="sp-data-wall" x="340" y="28" width="24" height="224" rx="12" />
+      <g className="sp-data-packet">
+        <rect x="28" y="131" width="56" height="18" rx="9" />
       </g>
-      <path className="sp-tick" d="M257 55h14m-14 170h14" />
-    </>
+    </g>
   );
 }
 

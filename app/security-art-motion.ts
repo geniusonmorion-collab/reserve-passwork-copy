@@ -122,7 +122,7 @@ export function attachSecurityArtMotion(art: HTMLDivElement) {
       // Send the first signal immediately when the pointer enters a card.
       for (const animation of animations) {
         const effect = animation.effect as KeyframeEffect | null;
-        if (effect?.target?.matches('.sp-packet, .sp-stop, .sp-cipher-scan')) animation.currentTime = 0;
+        if (effect?.target?.matches('.sp-data-packet, .sp-data-wall, .sp-cipher-scan')) animation.currentTime = 0;
       }
     }
     wake();
