@@ -62,11 +62,6 @@ export default function Home() {
       <main>
         <section className="figma-hero" aria-labelledby="hero-title">
           <div className="figma-hero__base" aria-hidden="true" />
-          <span className="figma-hero__aurora figma-hero__aurora--top" aria-hidden="true">
-            <i />
-            <i />
-            <i />
-          </span>
 
           <div className="figma-hero__copy">
             <div className="figma-hero__badge">
@@ -97,11 +92,6 @@ export default function Home() {
 
           <div className="figma-hero__visual" aria-hidden="true">
             <span className="figma-hero__visual-gradient" />
-            <span className="figma-hero__aurora figma-hero__aurora--stage">
-              <i />
-              <i />
-              <i />
-            </span>
             <LiveDashboard />
           </div>
         </section>

@@ -5458,7 +5458,7 @@ img {
 
 }
 
-/* Figma 421:9206 — security landing page */
+/* Figma 473:454 — security landing page */
 .figma-passwork-page {
   position: relative;
   width: 100%;
@@ -5557,7 +5557,11 @@ img {
 }
 
 .figma-button--primary {
-  background: linear-gradient(98.37deg, #298dff 1.42%, #4989d3 100.46%);
+  background: linear-gradient(
+    98.3736395328089deg,
+    rgb(41 141 255) 1.4174%,
+    rgb(73 137 211) 100.46%
+  );
   color: #fff;
 }
 
@@ -5593,11 +5597,15 @@ img {
 .figma-hero__base {
   position: absolute;
   z-index: 0;
-  top: 107px;
-  right: 12px;
+  top: 20px;
+  right: 20px;
   bottom: 0;
-  left: 12px;
-  background: linear-gradient(178.09deg, #000 2.3%, #092258 35.884%);
+  left: 20px;
+  background: linear-gradient(
+    178.07429400975423deg,
+    rgb(0 0 0) 2.2999%,
+    rgb(6 16 34) 35.884%
+  );
 }
 
 .figma-hero__copy {
@@ -5704,153 +5712,16 @@ img {
   z-index: 0;
   inset: 0 12px;
   border-radius: 6px;
-  /* верх прозрачный: base-градиент продолжается без шва, синий поднимается снизу.
-     Низ — как в макете Figma: светлый пол, ярче всего по центру под мокапом,
-     к краям уходит в синий. Мягкость стыка даёт приподнятый чёрный мокапа и
-     контактная тень, а не затемнение пола. */
+  /* Точные параметры слоёв из Figma 473:454. Проценты радиусов пересчитаны
+     из матрицы SVG: 995.97 / 1896 и 478.4 / 832. */
   background: radial-gradient(
-      ellipse 52% 92% at 50% 100%,
+      ellipse 52.5300632911% 57.5% at 50% 100%,
       rgb(8 9 10 / 0%) 0%,
-      rgb(15 39 93 / 25%) 50%,
-      rgb(22 68 176 / 50%) 100%
+      rgb(8 9 10 / 50%) 100%
     ),
-    radial-gradient(42% 38% at 50% 100%, rgb(235 243 255 / 70%) 0%, rgb(150 190 245 / 30%) 55%, transparent 100%),
-    linear-gradient(180deg, rgb(9 34 88 / 0%) 0%, rgb(9 34 88 / 0%) 8%, #316bcc 70.406%, #dce8fb 100%);
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 26%);
-  mask-image: linear-gradient(to bottom, transparent 0%, #000 26%);
-}
-
-/* Переливание фона: три пятна света на радиальных градиентах, screen-смешивание,
-   медленный дрейф + дыхание яркости. Без blur — только transform/opacity. */
-.figma-hero__aurora {
-  position: absolute;
-  z-index: 1;
-  inset: 0 12px;
-  overflow: hidden;
-  border-radius: 6px;
-  pointer-events: none;
-}
-
-.figma-hero > .figma-hero__aurora {
-  top: 0;
-  -webkit-mask-image: linear-gradient(to bottom, transparent 107px, #000 400px);
-  mask-image: linear-gradient(to bottom, transparent 107px, #000 400px);
-}
-
-.figma-hero__aurora > i {
-  position: absolute;
-  display: block;
-  border-radius: 50%;
-  mix-blend-mode: screen;
-  will-change: transform, opacity;
-}
-
-.figma-hero__aurora--top > i:nth-child(1) {
-  top: -18%;
-  left: -8%;
-  width: 74%;
-  height: 62%;
-  background: radial-gradient(closest-side, rgb(64 118 236 / 60%), rgb(40 80 190 / 20%) 55%, transparent 74%);
-  animation: figma-hero-aurora-a 9s ease-in-out infinite alternate;
-}
-
-.figma-hero__aurora--top > i:nth-child(2) {
-  top: -6%;
-  right: -16%;
-  width: 76%;
-  height: 66%;
-  background: radial-gradient(closest-side, rgb(120 96 255 / 48%), rgb(70 60 200 / 16%) 55%, transparent 74%);
-  animation: figma-hero-aurora-b 12s ease-in-out infinite alternate;
-}
-
-.figma-hero__aurora--top > i:nth-child(3) {
-  top: 8%;
-  left: 28%;
-  width: 60%;
-  height: 50%;
-  background: radial-gradient(closest-side, rgb(80 200 255 / 36%), rgb(60 140 220 / 12%) 55%, transparent 74%);
-  animation: figma-hero-aurora-c 8s ease-in-out infinite alternate;
-}
-
-.figma-hero__aurora--stage > i:nth-child(1) {
-  top: 20%;
-  left: -14%;
-  width: 84%;
-  height: 82%;
-  background: radial-gradient(closest-side, rgb(150 205 255 / 50%), rgb(90 150 245 / 18%) 55%, transparent 74%);
-  animation: figma-hero-aurora-b 9s ease-in-out infinite alternate;
-}
-
-.figma-hero__aurora--stage > i:nth-child(2) {
-  top: 26%;
-  right: -18%;
-  width: 92%;
-  height: 88%;
-  background: radial-gradient(closest-side, rgb(170 150 255 / 44%), rgb(110 110 240 / 14%) 55%, transparent 74%);
-  animation: figma-hero-aurora-a 11s ease-in-out infinite alternate;
-}
-
-.figma-hero__aurora--stage > i:nth-child(3) {
-  top: 34%;
-  left: 24%;
-  width: 64%;
-  height: 70%;
-  background: radial-gradient(closest-side, rgb(90 220 255 / 40%), rgb(70 170 240 / 12%) 55%, transparent 74%);
-  animation: figma-hero-aurora-c 7.5s ease-in-out infinite alternate;
-}
-
-@keyframes figma-hero-aurora-a {
-  0% {
-    opacity: 0.7;
-    transform: translate3d(-14%, 8%, 0) scale(0.92);
-  }
-
-  50% {
-    opacity: 1;
-  }
-
-  100% {
-    opacity: 0.8;
-    transform: translate3d(22%, -16%, 0) scale(1.26);
-  }
-}
-
-@keyframes figma-hero-aurora-b {
-  0% {
-    opacity: 0.85;
-    transform: translate3d(16%, -8%, 0) scale(1.16);
-  }
-
-  50% {
-    opacity: 0.6;
-  }
-
-  100% {
-    opacity: 1;
-    transform: translate3d(-20%, 16%, 0) scale(0.88);
-  }
-}
-
-@keyframes figma-hero-aurora-c {
-  0% {
-    opacity: 0.55;
-    transform: translate3d(-12%, -14%, 0) scale(0.98);
-  }
-
-  50% {
-    opacity: 1;
-  }
-
-  100% {
-    opacity: 0.7;
-    transform: translate3d(14%, 18%, 0) scale(1.22);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .figma-hero__aurora > i {
-    animation: none;
-  }
+    linear-gradient(180deg, rgb(8 9 10) 10%, rgb(105 159 249) 100%);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
 }
 
 .figma-hero__product {
@@ -6618,17 +6489,6 @@ img {
     top: 78px;
     right: 0;
     left: 0;
-  }
-
-  .figma-hero__aurora {
-    right: 0;
-    left: 0;
-  }
-
-  .figma-hero > .figma-hero__aurora {
-    top: 0;
-    -webkit-mask-image: linear-gradient(to bottom, transparent 78px, #000 260px);
-    mask-image: linear-gradient(to bottom, transparent 78px, #000 260px);
   }
 
   .figma-hero__copy {
