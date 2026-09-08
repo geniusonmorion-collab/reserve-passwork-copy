@@ -5824,10 +5824,10 @@ img {
   }
 
   .figma-hero__origin {
-    --hero-enter-delay: 0ms;
-    --hero-enter-blur: 6px;
-    --hero-enter-offset: 6px;
-    animation-duration: 1000ms;
+    --hero-enter-delay: 180ms;
+    --hero-enter-blur: 10px;
+    --hero-enter-offset: 12px;
+    animation-duration: 1400ms;
   }
 
   .figma-hero__title-line:nth-child(2) {
