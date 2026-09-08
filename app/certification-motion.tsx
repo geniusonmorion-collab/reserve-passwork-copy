@@ -99,8 +99,6 @@ export default function CertificationMotion() {
           </div>
           <span className="trust-flow__credential">••••••••<i /></span>
         </div>
-        <span className="trust-flow__caption">Сотрудник</span>
-        <span className="trust-flow__detail">Запрос доступа</span>
       </div>
 
       <svg className="trust-flow__connection trust-flow__connection--desktop" viewBox="0 0 160 240" preserveAspectRatio="none">
@@ -121,7 +119,6 @@ export default function CertificationMotion() {
           </div>
           <div className="trust-flow__hub">
             <Image src="/assets/icon-security-a.svg" width={37} height={45} alt="" unoptimized />
-            <span>Пассворк</span>
             <span className="trust-flow__hub-check">
               <Image src="/assets/check-circle-blue.svg" width={23} height={23} alt="" unoptimized />
             </span>
@@ -132,7 +129,6 @@ export default function CertificationMotion() {
           <span className="trust-flow__status-copy trust-flow__status-copy--checking"><i className="trust-flow__spinner" />Проверка доступа…</span>
           <span className="trust-flow__status-copy trust-flow__status-copy--allowed">Доступ разрешён</span>
         </div>
-        <span className="trust-flow__detail">Внутри защищённого контура</span>
       </div>
 
       <svg className="trust-flow__connection trust-flow__connection--desktop" viewBox="0 0 160 240" preserveAspectRatio="none">
@@ -166,7 +162,6 @@ export default function CertificationMotion() {
           <span className="trust-flow__journal-label"><span>Журнал действий</span><span>Доступ записан</span></span>
           <span className="trust-flow__resource-dot" />
         </div>
-        <span className="trust-flow__detail">Данные остаются в компании</span>
       </div>
     </div>
   );
