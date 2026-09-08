@@ -251,6 +251,51 @@
 .pw-ver__by{color:#8f9093}
 .pw-ver__cur{height:18px; padding:0 7px; border-radius:4px; background:var(--pw-blue-soft); color:#7f9fe0; font-size:11px; font-weight:500; display:flex; align-items:center; border:1px solid #2a4680}
 
+/* ---------- Вкладки тура (над мокапом, как на gitbook.com) ---------- */
+.pw-tour{
+  position:absolute; left:50%; top:-24px; z-index:60; transform:translateX(-50%);
+  display:flex; gap:6px; padding:4px; border-radius:999px;
+  background:rgba(12,14,18,.72); border:1px solid rgba(255,255,255,.1);
+  box-shadow:0 12px 32px rgba(0,0,0,.45); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
+  pointer-events:auto; white-space:nowrap;
+}
+.pw-tour__tab{
+  height:34px; padding:0 15px; border-radius:999px; border:0; cursor:pointer;
+  background:transparent; color:#b9bec8; font:500 14px/34px var(--font-sans, Inter, Arial, sans-serif); letter-spacing:-.1px;
+  transition:background-color .35s ease, color .35s ease;
+}
+.pw-tour__tab:hover{color:#e6e8ec}
+.pw-tour__tab.is-active{background:#3f7fd6; color:#fff}
+.pw-tour__tab:focus-visible{outline:2px solid rgba(143,186,243,.9); outline-offset:2px}
+
+/* ---------- Подсказка у элемента ---------- */
+.pw-callout{
+  position:absolute; z-index:46; max-width:300px; padding:9px 12px; border-radius:9px;
+  background:#3f7fd6; color:#fff; font-size:13px; line-height:18px; font-weight:500; letter-spacing:-.1px;
+  box-shadow:0 10px 26px rgba(0,0,0,.45), 0 0 0 1px rgba(255,255,255,.08);
+  animation:pw-callout-in .32s cubic-bezier(.22,1,.36,1) both;
+}
+.pw-callout::before{
+  content:""; position:absolute; width:10px; height:10px; background:inherit; border-radius:2px; transform:rotate(45deg);
+}
+.pw-callout--right{transform:translateY(-50%)}
+.pw-callout--right::before{left:-4px; top:50%; margin-top:-5px}
+.pw-callout--below{transform:translateX(-24px)}
+.pw-callout--below::before{top:-4px; left:19px}
+.pw-callout--above{transform:translate(-50%,-100%)}
+.pw-callout--above::before{bottom:-4px; left:50%; margin-left:-5px}
+.pw-callout.is-out{animation:pw-callout-out .2s ease both}
+
+/* ---------- Панель доступа к папке ---------- */
+.pw-menu{
+  position:absolute; z-index:40; min-width:236px; background:#1c1f24; border:1px solid #2a2e35; border-radius:8px; padding:6px;
+  box-shadow:0 14px 34px rgba(0,0,0,.55); animation:pw-pop .18s ease-out both; transform-origin:top left;
+}
+.pw-menu__title{font-size:11px; font-weight:500; letter-spacing:.06em; text-transform:uppercase; color:#8a8b8d; padding:6px 10px}
+.pw-access{display:flex; align-items:center; gap:10px; height:36px; padding:0 10px; border-radius:5px; font-size:13px; color:#d5d6d8}
+.pw-access__role{margin-left:auto; color:var(--pw-text-4); font-size:12px}
+.pw-mini--more{background:#2c2d2e; color:#9a9b9d; font-size:10px}
+
 /* ---------- Тост ---------- */
 .pw-toast{
   position:absolute; z-index:45; background:#2a2f37; color:#e8e9ea; font-size:12px; font-weight:500; padding:5px 9px; border-radius:6px;
@@ -276,6 +321,9 @@
 .pw-pressed{transform:scale(.97)}
 
 @keyframes pw-blink{0%,100%{opacity:1}50%{opacity:0}}
+@keyframes pw-pop{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:none}}
+@keyframes pw-callout-in{from{opacity:0;translate:0 6px}to{opacity:1;translate:0 0}}
+@keyframes pw-callout-out{to{opacity:0}}
 @keyframes pw-fade-in{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
 @keyframes pw-item-in{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
 @keyframes pw-rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
@@ -285,4 +333,13 @@
 
 @media (prefers-reduced-motion:reduce){
   .pw-embed *{animation-duration:.01ms !important; transition-duration:.01ms !important}
+}
+
+@media (max-width:767px){
+  .pw-tour{
+    top:-36px; max-width:calc(100vw - 24px); gap:2px; padding:3px; overflow-x:auto; scrollbar-width:none;
+  }
+  .pw-tour::-webkit-scrollbar{display:none}
+  .pw-tour__tab{height:28px; padding:0 11px; font-size:12px; line-height:28px}
+  .pw-callout{max-width:220px; font-size:12px; line-height:16px; padding:7px 10px}
 }

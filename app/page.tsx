@@ -102,11 +102,6 @@ export default function Home() {
               <i />
               <i />
             </span>
-            <img
-              className="figma-hero__texture"
-              src="/assets/figma-9206/hero-texture.png"
-              alt=""
-            />
             <LiveDashboard />
           </div>
         </section>
