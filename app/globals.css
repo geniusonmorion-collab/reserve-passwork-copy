@@ -6138,6 +6138,8 @@ img {
   border: 1px solid var(--section-line);
   border-radius: 7px;
   background: linear-gradient(110.4817deg, #0a111c 9.8042%, #1a2a44 47.613%, #2c4672 91.17%);
+  background-origin: border-box;
+  background-repeat: no-repeat;
 }
 
 .figma-security-card.is-fstec {
