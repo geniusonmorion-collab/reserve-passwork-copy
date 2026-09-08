@@ -29,8 +29,8 @@ export default function LiveDashboard() {
       if (raf) return;
       raf = requestAnimationFrame(() => {
         raf = 0;
-        const rect = visual.getBoundingClientRect();
-        const progress = Math.min(1, Math.max(0, 1 - rect.top / window.innerHeight));
+        // на нулевом скролле сдвига нет — мокап стоит ровно там, где в макете
+        const progress = Math.min(1, Math.max(0, window.scrollY / 600));
         visual.style.setProperty('--pw-parallax', `${(-24 * progress).toFixed(1)}px`);
       });
     };

@@ -5694,8 +5694,9 @@ img {
   right: 0;
   bottom: 0;
   left: 0;
-  overflow: hidden;
   border-radius: 6px;
+  /* без overflow:hidden — иначе режутся вкладки тура над мокапом и его верхний борт;
+     фон и аврора обрезаются своими контейнерами, сам hero — своим overflow */
 }
 
 .figma-hero__visual-gradient {
@@ -5712,6 +5713,7 @@ img {
       rgb(13 30 68 / 25%) 50%,
       rgb(18 53 110 / 45%) 100%
     ),
+    radial-gradient(38% 34% at 50% 100%, rgb(150 190 245 / 45%) 0%, rgb(90 140 220 / 18%) 55%, transparent 100%),
     linear-gradient(180deg, rgb(9 34 88 / 0%) 0%, rgb(9 34 88 / 0%) 8%, #1c3f7d 70%, #3a63a8 100%);
   -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 26%);
   mask-image: linear-gradient(to bottom, transparent 0%, #000 26%);
@@ -6608,7 +6610,7 @@ img {
   }
 
   .figma-hero {
-    height: 910px;
+    height: 840px;
   }
 
   .figma-hero__base {
@@ -6672,7 +6674,7 @@ img {
 
   .figma-hero__visual {
     top: 510px;
-    height: 400px;
+    height: 330px;
   }
 
   .figma-hero__visual-gradient {
@@ -6681,9 +6683,10 @@ img {
   }
 
   .figma-hero__product {
-    --pw-s: 0.506; /* 680 / 1344 — масштаб до гидратации, чтобы сцена не мигала в полный размер */
+    /* дашборд целиком, без обрезки: ширина экрана минус поля; масштаб до гидратации ≈ 366/1344 */
+    --pw-s: 0.272;
     top: 44px; /* место под вкладки тура */
-    width: 680px;
+    width: calc(100% - 24px);
     max-width: none;
   }
 

@@ -341,5 +341,5 @@
   }
   .pw-tour::-webkit-scrollbar{display:none}
   .pw-tour__tab{height:28px; padding:0 11px; font-size:12px; line-height:28px}
-  .pw-callout{max-width:220px; font-size:12px; line-height:16px; padding:7px 10px}
+  .pw-callout{display:none} /* в масштабе 0.27 подсказка нечитаема — на мобилке сцену объясняет вкладка */
 }
