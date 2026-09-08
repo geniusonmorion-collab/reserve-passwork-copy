@@ -115,8 +115,8 @@ function DataScene() {
       <path className="sp-data-records" d="M104 166H296M104 198H260M104 230H278" />
       <path className="sp-data-shackle" d="M174 74V50a26 26 0 0 1 52 0v24" />
       <rect className="sp-data-lock" x="150" y="62" width="100" height="80" rx="18" />
-      <circle className="sp-data-keyhole" cx="200" cy="93" r="7" />
-      <path className="sp-data-keyhole-stem" d="M200 98v13" />
+      <circle className="sp-data-keyhole" cx="200" cy="93" r="3.5" />
+      <path className="sp-data-keyhole-stem" d="M200 96v13" />
     </g>
   );
 }

@@ -108,37 +108,37 @@
 
 .security-art .sp-data-frame {
   fill: var(--sp-face);
-  stroke: #747d8a;
-  stroke-width: 2.5;
+  stroke: var(--sp-stroke);
+  stroke-width: .8;
   animation: sp-data-seal var(--sp-period) ease-in-out infinite;
 }
 
 .security-art .sp-data-records {
-  stroke: #a7adb8;
-  stroke-width: 9;
+  stroke: var(--sp-stroke);
+  stroke-width: .8;
   stroke-linecap: round;
 }
 
 .security-art .sp-data-shackle {
-  stroke: #c1c7d0;
-  stroke-width: 5;
+  stroke: #b5bac4;
+  stroke-width: 1.5;
   stroke-linecap: round;
   animation: sp-data-close var(--sp-period) cubic-bezier(.4, 0, .2, 1) infinite;
 }
 
 .security-art .sp-data-lock {
-  fill: #1a1e25;
-  stroke: #c1c7d0;
-  stroke-width: 3;
+  fill: var(--sp-face);
+  stroke: var(--sp-edge);
+  stroke-width: .8;
 }
 
 .security-art .sp-data-keyhole {
-  fill: #c1c7d0;
+  fill: var(--sp-edge);
 }
 
 .security-art .sp-data-keyhole-stem {
-  stroke: #c1c7d0;
-  stroke-width: 5;
+  stroke: var(--sp-edge);
+  stroke-width: 1.5;
   stroke-linecap: round;
 }
 
@@ -192,8 +192,8 @@
 }
 
 @keyframes sp-data-seal {
-  0%, 14%, 88%, 100% { stroke: #747d8a; }
-  30%, 62% { stroke: #c1c7d0; }
+  0%, 14%, 88%, 100% { stroke: var(--sp-stroke); }
+  30%, 62% { stroke: var(--sp-edge); }
 }
 
 @media (max-width: 767px) {
