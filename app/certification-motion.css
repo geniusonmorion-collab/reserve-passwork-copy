@@ -133,6 +133,30 @@
   .trust-flow__resource { font-size: 13px; gap: 8px; padding-right: 10px; }
 }
 
+/* Keep the diagram legible inside the narrower certification card. */
+@media (min-width: 768px) {
+  @container certification-panel (max-width: 700px) {
+    .certification-motion {
+      grid-template-columns: minmax(0, 90px) minmax(12px, 1fr) minmax(0, 132px) minmax(16px, 1fr) minmax(0, 190px);
+      width: calc(100% - 48px);
+      min-height: 300px;
+      margin: auto 24px 28px;
+      padding-top: 20px;
+    }
+    .trust-flow__source-ring { width: 116px; height: 116px; }
+    .trust-flow__request-pulse { width: 80px; height: 80px; }
+    .trust-flow__avatar { width: 66px; height: 66px; border-width: 6px; }
+    .trust-flow__avatar > svg { width: 27px; height: 27px; }
+    .trust-flow__credential { padding-inline: 8px; letter-spacing: 2px; }
+    .trust-flow__orbits { width: 248px; height: 248px; }
+    .trust-flow__orbit--inner, .trust-flow__orbital-light { inset: 25px; }
+    .trust-flow__orbital-light::after { top: 27px; right: 27px; }
+    .trust-flow__hub { width: 112px; height: 112px; border-width: 7px; }
+    .trust-flow__resource { gap: 6px; padding-inline: 7px; font-size: 13px; }
+    .trust-flow__resource-icon { flex-basis: 26px; width: 26px; height: 26px; }
+  }
+}
+
 @media (max-width: 767px) {
   .certification-motion { width: calc(100% - 48px); min-height: 0; margin: 8px 24px 30px; padding-top: 0; grid-template-columns: minmax(0, 1fr); justify-items: center; }
   .trust-flow__source, .trust-flow__center, .trust-flow__destination { width: 100%; max-width: 280px; }

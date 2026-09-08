@@ -6089,8 +6089,8 @@ img {
 }
 
 /* ============================================================
-   Секция «Пассворк разработан в России…», Figma 485:9384.
-   Широкая панель ФСТЭК и ряд из четырёх сфер применения.
+   Секция «Пассворк разработан в России…», Figma 517:10784.
+   Панель ФСТЭК слева и четыре сферы применения справа.
    ============================================================ */
 .figma-security {
   --section-ink: #f7f8f8;
@@ -6130,15 +6130,16 @@ img {
   text-transform: uppercase;
 }
 
-/* The certification panel and sector row share one continuous width. */
+/* Match the 676px / 666px split and 10px gutters in the Figma frame. */
 .figma-security-grid {
   display: grid;
   margin-top: 92px;
   gap: 10px;
-  grid-template-columns: minmax(0, 1fr);
+  grid-template-columns: minmax(0, 676fr) minmax(0, 666fr);
 }
 
 .figma-security-card {
+  container: certification-panel / inline-size;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -6252,19 +6253,30 @@ img {
   display: grid;
   margin-top: 0;
   gap: 10px;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(244px, 1fr));
 }
 
 .figma-sector-card {
+  position: relative;
   display: flex;
   min-width: 0;
-  min-height: 187px;
+  min-height: 244px;
   flex-direction: column;
   justify-content: flex-end;
   padding: 23px;
   border: 1px solid var(--section-line);
   border-radius: 7px;
   background: var(--section-surface);
+}
+
+.figma-sector-card__icon {
+  position: absolute;
+  top: 23px;
+  left: 23px;
+  display: block;
+  width: 20px;
+  height: 25px;
 }
 
 .figma-sector-card__copy {
@@ -6320,6 +6332,15 @@ img {
 
   .figma-sectors {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: repeat(2, minmax(187px, 1fr));
+  }
+
+  .figma-security-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .figma-sector-card {
+    min-height: 187px;
   }
 }
 
@@ -6513,10 +6534,11 @@ img {
     margin-top: 0;
     gap: 10px;
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: repeat(2, minmax(180px, 1fr));
   }
 
   .figma-sector-card {
-    min-height: 160px;
+    min-height: 180px;
     padding: 23px;
   }
 

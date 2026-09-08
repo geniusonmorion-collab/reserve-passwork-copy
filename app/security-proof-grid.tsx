@@ -1,7 +1,7 @@
 import ApplicationSectors from './application-sectors';
 import CertificationMotion from './certification-motion';
 
-/* Figma 485:9384: full-width certification panel with four sectors below. */
+/* Figma 517:10784: certification panel beside a two-by-two sector grid. */
 
 export default function SecurityProofGrid() {
   return (
