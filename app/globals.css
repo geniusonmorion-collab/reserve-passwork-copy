@@ -6144,6 +6144,7 @@ img {
 
 .figma-security-card.is-fstec {
   min-height: 501px;
+  background-image: radial-gradient(ellipse at 50% 58%, #222224 0%, #19191b 48%, #121214 100%);
 }
 
 .figma-security-card__copy {

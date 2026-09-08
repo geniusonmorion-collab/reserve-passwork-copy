@@ -7,9 +7,9 @@ import './certification-motion.css';
 const CYCLE_SECONDS = 12;
 const clamp = (value: number) => Math.max(0, Math.min(1, value));
 const BRANCHES = [
-  'M0 120 H18 C45 120 45 100 74 100 H140',
-  'M0 120 H18 C45 120 45 128 74 128 H140',
-  'M0 120 H18 C45 120 45 155 74 155 H140',
+  'M0 120 H20 C66 120 66 52 106 52 H160',
+  'M0 120 H160',
+  'M0 120 H20 C66 120 66 188 106 188 H160',
 ];
 
 /** A decorative access scenario; no real requests or security checks are made. */
@@ -37,6 +37,7 @@ export default function CertificationMotion() {
         : time < 7.15 ? 'allowed' : 'logged';
       if (root.dataset.phase !== phase) root.dataset.phase = phase;
       root.style.setProperty('--access-progress', String(staticView ? 1 : time < 10.8 ? clamp((time - 0.65) / 4.35) : 0));
+      root.style.setProperty('--orbit-angle', `${staticView ? 0 : time / CYCLE_SECONDS * 360}deg`);
       signals.forEach((signal) => {
         const start = Number(signal.dataset.start);
         const duration = Number(signal.dataset.duration);
@@ -86,77 +87,86 @@ export default function CertificationMotion() {
 
   return (
     <div className="certification-motion" ref={rootRef} data-phase="waiting" aria-hidden="true">
-      <div className="access-flow__stage access-flow__source">
-        <div className="access-flow__device">
-          <div className="access-flow__hardware-canvas">
-            <Image className="access-flow__hardware" src="/assets/fstec-motion/access-laptop.png" width={1448} height={1086} sizes="(max-width: 767px) 230px, 280px" alt="" unoptimized />
-            <div className="access-flow__screen">
-              <Image src="/assets/passwork-symbol.svg" width={31} height={31} alt="" unoptimized />
-              <span className="access-flow__password">••••••••</span>
-              <span className="access-flow__progress"><i /></span>
-            </div>
+      <div className="trust-flow__source">
+        <div className="trust-flow__source-scene">
+          <span className="trust-flow__source-ring" />
+          <span className="trust-flow__request-pulse" />
+          <div className="trust-flow__avatar">
+            <svg viewBox="0 0 16 16" className="trust-flow__icon">
+              <circle cx="6.5" cy="5.2" r="2.7" />
+              <path d="M1.8 13.5c.4-2.6 2.2-4.1 4.7-4.1 1 0 1.9.2 2.6.7M12.5 8.6v4.6M10.2 10.9h4.6" />
+            </svg>
           </div>
+          <span className="trust-flow__credential">••••••••<i /></span>
         </div>
-        <span className="access-flow__caption">Запрос сотрудника</span>
+        <span className="trust-flow__caption">Сотрудник</span>
+        <span className="trust-flow__detail">Запрос доступа</span>
       </div>
 
-      <svg className="access-flow__connection access-flow__connection--in" viewBox="0 0 140 240" preserveAspectRatio="none">
-        <path d="M0 120 H140" />
-        <path d="M0 120 H140" pathLength="1" data-access-signal data-start="0.95" data-duration="1.4" />
+      <svg className="trust-flow__connection trust-flow__connection--desktop" viewBox="0 0 160 240" preserveAspectRatio="none">
+        <path d="M0 120 H160" />
+        <path d="M0 120 H160" pathLength="1" data-access-signal data-start="0.95" data-duration="1.4" />
       </svg>
-      <svg className="access-flow__connection access-flow__connection--mobile access-flow__connection--in" viewBox="0 0 42 48">
+      <svg className="trust-flow__connection trust-flow__connection--mobile" viewBox="0 0 42 48">
         <path d="M21 0 V48" />
         <path d="M21 0 V48" pathLength="1" data-access-signal data-start="0.95" data-duration="1.4" />
       </svg>
 
-      <div className="access-flow__stage access-flow__center">
-        <div className="access-flow__hub">
-          <Image src="/assets/passwork-symbol.svg" width={34} height={34} alt="" unoptimized />
-        </div>
-        <div className="access-flow__status">
-          <span className="access-flow__status-content access-flow__status-content--request">
-            <span className="access-flow__pending-dot" />Запрос доступа
-          </span>
-          <span className="access-flow__status-content access-flow__status-content--checking">
-            <span className="access-flow__spinner" />Проверка доступа…
-          </span>
-          <span className="access-flow__status-content access-flow__status-content--allowed">
-            <Image src="/assets/check-circle-blue.svg" width={21} height={21} alt="" unoptimized />Доступ разрешён
-          </span>
-        </div>
-        <span className="access-flow__caption">Проверка прав в Пассворке</span>
-        <div className="access-flow__audit">
-          <span className="access-flow__audit-connector" />
-          <div className="access-flow__audit-entry">
-            <Image src="/assets/check-circle-blue.svg" width={17} height={17} alt="" unoptimized />
-            <span>Доступ записан в журнал</span>
+      <div className="trust-flow__center">
+        <div className="trust-flow__orbit-scene">
+          <div className="trust-flow__orbits">
+            <span className="trust-flow__orbit trust-flow__orbit--outer" />
+            <span className="trust-flow__orbit trust-flow__orbit--inner" />
+            <span className="trust-flow__orbital-light" />
+          </div>
+          <div className="trust-flow__hub">
+            <Image src="/assets/icon-security-a.svg" width={37} height={45} alt="" unoptimized />
+            <span>Пассворк</span>
+            <span className="trust-flow__hub-check">
+              <Image src="/assets/check-circle-blue.svg" width={23} height={23} alt="" unoptimized />
+            </span>
           </div>
         </div>
+        <div className="trust-flow__status">
+          <span className="trust-flow__status-copy trust-flow__status-copy--waiting">Проверка прав</span>
+          <span className="trust-flow__status-copy trust-flow__status-copy--checking"><i className="trust-flow__spinner" />Проверка доступа…</span>
+          <span className="trust-flow__status-copy trust-flow__status-copy--allowed">Доступ разрешён</span>
+        </div>
+        <span className="trust-flow__detail">Внутри защищённого контура</span>
       </div>
 
-      <svg className="access-flow__connection access-flow__connection--out" viewBox="0 0 140 240" preserveAspectRatio="none">
+      <svg className="trust-flow__connection trust-flow__connection--desktop" viewBox="0 0 160 240" preserveAspectRatio="none">
         {BRANCHES.map((d, index) => (
           <g key={d}>
             <path d={d} />
-            <path d={d} pathLength="1" data-access-signal data-start={5.15 + index * 0.15} data-duration="1.3" />
+            <path d={d} pathLength="1" data-access-signal data-start={index === 2 ? 6.6 : 5.15 + index * 0.2} data-duration={index === 2 ? 0.6 : 1.2} />
           </g>
         ))}
       </svg>
-      <svg className="access-flow__connection access-flow__connection--mobile access-flow__connection--out" viewBox="0 0 42 48">
+      <svg className="trust-flow__connection trust-flow__connection--mobile" viewBox="0 0 42 48">
         <path d="M21 0 V48" />
-        <path d="M21 0 V48" pathLength="1" data-access-signal data-start="5.15" data-duration="1.3" />
+        <path d="M21 0 V48" pathLength="1" data-access-signal data-start="5.15" data-duration="1.2" />
       </svg>
 
-      <div className="access-flow__stage access-flow__destination">
-        <div className="access-flow__servers">
-          <div className="access-flow__hardware-canvas">
-            <Image className="access-flow__hardware" src="/assets/fstec-motion/access-servers.png" width={1448} height={1086} sizes="(max-width: 767px) 250px, 310px" alt="" unoptimized />
-            <span className="access-flow__server-light access-flow__server-light--1" />
-            <span className="access-flow__server-light access-flow__server-light--2" />
-            <span className="access-flow__server-light access-flow__server-light--3" />
-          </div>
+      <div className="trust-flow__destination">
+        <div className="trust-flow__resource trust-flow__resource--vault">
+          <span className="trust-flow__resource-icon">
+            <svg className="trust-flow__icon" viewBox="0 0 20 16"><path d="M1 3.2A1.7 1.7 0 0 1 2.7 1.5h4.4l1.8 1.8h8.4A1.7 1.7 0 0 1 19 5v8.3a1.7 1.7 0 0 1-1.7 1.7H2.7A1.7 1.7 0 0 1 1 13.3z" /></svg>
+          </span>
+          <span>Сейф компании</span><span className="trust-flow__resource-dot" />
         </div>
-        <span className="access-flow__caption">Серверы компании</span>
+        <div className="trust-flow__resource trust-flow__resource--passwords">
+          <span className="trust-flow__resource-icon"><Image src="/assets/passwork-symbol.svg" width={22} height={22} alt="" unoptimized /></span>
+          <span>Пароли и ключи</span><span className="trust-flow__resource-dot" />
+        </div>
+        <div className="trust-flow__resource trust-flow__resource--journal">
+          <span className="trust-flow__resource-icon">
+            <svg className="trust-flow__icon" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.2" /><path d="M8 4.6V8l2.4 1.5" /></svg>
+          </span>
+          <span className="trust-flow__journal-label"><span>Журнал действий</span><span>Доступ записан</span></span>
+          <span className="trust-flow__resource-dot" />
+        </div>
+        <span className="trust-flow__detail">Данные остаются в компании</span>
       </div>
     </div>
   );
