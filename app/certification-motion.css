@@ -91,7 +91,8 @@
 .trust-flow__resource + .trust-flow__resource { margin-top: 20px; }
 .trust-flow__resource-icon { display: grid; place-items: center; flex: 0 0 32px; width: 32px; height: 32px; border: 1px solid rgb(255 255 255 / 4%); border-radius: 50%; background: radial-gradient(circle at 40% 20%, #303033, #242427); color: #74747b; }
 .trust-flow__resource-icon > svg { width: 18px; height: 18px; }
-.trust-flow__resource-icon > img { filter: grayscale(1); opacity: .5; }
+.trust-flow__resource-icon--key { border: 0; background: none; }
+.trust-flow__resource-icon--key > img { opacity: .8; }
 .trust-flow__resource-dot { flex: 0 0 4px; width: 4px; height: 4px; margin-left: auto; border-radius: 50%; background: #4b4b50; transition: background 800ms, box-shadow 800ms; }
 .trust-flow__journal-label { position: relative; flex: 1; height: 20px; }
 .trust-flow__journal-label > span { position: absolute; inset: 0; white-space: nowrap; transition: opacity 600ms, filter 650ms, transform 650ms var(--trust-ease); }

@@ -144,7 +144,7 @@ export default function CertificationMotion() {
           <span>Сейф компании</span><span className="trust-flow__resource-dot" />
         </div>
         <div className="trust-flow__resource trust-flow__resource--passwords">
-          <span className="trust-flow__resource-icon"><Image src="/assets/passwork-symbol.svg" width={22} height={22} alt="" unoptimized /></span>
+          <span className="trust-flow__resource-icon trust-flow__resource-icon--key"><Image src="/assets/passwork-key-glyph.svg" width={22} height={22} alt="" unoptimized /></span>
           <span>Пароли и ключи</span><span className="trust-flow__resource-dot" />
         </div>
         <div className="trust-flow__resource trust-flow__resource--journal">
