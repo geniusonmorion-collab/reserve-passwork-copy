@@ -6164,7 +6164,7 @@ img {
 .figma-security-card:not(.is-fstec) {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 176px;
-  align-items: center;
+  align-items: end;
 }
 
 .figma-security-card:not(.is-fstec) .security-art {
