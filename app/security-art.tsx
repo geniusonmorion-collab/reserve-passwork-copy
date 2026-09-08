@@ -6,20 +6,29 @@ import { useEffect, useRef } from 'react';
 /*
  * Иллюстрации трёх карточек блока «Пассворк разработан в России…»:
  * ГОСТ-шифрование, размещение внутри инфраструктуры, отсутствие передачи
- * данных. Сцены нарисованы в фиксированных координатах и масштабируются
- * под ширину карточки (--sp-scale); анимация запускается на hover/focus
- * карточки — как у карточек фич на clerk.com.
+ * данных. Каждая сцена нарисована в фиксированных координатах 494×N и
+ * масштабируется под ширину карточки (--sp-scale).
+ *
+ * Запуск анимации: на десктопе — по hover/focus карточки, плюс один прогон
+ * при первом появлении в вьюпорте; на тач-устройствах — пока карточка видна.
+ * Оба режима вешают на карточку класс is-live.
  */
 
 export type SecurityArtKind = 'gost' | 'infrastructure' | 'data';
 
 const SCENES: Record<SecurityArtKind, { width: number; height: number; art: string; scene: string }> = {
   gost: { width: 494, height: 252, art: 'clerk-art--gost', scene: 'sp-gost' },
-  infrastructure: { width: 742, height: 181, art: 'clerk-art--session', scene: 'sp-infra' },
-  data: { width: 494, height: 212, art: 'clerk-art--fraud', scene: 'sp-data' },
+  infrastructure: {
+    width: 494,
+    height: 252,
+    art: 'clerk-art--infra',
+    scene: 'sp-infra',
+  },
+  data: { width: 494, height: 232, art: 'clerk-art--data', scene: 'sp-data' },
 };
 
 const CARD_INSET = 54; // 27px отступ контента с каждой стороны карточки
+const PREVIEW_MS = 6500; // длительность одного прогона при появлении на десктопе
 
 /* Детерминированный ПСЧ: одинаковые «шифротексты» на сервере и клиенте. */
 function seeded(seed: number) {
@@ -50,8 +59,13 @@ const PILL_CIPHER = '8F2C71A04E9BD3C7';
 /* Задержки мигания светодиодов — псевдослучайные, но стабильные. */
 const ledDelays = (() => {
   const random = seeded(0x51ed);
-  return Array.from({ length: 48 }, () => ({ delay: Math.round(random() * 1500), period: 1300 + Math.round(random() * 900) }));
+  return Array.from({ length: 48 }, () => ({
+    delay: Math.round(random() * 1500),
+    period: 1300 + Math.round(random() * 900),
+  }));
 })();
+
+const OUTBOUND = ['Телеметрия', 'Внешние API', 'Зарубежные сервисы'];
 
 function GostScene() {
   return (
@@ -91,9 +105,18 @@ function GostScene() {
   );
 }
 
+/*
+ * Размещение внутри инфраструктуры: пунктирный периметр компании, внутри —
+ * ноутбук сотрудника → аутентификация → стойки заказчика. Наружу ничего не идёт.
+ */
 function InfrastructureScene() {
   return (
     <>
+      <svg className="sp-infra__perimeter" viewBox="0 0 494 252" aria-hidden="true">
+        <rect className="sp-perimeter" x="6" y="14" width="482" height="232" rx="16" pathLength={100} />
+      </svg>
+      <span className="sp-perimeter__label">Периметр компании</span>
+
       <div className="sp-laptop">
         <i className="sp-laptop__glow" />
         <div className="sp-laptop__lid">
@@ -109,25 +132,40 @@ function InfrastructureScene() {
         </div>
       </div>
 
-      <svg className="sp-infra__lines" viewBox="0 0 742 181" aria-hidden="true">
+      <svg className="sp-infra__lines" viewBox="0 0 494 252" aria-hidden="true">
         <defs>
-          <linearGradient id="sp-beam-in" gradientUnits="userSpaceOnUse" x1="176" y1="0" x2="284" y2="0">
-            <stop offset="0" stopColor="#8b7cff" />
-            <stop offset="1" stopColor="#4ec9ff" />
+          <linearGradient id="sp-beam-in" gradientUnits="userSpaceOnUse" x1="180" y1="0" x2="240" y2="0">
+            <stop offset="0" stopColor="#3f7fd6" />
+            <stop offset="1" stopColor="#8fbaf3" />
           </linearGradient>
-          <linearGradient id="sp-beam-out" gradientUnits="userSpaceOnUse" x1="492" y1="0" x2="562" y2="0">
-            <stop offset="0" stopColor="#8b7cff" />
-            <stop offset="1" stopColor="#4ec9ff" />
+          <linearGradient id="sp-beam-out" gradientUnits="userSpaceOnUse" x1="300" y1="0" x2="340" y2="0">
+            <stop offset="0" stopColor="#3f7fd6" />
+            <stop offset="1" stopColor="#8fbaf3" />
           </linearGradient>
         </defs>
-        <path className="sp-line" d="M176 92H284" />
-        <path className="sp-line" d="M492 92h16c19 0 19-50 38-50h16" />
-        <path className="sp-line" d="M492 92H562" />
-        <path className="sp-line" d="M492 92h16c19 0 19 50 38 50h16" />
-        <path className="sp-beam sp-beam--in" d="M176 92H284" pathLength={100} />
-        <path className="sp-beam sp-beam--out" d="M492 92h16c19 0 19-50 38-50h16" pathLength={100} style={{ '--i': 0 } as CSSProperties} />
-        <path className="sp-beam sp-beam--out" d="M492 92H562" pathLength={100} style={{ '--i': 1 } as CSSProperties} />
-        <path className="sp-beam sp-beam--out" d="M492 92h16c19 0 19 50 38 50h16" pathLength={100} style={{ '--i': 2 } as CSSProperties} />
+        <path className="sp-line" d="M180 130h14q10 0 10-10V70q0-10 10-10h26" />
+        <path className="sp-line" d="M312 82v30q0 10 10 10h12" />
+        <path className="sp-line" d="M312 82v80q0 10 10 10h12" />
+        <path className="sp-line" d="M312 82v130q0 10 10 10h12" />
+        <path className="sp-beam sp-beam--in" d="M180 130h14q10 0 10-10V70q0-10 10-10h26" pathLength={100} />
+        <path
+          className="sp-beam sp-beam--out"
+          d="M312 82v30q0 10 10 10h12"
+          pathLength={100}
+          style={{ '--i': 0 } as CSSProperties}
+        />
+        <path
+          className="sp-beam sp-beam--out"
+          d="M312 82v80q0 10 10 10h12"
+          pathLength={100}
+          style={{ '--i': 1 } as CSSProperties}
+        />
+        <path
+          className="sp-beam sp-beam--out"
+          d="M312 82v130q0 10 10 10h12"
+          pathLength={100}
+          style={{ '--i': 2 } as CSSProperties}
+        />
       </svg>
 
       <div className="sp-status">
@@ -156,7 +194,17 @@ function InfrastructureScene() {
             <span className="sp-rack__leds">
               {Array.from({ length: 16 }, (_, led) => {
                 const { delay, period } = ledDelays[rack * 16 + led];
-                return <i key={led} style={{ '--d': `${delay}ms`, '--p': `${period}ms` } as CSSProperties} />;
+                return (
+                  <i
+                    key={led}
+                    style={
+                      {
+                        '--d': `${delay}ms`,
+                        '--p': `${period}ms`,
+                      } as CSSProperties
+                    }
+                  />
+                );
               })}
             </span>
           </div>
@@ -166,36 +214,58 @@ function InfrastructureScene() {
   );
 }
 
+/*
+ * Отсутствие передачи данных: три исходящих канала — телеметрия, внешние API,
+ * зарубежные сервисы — по очереди упираются в барьер и гасятся; счётчик растёт.
+ */
 function DataScene() {
   return (
     <>
       <div className="sp-bar">
         <i className="sp-spinner" />
-        <span className="sp-bar__text">Исходящие соединения заблокированы</span>
+        <span className="sp-bar__text">Исходящие соединения</span>
         <span className="sp-bar__count">
-          <span>
-            <b>0</b>
-            <b>1</b>
-            <b>2</b>
-            <b>3</b>
+          Заблокировано&nbsp;
+          <span className="sp-bar__roll">
+            <span>
+              <b>0</b>
+              <b>1</b>
+              <b>2</b>
+              <b>3</b>
+            </span>
           </span>
+          &nbsp;из&nbsp;3
         </span>
       </div>
-      <svg className="sp-data__route" viewBox="0 0 494 212" aria-hidden="true">
+      <svg className="sp-data__route" viewBox="0 0 494 232" aria-hidden="true">
         <defs>
-          <linearGradient id="sp-beam-warn" gradientUnits="userSpaceOnUse" x1="0" y1="44" x2="0" y2="212">
-            <stop offset="0" stopColor="#ff9a3c" />
-            <stop offset="1" stopColor="#ff4d4d" />
+          <linearGradient id="sp-beam-try" gradientUnits="userSpaceOnUse" x1="200" y1="0" x2="460" y2="0">
+            <stop offset="0" stopColor="#8fbaf3" />
+            <stop offset="1" stopColor="#e5484d" />
           </linearGradient>
         </defs>
-        <path className="sp-line" d="M24 44v14q0 8 6 14l28 28q6 6 6 14v98" />
-        <path className="sp-beam sp-beam--warn" d="M24 44v14q0 8 6 14l28 28q6 6 6 14v98" pathLength={100} />
+        {OUTBOUND.map((_, index) => {
+          const y = 88 + index * 48;
+          return (
+            <g key={index}>
+              <path className="sp-line sp-line--dashed" d={`M206 ${y}H462`} />
+              <path
+                className="sp-beam sp-beam--try"
+                d={`M206 ${y}H462`}
+                pathLength={100}
+                style={{ '--i': index } as CSSProperties}
+              />
+            </g>
+          );
+        })}
       </svg>
-      {Array.from({ length: 3 }, (_, index) => (
-        <div className="sp-event" key={index} style={{ '--i': index } as CSSProperties}>
+      {OUTBOUND.map((label, index) => (
+        <div className="sp-event" key={label} style={{ '--i': index } as CSSProperties}>
           <i className="sp-node">
             <b />
           </i>
+          <span className="sp-event__label">{label}</span>
+          <i className="sp-wall" />
         </div>
       ))}
     </>
@@ -220,13 +290,21 @@ export default function SecurityArt({ kind }: { kind: SecurityArtKind }) {
     if (observer) observer.observe(art);
     else window.addEventListener('resize', fit);
 
-    /* ГОСТ: «шифрование» текста в пилюле и живой шифротекст на фоне — только на hover. */
-    let cleanupHover = () => {};
     const card = art.closest<HTMLElement>('.figma-security-card');
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!card || reduced) {
+      return () => {
+        observer?.disconnect();
+        if (!observer) window.removeEventListener('resize', fit);
+      };
+    }
+
+    /* ГОСТ: «шифрование» текста в пилюле и живой шифротекст на фоне — только пока идёт анимация. */
+    let startGost = () => {};
+    let stopGost = () => {};
     const pill = art.querySelector<HTMLElement>('[data-sp-pill]');
     const rows = Array.from(art.querySelectorAll<HTMLElement>('[data-sp-row]'));
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (kind === 'gost' && card && pill && !reduced) {
+    if (kind === 'gost' && pill) {
       let frame = 0;
       let started = 0;
       let lastFlicker = 0;
@@ -266,42 +344,89 @@ export default function SecurityArt({ kind }: { kind: SecurityArtKind }) {
         }
         frame = requestAnimationFrame(tick);
       };
-      const start = () => {
+      startGost = () => {
         cancelAnimationFrame(frame);
         started = performance.now();
         pill.classList.remove('is-done');
         frame = requestAnimationFrame(tick);
       };
-      const stop = () => {
+      stopGost = () => {
         cancelAnimationFrame(frame);
         frame = 0;
         pill.textContent = PILL_PLAIN;
         pill.classList.remove('is-done');
       };
-      card.addEventListener('pointerenter', start);
-      card.addEventListener('pointerleave', stop);
-      card.addEventListener('focus', start);
-      card.addEventListener('blur', stop);
-      cleanupHover = () => {
-        stop();
-        card.removeEventListener('pointerenter', start);
-        card.removeEventListener('pointerleave', stop);
-        card.removeEventListener('focus', start);
-        card.removeEventListener('blur', stop);
-      };
     }
+
+    /* Единый переключатель: hover/focus и видимость в вьюпорте ставят is-live. */
+    let hovered = false;
+    let inView = false;
+    let previewTimer = 0;
+    let previewDone = false;
+    const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    const apply = () => {
+      const live = hovered || (canHover ? previewTimer !== 0 : inView);
+      if (live === card.classList.contains('is-live')) return;
+      card.classList.toggle('is-live', live);
+      if (live) startGost();
+      else stopGost();
+    };
+    const enter = () => {
+      hovered = true;
+      apply();
+    };
+    const leave = () => {
+      hovered = false;
+      apply();
+    };
+    card.addEventListener('pointerenter', enter);
+    card.addEventListener('pointerleave', leave);
+    card.addEventListener('focus', enter);
+    card.addEventListener('blur', leave);
+
+    const intersection =
+      typeof IntersectionObserver !== 'undefined'
+        ? new IntersectionObserver(
+            ([entry]) => {
+              inView = entry.isIntersecting;
+              if (canHover && inView && !previewDone) {
+                previewDone = true;
+                previewTimer = window.setTimeout(() => {
+                  previewTimer = 0;
+                  apply();
+                }, PREVIEW_MS);
+              }
+              apply();
+            },
+            { threshold: 0.45 },
+          )
+        : null;
+    intersection?.observe(card);
 
     return () => {
       observer?.disconnect();
       if (!observer) window.removeEventListener('resize', fit);
-      cleanupHover();
+      intersection?.disconnect();
+      window.clearTimeout(previewTimer);
+      card.removeEventListener('pointerenter', enter);
+      card.removeEventListener('pointerleave', leave);
+      card.removeEventListener('focus', enter);
+      card.removeEventListener('blur', leave);
+      stopGost();
+      card.classList.remove('is-live');
     };
   }, [kind]);
 
   return (
     <div className={`clerk-art ${spec.art}`} aria-hidden="true" ref={artRef}>
       <div className={`sp-scene ${spec.scene}`} style={{ width: spec.width, height: spec.height }}>
-        {kind === 'gost' ? <GostScene /> : kind === 'infrastructure' ? <InfrastructureScene /> : <DataScene />}
+        {kind === 'gost' ? (
+          <GostScene />
+        ) : kind === 'infrastructure' ? (
+          <InfrastructureScene />
+        ) : (
+          <DataScene />
+        )}
       </div>
     </div>
   );
