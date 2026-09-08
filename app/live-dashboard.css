@@ -5,11 +5,12 @@
    Все классы с префиксом pw-.
    ============================================================ */
 .pw-embed{
-  /* Чёрные чуть приподняты, чтобы мокап мягко садился в световой пол hero. */
-  --pw-bg:#17191d; --pw-side:#1b1e22; --pw-line:#232529; --pw-line-soft:#1f2125;
+  /* Палитра оригинального дашборда из Figma, узел 485:1056. */
+  --pw-bg:#121416; --pw-side:#161819; --pw-line:#1a1a1c; --pw-line-soft:#19191b;
+  --pw-search:#1a1b1d; --pw-chip:#13181f;
   --pw-text:#e8e9ea; --pw-text-2:#acacac; --pw-text-3:#8f9093; --pw-text-4:#5f6062;
-  --pw-blue:#3862b4; --pw-blue-soft:#16263e; --pw-hover:#1f2328; --pw-sel:#212630;
-  --pw-hl:#7d9bd8; /* нейтральная подсветка активного элемента */
+  --pw-blue:#3862b4; --pw-blue-soft:#16263e; --pw-hover:#14181f; --pw-sel:#14181f;
+  --pw-hl:var(--pw-blue);
   pointer-events:none; user-select:none; overflow:visible;
 }
 .pw-embed *,.pw-embed *::before,.pw-embed *::after{box-sizing:border-box}
@@ -35,7 +36,7 @@
 }
 .pw-side__top{flex:1 1 auto; min-height:0; overflow:hidden}
 .pw-search{
-  position:relative; width:279px; height:39px; border-radius:7px; background:#1a1b1d; color:var(--pw-text-4);
+  position:relative; width:279px; height:39px; border-radius:7px; background:var(--pw-search); color:var(--pw-text-4);
   display:flex; align-items:center; gap:9px; padding:0 11px; font-size:14px;
   transition:background .15s ease, box-shadow .15s ease;
 }
@@ -44,7 +45,7 @@
 .pw-search.has-value .pw-search__placeholder{display:none}
 .pw-search__value{color:#e6e7e8; white-space:pre}
 .pw-search__caret{width:1.5px; height:15px; margin-left:1px; border-radius:1px; background:#cfd3d9; opacity:0}
-.pw-search.is-focused{background:#1e2126; box-shadow:inset 0 0 0 1px rgba(56,98,180,.95), 0 0 0 3px rgba(56,98,180,.18)}
+.pw-search.is-focused{background:var(--pw-hover); box-shadow:inset 0 0 0 1px rgba(56,98,180,.95), 0 0 0 3px rgba(56,98,180,.18)}
 .pw-search.is-focused .pw-search__caret{animation:pw-blink 1s steps(2,end) infinite}
 .pw-search__clear{
   display:none; width:18px; height:18px; margin-left:auto; border-radius:50%; background:#2a2f37; color:#9aa0a8;
@@ -86,7 +87,7 @@
 .pw-tree-row__chev + .pw-tree-row__text{margin-left:1px}
 .pw-tree-row__folder{width:22px; height:22px; display:flex; align-items:center; justify-content:center; margin-right:3px}
 .pw-tree-row__folder svg{width:20px;height:16px}
-.pw-tree-row--active{color:#cfd0d2; font-weight:500}
+.pw-tree-row--active{color:var(--pw-text-2); font-weight:500}
 .pw-tree-row--dim{color:#6f7073}
 .pw-tree-group.is-open > .pw-tree-row .pw-tree-row__chev{transform:rotate(90deg)}
 .pw-tree-children{display:grid; grid-template-rows:0fr; transition:grid-template-rows .26s ease}
@@ -96,7 +97,7 @@
 
 /* ---------- Главная область ---------- */
 .pw-main{display:flex; flex-direction:column; min-width:0}
-.pw-head{position:relative; height:127px; border-bottom:1px solid #1b1c1e; flex:none}
+.pw-head{position:relative; height:127px; border-bottom:1px solid var(--pw-line-soft); flex:none}
 .pw-crumbs{
   position:absolute; left:32px; top:24px; font-size:20px; line-height:24px; color:var(--pw-text-4);
   display:flex; align-items:center; gap:10px; white-space:nowrap;
@@ -104,7 +105,7 @@
 .pw-crumbs b{color:var(--pw-text-2); font-weight:500}
 .pw-head__actions{position:absolute; right:34px; top:13px; display:flex; align-items:center; gap:18px}
 .pw-round{
-  width:39px; height:39px; border-radius:50%; background:#152237; color:#7f99cf;
+  width:39px; height:39px; border-radius:50%; background:transparent; border:1px solid var(--pw-blue-soft); color:var(--pw-blue);
   display:flex; align-items:center; justify-content:center;
 }
 .pw-round .pw-ico{width:18px;height:18px}
@@ -125,19 +126,19 @@
 .pw-avatar--letter{color:#8c8c8c; font-weight:500}
 .pw-avatar__dot{position:absolute; right:-1px; bottom:-1px; width:10px; height:10px; border-radius:50%; background:#3bc78f; box-shadow:0 0 0 2px var(--pw-bg)}
 .pw-circle{
-  width:33px; height:33px; border-radius:50%; background:var(--pw-blue-soft); border:1px solid #355da9; color:#6f95e0;
+  width:33px; height:33px; border-radius:50%; background:transparent; border:1px solid var(--pw-blue-soft); color:var(--pw-blue);
   display:flex; align-items:center; justify-content:center; flex:none;
 }
 .pw-circle .pw-ico{width:16px;height:16px}
 .pw-people .pw-circle{margin-left:16px}
 .pw-people__text{margin-left:20px; display:flex; flex-direction:column; gap:4px; line-height:14px}
-.pw-people__text b{font-size:12px; font-weight:500; color:#a3a4a6}
+.pw-people__text b{font-size:12px; font-weight:500; color:var(--pw-text-2)}
 .pw-people__text span{font-size:11px; color:var(--pw-text-4)}
 
 .pw-body{display:flex; flex:1 1 auto; min-height:0}
 
 /* ---------- Список ---------- */
-.pw-list{width:367px; flex:none; border-right:1px solid #1b1c1e; padding:31px 22px 0 32px}
+.pw-list{width:367px; flex:none; border-right:1px solid var(--pw-line-soft); padding:31px 22px 0 32px}
 .pw-label{font-size:11px; font-weight:500; letter-spacing:.06em; text-transform:uppercase; color:#8a8b8d; line-height:14px}
 .pw-folders{margin-top:10px; display:flex; flex-direction:column}
 .pw-folder{
@@ -145,7 +146,7 @@
   color:#d3d4d6; font-size:15px;
 }
 .pw-folder svg{width:22px;height:18px}
-.pw-list__divider{height:1px; background:#1b1c1e; margin-top:15px}
+.pw-list__divider{height:1px; background:var(--pw-line-soft); margin-top:15px}
 .pw-list .pw-label--second{margin-top:21px}
 .pw-items{margin-top:13px; display:flex; flex-direction:column}
 .pw-item{
@@ -180,7 +181,7 @@
 .pw-detail.is-in > :nth-child(4){animation-delay:.12s}
 .pw-detail__head{height:30px; display:flex; align-items:center}
 .pw-detail__title{display:flex; align-items:center; gap:8px; min-width:0}
-.pw-detail__title h3{margin:0 0 0 2px; font-size:20px; line-height:24px; font-weight:500; color:#c4c5c7; white-space:nowrap}
+.pw-detail__title h3{margin:0 0 0 2px; font-size:20px; line-height:24px; font-weight:500; color:var(--pw-text-2); white-space:nowrap}
 .pw-star{width:22px; height:22px; border-radius:5px; display:flex; align-items:center; justify-content:center; color:#4a4b4e; margin-left:4px}
 .pw-star svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linejoin:round}
 .pw-star.is-on{color:#e1af00}
@@ -191,7 +192,7 @@
 .pw-meta__title{font-size:13px; line-height:16px; color:var(--pw-text-2)}
 .pw-meta__sub{margin-top:2px; font-size:11px; line-height:14px; color:#595a5d}
 .pw-circles{display:flex; gap:17px}
-.pw-tabs{margin-top:24px; height:38px; display:flex; gap:24px; border-bottom:1px solid #1a1b1d}
+.pw-tabs{margin-top:24px; height:38px; display:flex; gap:24px; border-bottom:1px solid var(--pw-line-soft)}
 .pw-tab{
   position:relative; height:100%; font-size:15px; color:var(--pw-text-4); white-space:nowrap; border-radius:4px 4px 0 0;
   transition:color .15s ease;
@@ -201,7 +202,7 @@
 .pw-tab.is-active::after{opacity:1}
 .pw-rows{display:flex; flex-direction:column}
 .pw-row{
-  padding:13px 0; line-height:27px; border-bottom:1px solid #1a1b1d; display:grid; grid-template-columns:132px 1fr auto; align-items:start;
+  padding:13px 0; line-height:27px; border-bottom:1px solid var(--pw-line-soft); display:grid; grid-template-columns:132px 1fr auto; align-items:start;
   font-size:15px;
 }
 .pw-row--first{padding-top:23px}
@@ -226,10 +227,10 @@
 .pw-ring__bg{stroke:#262a31}
 .pw-ring__fg{stroke:var(--pw-blue); stroke-linecap:round; transition:stroke-dashoffset .25s linear}
 .pw-chips{display:flex; gap:10px}
-.pw-chip{height:20px; padding:0 8px; border-radius:4px; background:#1b1f26; color:#8f9194; font-size:11px; font-weight:500; display:flex; align-items:center}
+.pw-chip{height:20px; padding:0 8px; border-radius:4px; background:var(--pw-chip); color:#8f9194; font-size:11px; font-weight:500; display:flex; align-items:center}
 
 .pw-hist,.pw-ver{
-  height:50px; border-bottom:1px solid #1a1b1d; border-radius:6px; display:flex; align-items:center; gap:12px; font-size:14px; padding:0 6px;
+  height:50px; border-bottom:1px solid var(--pw-line-soft); border-radius:6px; display:flex; align-items:center; gap:12px; font-size:14px; padding:0 6px;
 }
 .pw-hist--first,.pw-ver--first{margin-top:8px}
 /* журнал: строки прилетают по одной снизу вверх, у верхней один раз мигает «только что» */
@@ -248,44 +249,24 @@
 .pw-ver__by{color:#8f9093}
 .pw-ver__cur{height:18px; padding:0 7px; border-radius:4px; background:var(--pw-blue-soft); color:#7f9fe0; font-size:11px; font-weight:500; display:flex; align-items:center; border:1px solid #2a4680}
 
-/* ---------- Вкладки тура (над мокапом, как на gitbook.com) ---------- */
-.pw-tour{
-  position:absolute; left:50%; top:-24px; z-index:60; transform:translateX(-50%);
-  display:flex; gap:6px; padding:4px; border-radius:999px;
-  background:rgba(12,14,18,.72); border:1px solid rgba(255,255,255,.1);
-  box-shadow:0 12px 32px rgba(0,0,0,.45); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
-  pointer-events:auto; white-space:nowrap;
+/* ---------- Курсор: один, без имени, белый со тенью ---------- */
+.pw-cursors{position:absolute; inset:0; z-index:50; overflow:visible; pointer-events:none}
+.pw-cursor{position:absolute; left:0; top:0; opacity:0; transition:opacity .5s ease; will-change:transform}
+.pw-cursor.is-visible{opacity:1}
+.pw-cursor__arrow{
+  display:block; width:22px; height:22px; transform-origin:0 0; transition:transform .14s ease;
+  fill:#fff; stroke:#1a1d24; stroke-width:1.4; stroke-linejoin:round;
+  filter:drop-shadow(0 1px 1px rgba(0,0,0,.35)) drop-shadow(0 4px 10px rgba(0,0,0,.35));
 }
-.pw-tour__tab{
-  height:34px; padding:0 15px; border-radius:999px; border:0; cursor:pointer;
-  background:transparent; color:#b9bec8; font:500 14px/34px var(--font-sans, Inter, Arial, sans-serif); letter-spacing:-.1px;
-  transition:background-color .35s ease, color .35s ease;
+.pw-cursor.is-pressed .pw-cursor__arrow{transform:scale(.86)}
+.pw-ripple{
+  position:absolute; width:10px; height:10px; margin:-5px 0 0 -5px; border-radius:50%; border:2px solid rgba(143,186,243,.9);
+  animation:pw-ripple .55s ease-out forwards; pointer-events:none;
 }
-.pw-tour__tab:hover{color:#e6e8ec}
-.pw-tour__tab.is-active{background:#3f7fd6; color:#fff}
-.pw-tour__tab:focus-visible{outline:2px solid rgba(143,186,243,.9); outline-offset:2px}
-
-/* ---------- Подсказка у элемента ---------- */
-.pw-callout{
-  position:absolute; z-index:46; max-width:300px; padding:9px 12px; border-radius:9px;
-  background:#3f7fd6; color:#fff; font-size:13px; line-height:18px; font-weight:500; letter-spacing:-.1px;
-  box-shadow:0 10px 26px rgba(0,0,0,.45), 0 0 0 1px rgba(255,255,255,.08);
-  animation:pw-callout-in .32s cubic-bezier(.22,1,.36,1) both;
-}
-.pw-callout::before{
-  content:""; position:absolute; width:10px; height:10px; background:inherit; border-radius:2px; transform:rotate(45deg);
-}
-.pw-callout--right{transform:translateY(-50%)}
-.pw-callout--right::before{left:-4px; top:50%; margin-top:-5px}
-.pw-callout--below{transform:translateX(-24px)}
-.pw-callout--below::before{top:-4px; left:19px}
-.pw-callout--above{transform:translate(-50%,-100%)}
-.pw-callout--above::before{bottom:-4px; left:50%; margin-left:-5px}
-.pw-callout.is-out{animation:pw-callout-out .2s ease both}
 
 /* ---------- Панель доступа к папке ---------- */
 .pw-menu{
-  position:absolute; z-index:40; min-width:236px; background:#1c1f24; border:1px solid #2a2e35; border-radius:8px; padding:6px;
+  position:absolute; z-index:40; min-width:236px; background:var(--pw-side); border:1px solid var(--pw-line); border-radius:8px; padding:6px;
   box-shadow:0 14px 34px rgba(0,0,0,.55); animation:pw-pop .18s ease-out both; transform-origin:top left;
 }
 .pw-menu__title{font-size:11px; font-weight:500; letter-spacing:.06em; text-transform:uppercase; color:#8a8b8d; padding:6px 10px}
@@ -311,7 +292,7 @@
 .pw-list.is-searching .pw-label--second{margin-top:0}
 .pw-item mark{background:rgba(56,98,180,.42); color:#fff; border-radius:3px; padding:0 1px; margin:0 -1px}
 .pw-item__hint{margin-left:auto; padding-left:8px; font-size:12px; color:var(--pw-text-4); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
-.pw-item__hint--chip{flex:none; height:18px; padding:0 6px; border-radius:4px; background:#1b1f26; color:#8f9194; font-size:11px; display:flex; align-items:center}
+.pw-item__hint--chip{flex:none; height:18px; padding:0 6px; border-radius:4px; background:var(--pw-chip); color:#8f9194; font-size:11px; display:flex; align-items:center}
 .pw-list__empty{padding:10px 4px; color:var(--pw-text-4); font-size:14px}
 .pw-round.pw-hl,.pw-circle.pw-hl,.pw-ib.pw-hl,.pw-star.pw-hl,.pw-close.pw-hl,.pw-sec__add.pw-hl{color:#dfe0e2}
 .pw-tab.pw-hl{color:#b9babc}
@@ -319,8 +300,7 @@
 
 @keyframes pw-blink{0%,100%{opacity:1}50%{opacity:0}}
 @keyframes pw-pop{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:none}}
-@keyframes pw-callout-in{from{opacity:0;translate:0 6px}to{opacity:1;translate:0 0}}
-@keyframes pw-callout-out{to{opacity:0}}
+@keyframes pw-ripple{from{transform:scale(.4);opacity:.9}to{transform:scale(3.8);opacity:0}}
 @keyframes pw-fade-in{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
 @keyframes pw-item-in{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
 @keyframes pw-rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
@@ -330,13 +310,4 @@
 
 @media (prefers-reduced-motion:reduce){
   .pw-embed *{animation-duration:.01ms !important; transition-duration:.01ms !important}
-}
-
-@media (max-width:767px){
-  .pw-tour{
-    top:-36px; max-width:calc(100vw - 24px); gap:2px; padding:3px; overflow-x:auto; scrollbar-width:none;
-  }
-  .pw-tour::-webkit-scrollbar{display:none}
-  .pw-tour__tab{height:28px; padding:0 11px; font-size:12px; line-height:28px}
-  .pw-callout{display:none} /* в масштабе 0.27 подсказка нечитаема — на мобилке сцену объясняет вкладка */
 }

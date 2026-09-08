@@ -1,5 +1,5 @@
-/* Статичная разметка дашборда (сайдбар, шапка, список) и пустая полоса вкладок тура.
-   Список записей, панель пароля и вкладки дорисовывает live-dashboard-engine.ts. */
+/* Статичная разметка дашборда (сайдбар, шапка, список) и слой курсора.
+   Список записей, панель пароля и курсор дорисовывает live-dashboard-engine.ts. */
 
 export const LIVE_DASHBOARD_MARKUP = `
 <div class="pw-stage">
@@ -91,6 +91,6 @@ export const LIVE_DASHBOARD_MARKUP = `
     </div>
   </div>
 </div>
+<div class="pw-cursors"></div>
 </div>
-<div class="pw-tour" role="tablist" aria-label="Возможности Пассворка"></div>
 `;

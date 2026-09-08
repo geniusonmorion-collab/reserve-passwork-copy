@@ -66,6 +66,30 @@ const logoColumns = [
       className: 'is-sber-health',
     },
   ],
+  [
+    {
+      name: 'HeadHunter',
+      src: '/assets/client-logos/hh.png',
+      className: 'is-hh',
+    },
+    {
+      name: 'Иви',
+      src: '/assets/figma-9206/logo-ivi.svg',
+      className: 'is-ivi',
+    },
+  ],
+  [
+    {
+      name: 'СберЗдоровье',
+      src: '/assets/client-logos/sber-health.png',
+      className: 'is-sber-health',
+    },
+    {
+      name: 'Okko',
+      src: '/assets/client-logos/okko.png',
+      className: 'is-okko',
+    },
+  ],
 ] as const;
 
 export default function ClientLogoRotator() {
@@ -117,7 +141,7 @@ export default function ClientLogoRotator() {
       >
         {logoColumns.map((column, columnIndex) => (
           <div
-            className="figma-client-logo"
+            className={`figma-client-logo${column.length > 1 ? ' figma-client-logo--rotating' : ''}`}
             key={column[0].name}
             role="listitem"
             aria-label={column.map((logo) => logo.name).join(', ')}

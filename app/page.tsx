@@ -64,23 +64,17 @@ export default function Home() {
           <div className="figma-hero__base" aria-hidden="true" />
 
           <div className="figma-hero__copy">
-            <div className="figma-hero__badge">
-              <svg viewBox="0 0 16 16" aria-hidden="true">
-                <path d="M8 1.6 13.4 3.8v3.9c0 3.2-2.3 5.5-5.4 6.7C4.9 13.2 2.6 10.9 2.6 7.7V3.8z" />
-                <path d="m5.6 8 1.7 1.7L10.6 6" />
-              </svg>
+            <div className="figma-hero__origin">
+              <span className="figma-hero__origin-flag" aria-hidden="true" />
               <span>Сделано в России</span>
-              <i aria-hidden="true" />
-              <span>Реестр отечественного ПО</span>
             </div>
             <h1 id="hero-title">
-              Пассворк — основа вашей
-              <br />
-              информационной безопасности
+              <span className="figma-hero__title-line">Пассворк — основа вашей</span>
+              <span className="figma-hero__title-line">информационной безопасности</span>
             </h1>
             <p>
               Управление корпоративными паролями, доступами и действиями — в одном
-              защищённом контуре.
+              защищённом контуре
             </p>
             <div className="figma-hero__actions">
               <PrimaryAction />
@@ -91,21 +85,31 @@ export default function Home() {
           </div>
 
           <div className="figma-hero__visual" aria-hidden="true">
-            <span className="figma-hero__visual-gradient" />
+            <div className="figma-hero__background">
+              <span className="figma-hero__visual-gradient" />
+              <img
+                className="figma-hero__cast-shadow"
+                src="/assets/figma-473-454/hero-cast-shadow.png"
+                alt=""
+                width="1920"
+                height="891"
+                draggable="false"
+              />
+              <img
+                className="figma-hero__shade"
+                src="/assets/figma-473-454/hero-floor-light.png"
+                alt=""
+                width="1898"
+                height="1072"
+                draggable="false"
+              />
+            </div>
             <img
-              className="figma-hero__texture"
-              src="/assets/figma-9206/hero-texture.png"
+              className="figma-hero__contact-shadow"
+              src="/assets/figma-473-454/hero-contact-shadow.svg"
               alt=""
-              width="2560"
-              height="1188"
-              draggable="false"
-            />
-            <img
-              className="figma-hero__shade"
-              src="/assets/linear-hero/shade.png"
-              alt=""
-              width="2560"
-              height="1429"
+              width="1451.2"
+              height="71.2"
               draggable="false"
             />
             <LiveDashboard />
@@ -114,9 +118,9 @@ export default function Home() {
 
         <ClientLogoRotator />
 
-        <section className="figma-security" id="company">
-          <div className="figma-shell">
-            <h2 className="figma-security__statement">
+        <section className="figma-security" id="company" aria-labelledby="security-title">
+          <div className="figma-shell figma-security__inner">
+            <h2 className="figma-security__statement" id="security-title">
               <span>Пассворк разработан в России и входит в реестр отечественного ПО. </span>
               <span>
                 Он объединяет пароли, доступы{' '}

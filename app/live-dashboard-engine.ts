@@ -1,8 +1,7 @@
 /*
- * Живой дашборд в hero — тур по продукту, как на gitbook.com: над мокапом
- * ряд вкладок, они переключаются сами каждые несколько секунд, интерфейс
- * перестраивается под вкладку, рядом с нужным элементом появляется короткая
- * подсказка. Без курсоров и персон. Вкладку можно выбрать кликом.
+ * Живой дашборд в hero: один безымянный курсор плавно проходит по интерфейсу —
+ * ищет запись, открывает и копирует пароль, листает журнал, смотрит права
+ * на папку, раскрывает дерево — и возвращается в покой. Без персон и вкладок.
  * Сцена 1344×725 масштабируется под ширину контейнера через --pw-s.
  */
 
@@ -81,20 +80,18 @@ const glyph = (kind: Entry['icon'], large = false) => {
 
 const random = (a: number, b: number) => a + Math.random() * (b - a);
 
-/* Тур: четыре сцены, каждая — состояние интерфейса плюс подсказка у нужного элемента. */
+/* Сценарий: запись в покое, запись, которую находит поиск, и сам запрос. */
 const HOME_ENTRY = 'sprinthost';
 const FOUND_ENTRY = 'astra';
 const QUERY = 'admin';
-const SCENE_MS = 6500;
 
-type SceneId = 'vault' | 'search' | 'audit' | 'access';
-type Callout = { anchor: string; text: string; side: 'right' | 'below' | 'above' };
-const SCENES: { id: SceneId; label: string; callout: Callout }[] = [
-  { id: 'vault', label: 'Сейфы и папки', callout: { anchor: '.pw-people__text', text: 'Сейфы и папки с правами на уровне команды', side: 'right' } },
-  { id: 'search', label: 'Поиск', callout: { anchor: '.pw-row--last', text: 'Нашли, открыли, скопировали — без общих чатов и файлов', side: 'below' } },
-  { id: 'audit', label: 'Журнал действий', callout: { anchor: '[data-tab="versions"]', text: 'Кто, что и когда — по каждой записи', side: 'right' } },
-  { id: 'access', label: 'Права доступа', callout: { anchor: '[data-act="head-share"]', text: 'Роли назначаются на сейф и папку, а не на каждый пароль', side: 'right' } },
-];
+type Point = { x: number; y: number };
+type Target = string | Element | (() => Element | null | undefined);
+type GoOptions = { fx?: number; fy?: number; dur?: number };
+
+const clamp = (v: number, min: number, max: number) => Math.max(min, Math.min(max, v));
+/* Плавный ход курсора: медленный старт, мягкое торможение без рывка на финише. */
+const easeInOutQuart = (t: number) => (t < 0.5 ? 8 * t * t * t * t : 1 - Math.pow(-2 * t + 2, 4) / 2);
 
 const ACCESS: [PersonKey, string][] = [
   ['marina', 'Администратор'],
@@ -345,20 +342,6 @@ export function initLiveDashboard(embed: HTMLElement): () => void {
     toast(btn, 'Скопировано');
   };
 
-  /* Нейтральная подсветка активного элемента — одна на весь интерфейс. */
-  let focused: Element | null = null;
-  const focus = (selector: string) => {
-    blur();
-    const el = $(selector);
-    if (!el) return null;
-    el.classList.add('pw-hl');
-    focused = el;
-    return el;
-  };
-  const blur = () => {
-    focused?.classList.remove('pw-hl');
-    focused = null;
-  };
   const press = (el: Element | null) => {
     if (!el) return;
     el.classList.add('pw-pressed');
@@ -449,37 +432,7 @@ export function initLiveDashboard(embed: HTMLElement): () => void {
     }
   };
 
-  /* ---------- подсказки и всплывающая панель доступа ---------- */
-  let callout: HTMLElement | null = null;
-  const hideCallout = () => {
-    if (!callout) return;
-    const el = callout;
-    callout = null;
-    el.classList.add('is-out');
-    later(() => el.remove(), 220);
-  };
-  const showCallout = (spec: Callout) => {
-    hideCallout();
-    const anchor = $(spec.anchor);
-    if (!anchor) return;
-    const r = appRect(anchor);
-    const el = document.createElement('div');
-    el.className = `pw-callout pw-callout--${spec.side}`;
-    el.textContent = spec.text;
-    if (spec.side === 'right') {
-      el.style.left = `${r.left + r.width + 18}px`;
-      el.style.top = `${r.top + r.height / 2}px`;
-    } else if (spec.side === 'below') {
-      el.style.left = `${r.left + Math.min(r.width / 2, 120)}px`;
-      el.style.top = `${r.top + r.height + 14}px`;
-    } else {
-      el.style.left = `${r.left + r.width / 2}px`;
-      el.style.top = `${r.top - 14}px`;
-    }
-    app.appendChild(el);
-    callout = el;
-  };
-
+  /* ---------- всплывающая панель доступа к папке ---------- */
   let accessMenu: HTMLElement | null = null;
   const closeAccess = () => {
     accessMenu?.remove();
@@ -504,135 +457,242 @@ export function initLiveDashboard(embed: HTMLElement): () => void {
     app.appendChild(menu);
     accessMenu = menu;
   };
+  const toggleTree = (row: Element | null) => {
+    const group = row && row.closest('.pw-tree-group');
+    if (group) group.classList.toggle('is-open');
+  };
 
-  /* ---------- вкладки тура ---------- */
-  const tour = embed.querySelector<HTMLElement>('.pw-tour');
-  const tabsEls = new Map<SceneId, HTMLElement>();
-  if (tour) {
-    tour.innerHTML = SCENES.map(
-      (scene) => `<button type="button" class="pw-tour__tab" role="tab" data-scene="${scene.id}">${scene.label}</button>`,
-    ).join('');
-    tour.querySelectorAll<HTMLElement>('.pw-tour__tab').forEach((el) => tabsEls.set(el.dataset.scene as SceneId, el));
-  }
-  const markTab = (id: SceneId) => {
-    tabsEls.forEach((el, key) => {
-      el.classList.toggle('is-active', key === id);
-      el.setAttribute('aria-selected', key === id ? 'true' : 'false');
+  const tween = (duration: number, frame: (p: number) => void) =>
+    new Promise<void>((resolve) => {
+      let elapsed = 0;
+      let last: number | null = null;
+      const step = (ts: number) => {
+        if (!alive) return resolve();
+        if (last == null) last = ts;
+        if (!isPaused()) elapsed += Math.min(48, ts - last);
+        last = ts;
+        const p = Math.min(1, elapsed / duration);
+        frame(p);
+        if (p < 1) requestAnimationFrame(step);
+        else resolve();
+      };
+      requestAnimationFrame(step);
     });
-    const active = tabsEls.get(id);
-    if (tour && active && tour.scrollWidth > tour.clientWidth + 2) {
-      tour.scrollTo({ left: active.offsetLeft - (tour.clientWidth - active.offsetWidth) / 2, behavior: 'smooth' });
+
+  /* ---------- курсор ---------- */
+  const layer = embed.querySelector<HTMLElement>('.pw-cursors');
+
+  class Cursor {
+    x: number;
+    y: number;
+    el: HTMLElement;
+    hoverEl: Element | null = null;
+    hoverTarget: Target | null = null;
+
+    constructor(start: Point) {
+      this.x = start.x;
+      this.y = start.y;
+      this.el = document.createElement('div');
+      this.el.className = 'pw-cursor';
+      this.el.innerHTML =
+        '<svg class="pw-cursor__arrow" viewBox="0 0 22 22"><path d="M1 1v15.3l4.3-3.7 2.9 6.3 2.9-1.3-2.9-6.2h5.5z"/></svg>';
+      layer?.appendChild(this.el);
+      this.render();
     }
-  };
+    render() {
+      this.el.style.transform = `translate(${this.x - 1}px, ${this.y - 1}px)`;
+    }
+    set(x: number, y: number) {
+      this.x = x;
+      this.y = y;
+      this.render();
+    }
+    show() {
+      this.el.classList.add('is-visible');
+    }
+    hide() {
+      this.el.classList.remove('is-visible');
+    }
+    resolve(target: Target | null): Element | null {
+      if (!target || !alive) return null;
+      if (typeof target === 'string') return $(target);
+      if (typeof target === 'function') return target() ?? null;
+      return target.isConnected ? target : null;
+    }
+    pointIn(el: Element, o: GoOptions): Point {
+      const r = appRect(el);
+      const fx = o.fx ?? (r.width < 60 ? 0.5 + random(-0.06, 0.06) : random(0.14, 0.5));
+      const fy = o.fy ?? (r.height < 40 ? 0.5 + random(-0.08, 0.08) : random(0.35, 0.65));
+      return { x: r.left + r.width * fx, y: r.top + r.height * fy };
+    }
+    /* Ход по слегка изогнутой дуге: старт и финиш мягкие, без прямых «телепортов». */
+    async moveTo(p: Point, o: GoOptions = {}) {
+      this.unhover();
+      const from = { x: this.x, y: this.y };
+      const dx = p.x - from.x;
+      const dy = p.y - from.y;
+      const dist = Math.hypot(dx, dy);
+      if (dist < 1) return;
+      const duration = o.dur ?? clamp(420 + dist * 1.35, 520, 1600) * random(0.95, 1.1);
+      const bend = dist * random(-0.1, 0.1);
+      const nx = -dy / dist;
+      const ny = dx / dist;
+      const cx = (from.x + p.x) / 2 + nx * bend;
+      const cy = (from.y + p.y) / 2 + ny * bend;
+      await tween(duration, (t) => {
+        const e = easeInOutQuart(t);
+        const u = 1 - e;
+        this.set(u * u * from.x + 2 * u * e * cx + e * e * p.x, u * u * from.y + 2 * u * e * cy + e * e * p.y);
+      });
+    }
+    async go(target: Target, o: GoOptions = {}): Promise<Element | null> {
+      let el = this.resolve(target);
+      if (!el) return null;
+      await this.moveTo(this.pointIn(el, o), o);
+      el = this.resolve(target);
+      if (!el) return null;
+      this.setHover(el, target);
+      return el;
+    }
+    setHover(el: Element, target: Target) {
+      if (this.hoverEl && this.hoverEl !== el) this.unhover();
+      el.classList.add('pw-hl');
+      this.hoverEl = el;
+      this.hoverTarget = target;
+    }
+    unhover() {
+      const el = this.hoverEl;
+      if (!el) return;
+      this.hoverEl = null;
+      this.hoverTarget = null;
+      el.classList.remove('pw-hl');
+    }
+    ripple() {
+      const r = document.createElement('div');
+      r.className = 'pw-ripple';
+      r.style.left = `${this.x}px`;
+      r.style.top = `${this.y}px`;
+      layer?.appendChild(r);
+      later(() => r.remove(), 600);
+    }
+    async click(action?: (el: Element | null) => void) {
+      const el = this.hoverTarget ? this.resolve(this.hoverTarget) : this.hoverEl;
+      if (this.hoverTarget && !el) return false;
+      this.el.classList.add('is-pressed');
+      this.ripple();
+      if (el) press(el);
+      await sleep(120);
+      this.el.classList.remove('is-pressed');
+      if (action && alive) action(el);
+      await sleep(160);
+      return true;
+    }
+    idle(a: number, b = a) {
+      return sleep(random(a, b));
+    }
+  }
 
-  let run = 0; // номер текущего запуска сцены — устаревшие шаги отменяются
-  const stale = (token: number) => !alive || token !== run;
-
-  const resetScene = () => {
-    hideCallout();
-    closeAccess();
-    blur();
-    if (state.query) setQuery('');
-    searchBlur();
-    if (state.reveal) setReveal(false);
-  };
-
-  const playScene = async (id: SceneId) => {
-    const token = ++run;
-    const scene = SCENES.find((s) => s.id === id) ?? SCENES[0];
-    markTab(scene.id);
-    resetScene();
-
-    if (scene.id === 'vault') {
-      selectEntry(HOME_ENTRY);
-      if (state.tab !== 'data') setTab('data');
-      await sleep(500);
-      if (stale(token)) return;
-      focus('.pw-tree-row[data-id="access"]');
-      showCallout(scene.callout);
-    } else if (scene.id === 'search') {
-      selectEntry(HOME_ENTRY);
-      if (state.tab !== 'data') setTab('data');
-      focus('.pw-search');
-      searchFocus();
-      await sleep(260);
-      if (stale(token)) return;
-      await typeSearch(QUERY);
-      if (stale(token)) return;
-      await sleep(420);
-      if (stale(token)) return;
-      blur();
-      searchBlur();
-      selectEntry(FOUND_ENTRY);
-      await sleep(700);
-      if (stale(token)) return;
-      focus('[data-act="eye"]');
-      await revealTyped();
-      if (stale(token)) return;
-      await sleep(300);
-      if (stale(token)) return;
-      showCallout(scene.callout);
-      await sleep(1400);
-      if (stale(token)) return;
-      const copyBtn = focus('[data-copy="pass"]');
-      if (copyBtn) {
-        press(copyBtn);
-        copyFlash(copyBtn);
+  /* ---------- сценарий ---------- */
+  const scenario = async (c: Cursor) => {
+    await c.idle(900, 1300);
+    c.show();
+    while (alive) {
+      // поиск
+      if (await c.go('[data-id="search"]', { fx: 0.4 })) {
+        await c.idle(260, 420);
+        await c.click(() => searchFocus());
+        await c.idle(320, 480);
+        await typeSearch(QUERY);
+        await c.idle(700, 1000);
       }
-    } else if (scene.id === 'audit') {
-      selectEntry(FOUND_ENTRY);
-      await sleep(320);
-      if (stale(token)) return;
-      focus('[data-tab="history"]');
-      setTab('history', { stagger: true });
-      await sleep(1300);
-      if (stale(token)) return;
-      showCallout(scene.callout);
-    } else {
-      selectEntry(HOME_ENTRY);
-      if (state.tab !== 'data') setTab('data');
-      await sleep(420);
-      if (stale(token)) return;
-      focus('[data-act="head-share"]');
-      press(focused);
-      await sleep(180);
-      if (stale(token)) return;
-      openAccess();
-      await sleep(700);
-      if (stale(token)) return;
-      showCallout(scene.callout);
+      if (await c.go(`.pw-item[data-id="${FOUND_ENTRY}"]`)) {
+        await c.idle(300, 460);
+        await c.click(() => {
+          searchBlur();
+          selectEntry(FOUND_ENTRY);
+        });
+        await c.idle(900, 1300);
+      }
+
+      // пароль: показать, скопировать, скрыть
+      if (await c.go('[data-act="eye"]')) {
+        await c.idle(320, 480);
+        await c.click();
+        await revealTyped();
+        await c.idle(1100, 1500);
+      }
+      if (await c.go('[data-copy="pass"]')) {
+        await c.idle(260, 400);
+        await c.click((el) => copyFlash(el));
+        await c.idle(1300, 1700);
+      }
+      if (await c.go('[data-act="eye"]')) {
+        await c.idle(240, 380);
+        await c.click(() => setReveal(false));
+        await c.idle(500, 800);
+      }
+
+      // журнал действий
+      if (await c.go('[data-tab="history"]')) {
+        await c.idle(300, 450);
+        await c.click(() => setTab('history', { stagger: true }));
+        await c.idle(1300, 1700);
+        for (let i = 0; i < 3; i++) {
+          if (!(await c.go(() => $$('.pw-hist')[i]))) break;
+          await c.idle(600, 900);
+        }
+        await c.idle(400, 700);
+      }
+
+      // права на папку
+      if (await c.go('[data-act="head-share"]')) {
+        await c.idle(300, 450);
+        await c.click(() => openAccess());
+        await c.idle(700, 1000);
+        if (await c.go(() => $$('.pw-access')[1])) await c.idle(700, 1000);
+        if (await c.go(() => $$('.pw-access')[2])) await c.idle(600, 900);
+        closeAccess();
+        await c.idle(400, 700);
+      }
+
+      // дерево сейфов
+      if (await c.go('.pw-tree-row[data-id="test"]')) {
+        await c.idle(300, 450);
+        await c.click((el) => toggleTree(el));
+        await c.idle(900, 1300);
+        if (await c.go(() => $$('.pw-tree-group[data-id="test"] .pw-tree-children .pw-tree-row')[1])) {
+          await c.idle(700, 1000);
+        }
+        if (await c.go('.pw-tree-row[data-id="test"]')) {
+          await c.idle(240, 380);
+          await c.click((el) => toggleTree(el));
+          await c.idle(500, 800);
+        }
+      }
+
+      // сброс: очистить поиск, вернуться к исходной записи, отойти в сторону
+      if (await c.go('[data-act="search-clear"]')) {
+        await c.idle(260, 400);
+        await c.click(() => {
+          setQuery('');
+          searchBlur();
+          selectEntry(HOME_ENTRY);
+        });
+        await c.idle(600, 900);
+      }
+      await c.moveTo({ x: random(820, 1180), y: random(600, 680) });
+      await c.idle(5000, 7000);
     }
   };
-
-  let index = 0;
-  let autoRun = 0;
-  const schedule = () => {
-    const token = ++autoRun;
-    void (async () => {
-      await sleep(SCENE_MS); // sleep стоит на паузе, пока хиро не виден
-      if (!alive || token !== autoRun) return;
-      index = (index + 1) % SCENES.length;
-      void playScene(SCENES[index].id);
-      schedule();
-    })();
-  };
-  const onTabClick = (event: Event) => {
-    const target = (event.target as HTMLElement).closest<HTMLElement>('.pw-tour__tab');
-    const id = target?.dataset.scene as SceneId | undefined;
-    if (!id) return;
-    index = SCENES.findIndex((s) => s.id === id);
-    void playScene(id);
-    schedule();
-  };
-  tour?.addEventListener('click', onTabClick);
 
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const cursor = new Cursor({ x: 980, y: 560 });
   if (reducedMotion) {
-    markTab('vault');
-    showCallout(SCENES[0].callout);
+    // без движения: конечное состояние — запись открыта, журнал заполнен, курсора нет
+    state.tab = 'history';
+    renderDetail();
   } else {
-    void playScene('vault');
-    schedule();
+    void scenario(cursor);
   }
 
   return () => {
@@ -643,13 +703,12 @@ export function initLiveDashboard(embed: HTMLElement): () => void {
     resizeObserver?.disconnect();
     if (!resizeObserver) window.removeEventListener('resize', fit);
     intersection?.disconnect();
-    autoRun += 1;
-    tour?.removeEventListener('click', onTabClick);
-    hideCallout();
     closeAccess();
-    blur();
+    cursor.unhover();
+    cursor.hide();
     state.query = '';
     searchBlur();
-    app.querySelectorAll('.pw-toast, .pw-callout').forEach((el) => el.remove());
+    app.querySelectorAll('.pw-toast').forEach((el) => el.remove());
+    if (layer) layer.innerHTML = '';
   };
 }
