@@ -1,5 +1,4 @@
 @import "./live-dashboard.css";
-@import "./security-preview.css";
 
 @font-face {
   font-family: 'Inter';
@@ -6156,19 +6155,6 @@ img {
 .figma-security-card.is-infrastructure { grid-area: infrastructure; }
 .figma-security-card.is-data { grid-area: data; }
 
-.figma-security-card:not(.is-fstec) {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 224px;
-  align-items: end;
-}
-
-.figma-security-card:not(.is-fstec) .security-preview {
-  grid-area: 1 / 2;
-  min-height: 0;
-  align-self: stretch;
-  padding: 24px 14px;
-}
-
 .figma-security-card__copy {
   display: flex;
   flex-direction: column;
@@ -6215,9 +6201,8 @@ img {
 }
 
 .figma-security-card:not(.is-fstec) .figma-security-card__copy {
-  grid-area: 1 / 1;
   gap: 14px;
-  padding: 23px 0 23px 23px;
+  padding: 23px;
 }
 
 .figma-security-card:not(.is-fstec) h3 {
@@ -6351,15 +6336,6 @@ img {
     line-height: 42px;
   }
 
-  .figma-security-card:not(.is-fstec) {
-    display: flex;
-  }
-
-  .figma-security-card:not(.is-fstec) .security-preview {
-    flex-basis: 224px;
-    min-height: 224px;
-  }
-
   .figma-security-card:not(.is-fstec) .figma-security-card__copy {
     padding: 0 23px 23px;
   }
@@ -6392,13 +6368,7 @@ img {
   }
 
   .figma-security-card:not(.is-fstec) {
-    display: grid;
     min-height: 220px;
-    grid-template-columns: minmax(0, 1fr) 280px;
-  }
-
-  .figma-security-card:not(.is-fstec) .figma-security-card__copy {
-    padding: 23px 0 23px 23px;
   }
 }
 
@@ -6532,12 +6502,6 @@ img {
 
   .figma-security-card.is-fstec {
     min-height: 440px;
-  }
-
-  .figma-security-card:not(.is-fstec) .security-preview {
-    flex-basis: 260px;
-    min-height: 260px;
-    padding: 28px 24px;
   }
 
   .figma-security-card__copy,
