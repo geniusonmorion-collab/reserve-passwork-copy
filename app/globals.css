@@ -6078,21 +6078,21 @@ img {
 }
 
 /* ============================================================
-   Секция «Пассворк разработан в России…», Figma 485:9866.
-   Канвас 1344px: 783px + 548px, три ряда и промежутки 10px.
+   Секция «Пассворк разработан в России…», Figma 485:9384.
+   Широкая панель ФСТЭК и ряд из четырёх сфер применения.
    ============================================================ */
 .figma-security {
   --section-ink: #f7f8f8;
   --section-text: #d0d6e0;
   --section-muted: #8a8f98;
-  --section-line: rgb(255 255 255 / 16%);
-  --section-surface: #0b0c0d;
-  padding-top: 80px;
+  --section-line: rgb(255 255 255 / 8%);
+  --section-surface: #0f1011;
+  padding-top: 70px;
   background: #000;
 }
 
 .figma-security__inner {
-  width: min(1344px, calc(100% - 48px));
+  width: min(1352px, calc(100% - 48px));
 }
 
 .figma-security__statement {
@@ -6119,47 +6119,36 @@ img {
   text-transform: uppercase;
 }
 
-/* Featured card spans all three rows; compact cards keep their reading order. */
+/* The certification panel and sector row share one continuous width. */
 .figma-security-grid {
   display: grid;
   margin-top: 92px;
-  padding-left: 3px;
   gap: 10px;
-  grid-template-columns: minmax(0, 783fr) minmax(0, 548fr);
-  grid-template-rows: minmax(243px, auto) minmax(246px, auto) minmax(255px, auto);
-  grid-template-areas:
-    'fstec gost'
-    'fstec infrastructure'
-    'fstec data';
+  grid-template-columns: minmax(0, 1fr);
 }
 
 .figma-security-card {
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: flex-start;
   min-width: 0;
   min-height: 0;
   overflow: hidden;
   border: 1px solid var(--section-line);
   border-radius: 7px;
-  background: var(--section-surface);
+  background: linear-gradient(110.4817deg, #0a111c 9.8042%, #1a2a44 47.613%, #2c4672 91.17%);
 }
 
 .figma-security-card.is-fstec {
-  grid-area: fstec;
-  min-height: 764px;
+  min-height: 501px;
 }
-
-.figma-security-card.is-gost { grid-area: gost; }
-.figma-security-card.is-infrastructure { grid-area: infrastructure; }
-.figma-security-card.is-data { grid-area: data; }
 
 .figma-security-card__copy {
   display: flex;
   flex-direction: column;
   gap: 18px;
-  padding: 0 23px 23px;
+  padding: 23px;
 }
 
 .figma-security-card h3,
@@ -6172,7 +6161,7 @@ img {
   font-size: 24px;
   font-weight: 500;
   letter-spacing: -0.15px;
-  line-height: 28px;
+  line-height: 22px;
 }
 
 .figma-security-card p {
@@ -6188,51 +6177,27 @@ img {
   max-width: 412px;
 }
 
-.figma-security-card.is-gost p {
-  max-width: 562px;
-}
-
-.figma-security-card.is-infrastructure p {
-  max-width: 462px;
-}
-
-.figma-security-card.is-data p {
-  max-width: 416px;
-}
-
-.figma-security-card:not(.is-fstec) .figma-security-card__copy {
-  gap: 14px;
-  padding: 23px;
-}
-
-.figma-security-card:not(.is-fstec) h3 {
-  font-size: 20px;
-  line-height: 24px;
-}
-
-.figma-security-card:not(.is-fstec) p {
-  font-size: 16px;
-  line-height: 22px;
-  white-space: normal;
-}
-
-/* ---------- Блок ФСТЭК, Figma 485:9932 ---------- */
+/* ---------- Российское решение, Figma 485:9384 ---------- */
 .figma-fstec {
   --section-ink: #f7f8f8;
   --section-text: #d0d6e0;
   --section-muted: #8a8f98;
   --section-line: rgb(255 255 255 / 8%);
   --section-surface: #0f1011;
-  padding-top: 160px;
+  padding-top: 182px;
   background: #000;
+}
+
+.figma-fstec__inner {
+  width: min(1352px, calc(100% - 48px));
 }
 
 .figma-fstec__head {
   display: grid;
   align-items: start;
-  column-gap: 21.65%;
+  column-gap: 22.148%;
   grid-template-columns: minmax(0, 505fr) minmax(0, 544fr);
-  padding-right: 4px;
+  padding-right: 2px;
 }
 
 .figma-fstec__title {
@@ -6248,25 +6213,31 @@ img {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 27px;
+  gap: 24px;
 }
 
 .figma-fstec__copy p {
   margin: 0;
   color: var(--section-text);
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 400;
   letter-spacing: -0.15px;
-  line-height: 32px;
+  line-height: 28px;
 }
 
 .figma-fstec__copy .figma-button {
-  width: 222px;
+  width: auto;
+  padding-left: 0;
+  color: rgb(255 255 255 / 69%);
+}
+
+.figma-fstec__copy .figma-button:hover {
+  color: #fff;
 }
 
 .figma-sectors {
   display: grid;
-  margin-top: 92px;
+  margin-top: 0;
   gap: 10px;
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
@@ -6274,25 +6245,13 @@ img {
 .figma-sector-card {
   display: flex;
   min-width: 0;
-  min-height: 227px;
+  min-height: 187px;
   flex-direction: column;
-  justify-content: space-between;
-  gap: 40px;
+  justify-content: flex-end;
   padding: 23px;
   border: 1px solid var(--section-line);
   border-radius: 7px;
   background: var(--section-surface);
-}
-
-.figma-sector-card:nth-child(n + 3) {
-  padding: 20px 20px 30px;
-}
-
-.figma-sector-card__icon {
-  display: block;
-  width: 32px;
-  height: 32px;
-  flex: none;
 }
 
 .figma-sector-card__copy {
@@ -6311,7 +6270,7 @@ img {
 
 .figma-sector-card h3 {
   color: #fff;
-  font-size: 24px;
+  font-size: 20px;
 }
 
 .figma-sector-card p {
@@ -6336,10 +6295,6 @@ img {
     line-height: 42px;
   }
 
-  .figma-security-card:not(.is-fstec) .figma-security-card__copy {
-    padding: 0 23px 23px;
-  }
-
   .figma-fstec__head {
     column-gap: 48px;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1.08fr);
@@ -6352,23 +6307,6 @@ img {
 
   .figma-sectors {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (min-width: 768px) and (max-width: 900px) {
-  .figma-security-grid {
-    padding-left: 0;
-    grid-template-columns: 1fr;
-    grid-template-rows: auto;
-    grid-template-areas: 'fstec' 'gost' 'infrastructure' 'data';
-  }
-
-  .figma-security-card.is-fstec {
-    min-height: 520px;
-  }
-
-  .figma-security-card:not(.is-fstec) {
-    min-height: 220px;
   }
 }
 
@@ -6486,28 +6424,17 @@ img {
 
   .figma-security-grid {
     margin-top: 48px;
-    padding-left: 0;
     gap: 10px;
     grid-template-columns: 1fr;
-    grid-template-rows: auto;
-    grid-template-areas: 'fstec' 'gost' 'infrastructure' 'data';
-  }
-
-  .figma-security-card,
-  .figma-security-card:not(.is-fstec) {
-    display: flex;
-    min-height: 400px;
-    align-items: stretch;
   }
 
   .figma-security-card.is-fstec {
-    min-height: 440px;
+    min-height: 320px;
   }
 
-  .figma-security-card__copy,
-  .figma-security-card:not(.is-fstec) .figma-security-card__copy {
+  .figma-security-card__copy {
     gap: 18px;
-    padding: 0 23px 23px;
+    padding: 23px;
   }
 
   .figma-security-card h3 {
@@ -6542,20 +6469,19 @@ img {
   }
 
   .figma-fstec__copy .figma-button {
-    width: 222px;
+    width: auto;
     max-width: 100%;
   }
 
   .figma-sectors {
-    margin-top: 48px;
+    margin-top: 0;
     gap: 10px;
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .figma-sector-card,
-  .figma-sector-card:nth-child(n + 3) {
-    min-height: 210px;
-    padding: 20px;
+  .figma-sector-card {
+    min-height: 160px;
+    padding: 23px;
   }
 
   .figma-sector-card h3 {
