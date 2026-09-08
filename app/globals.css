@@ -6156,6 +6156,7 @@ img {
 
 .figma-security-card.is-fstec {
   min-height: 501px;
+  background-image: linear-gradient(100.57872875770329deg, #0a111c 9.8042%, #1a2a44 47.613%, #2c4672 91.17%);
 }
 
 .figma-security-card__copy {
