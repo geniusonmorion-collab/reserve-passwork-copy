@@ -124,11 +124,6 @@ export default function CertificationMotion() {
             </span>
           </div>
         </div>
-        <div className="trust-flow__status">
-          <span className="trust-flow__status-copy trust-flow__status-copy--waiting">Проверка прав</span>
-          <span className="trust-flow__status-copy trust-flow__status-copy--checking"><i className="trust-flow__spinner" />Проверка доступа…</span>
-          <span className="trust-flow__status-copy trust-flow__status-copy--allowed">Доступ разрешён</span>
-        </div>
       </div>
 
       <svg className="trust-flow__connection trust-flow__connection--desktop" viewBox="0 0 160 240" preserveAspectRatio="none">

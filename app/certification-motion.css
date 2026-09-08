@@ -1,5 +1,4 @@
 .certification-motion {
-  --trust-ink: #d2d2d5;
   --trust-ease: cubic-bezier(.22,.75,.22,1);
   position: relative;
   display: grid;
@@ -88,9 +87,6 @@
 .trust-flow__hub > img { opacity: .35; transition: opacity 900ms; }
 .trust-flow__hub-check { position: absolute; right: -5px; bottom: 0; padding: 5px; border: 1px solid #414145; border-radius: 50%; background: #222225; opacity: 0; transform: scale(.7); transition: opacity 650ms, transform 850ms var(--trust-ease); }
 .trust-flow__hub-check img { display: block; filter: grayscale(1) brightness(2.4); }
-.trust-flow__status { position: relative; height: 22px; }
-.trust-flow__status-copy { position: absolute; inset: 0; display: flex; justify-content: center; align-items: center; gap: 9px; color: var(--trust-ink); font-size: 16px; line-height: 22px; white-space: nowrap; opacity: 0; filter: blur(4px); transform: translateY(5px); transition: opacity 450ms, filter 550ms, transform 650ms var(--trust-ease); }
-.trust-flow__spinner { width: 14px; height: 14px; flex: 0 0 auto; border: 1px solid #46464c; border-top-color: #c2c2cb; border-radius: 50%; animation: trust-spin 1.5s linear infinite; animation-play-state: paused; }
 
 .trust-flow__destination { padding-top: 28px; }
 .trust-flow__resource { position: relative; display: flex; align-items: center; gap: 12px; height: 48px; padding: 0 14px 0 8px; border: 1px solid rgb(255 255 255 / 7%); border-radius: 10px; background: linear-gradient(125deg, #242426, #1b1b1d); box-shadow: 0 1px 0 rgb(255 255 255 / 3%) inset, 0 10px 20px rgb(0 0 0 / 13%); color: #9999a1; text-align: left; font-size: 14px; line-height: 20px; transition: color 800ms, border-color 800ms, box-shadow 800ms, transform 900ms var(--trust-ease); }
@@ -103,10 +99,6 @@
 .trust-flow__journal-label > span { position: absolute; inset: 0; white-space: nowrap; transition: opacity 600ms, filter 650ms, transform 650ms var(--trust-ease); }
 .trust-flow__journal-label > span:last-child { opacity: 0; filter: blur(4px); transform: translateY(4px); }
 
-.certification-motion:is([data-phase='waiting'], [data-phase='request']) .trust-flow__status-copy--waiting,
-.certification-motion[data-phase='checking'] .trust-flow__status-copy--checking,
-.certification-motion:is([data-phase='allowed'], [data-phase='logged']) .trust-flow__status-copy--allowed { opacity: 1; filter: blur(0); transform: translateY(0); }
-.certification-motion[data-running='true'][data-phase='checking'] .trust-flow__spinner { animation-play-state: running; }
 .certification-motion[data-phase='request'] .trust-flow__request-pulse { animation: trust-request 1.8s var(--trust-ease) both; animation-play-state: paused; }
 .certification-motion[data-phase='request'][data-running='true'] .trust-flow__request-pulse { animation-play-state: running; }
 .certification-motion:not([data-phase='waiting']) .trust-flow__avatar { color: #b9b9c3; box-shadow: 0 0 0 1px rgb(255 255 255 / 12%), 0 1px 1px rgb(255 255 255 / 12%) inset, 0 10px 24px rgb(0 0 0 / 27%); }
@@ -127,7 +119,6 @@
 .certification-motion[data-phase='logged'] .trust-flow__journal-label > span:first-child { opacity: 0; filter: blur(4px); transform: translateY(-4px); }
 .certification-motion[data-phase='logged'] .trust-flow__journal-label > span:last-child { opacity: 1; filter: blur(0); transform: translateY(0); }
 
-@keyframes trust-spin { to { transform: rotate(360deg); } }
 @keyframes trust-request { 0% { opacity: 0; transform: scale(.75); } 25% { opacity: .8; } 100% { opacity: 0; transform: scale(1.85); } }
 
 @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
@@ -142,7 +133,6 @@
   .trust-flow__orbits { width: 320px; height: 320px; }
   .trust-flow__hub { width: 136px; height: 136px; }
   .trust-flow__resource { font-size: 13px; gap: 8px; padding-right: 10px; }
-  .trust-flow__status-copy { font-size: 14px; }
 }
 
 @media (max-width: 767px) {
