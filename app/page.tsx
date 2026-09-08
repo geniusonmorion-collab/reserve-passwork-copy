@@ -106,6 +106,15 @@ export default function Home() {
           </span>
 
           <div className="figma-hero__copy">
+            <div className="figma-hero__badge">
+              <svg viewBox="0 0 16 16" aria-hidden="true">
+                <path d="M8 1.6 13.4 3.8v3.9c0 3.2-2.3 5.5-5.4 6.7C4.9 13.2 2.6 10.9 2.6 7.7V3.8z" />
+                <path d="m5.6 8 1.7 1.7L10.6 6" />
+              </svg>
+              <span>Сделано в России</span>
+              <i aria-hidden="true" />
+              <span>Реестр отечественного ПО</span>
+            </div>
             <h1 id="hero-title">
               Пассворк — основа вашей
               <br />

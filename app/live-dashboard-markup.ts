@@ -91,6 +91,5 @@ export const LIVE_DASHBOARD_MARKUP = `
     </div>
   </div>
 </div>
-<div class="pw-cursors"></div>
 </div>
 `;

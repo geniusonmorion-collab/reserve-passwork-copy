@@ -5603,11 +5603,53 @@ img {
 .figma-hero__copy {
   position: absolute;
   z-index: 10;
-  top: 180px;
+  top: 128px; /* 180px минус плашка (30px) и её отступ (22px) — заголовок остаётся на месте */
   left: 50%;
   width: min(1344px, calc(100% - 48px));
   padding-left: 2px;
   transform: translateX(-50%);
+}
+
+/* Плашка происхождения: тихая, без флага — тезис важный, но не кричащий */
+.figma-hero__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  height: 30px;
+  margin: 0 0 22px;
+  padding: 0 13px 0 10px;
+  border: 1px solid rgb(255 255 255 / 13%);
+  border-radius: 999px;
+  background: rgb(255 255 255 / 5%);
+  color: #d3dbe9;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: -0.1px;
+  line-height: 1;
+  white-space: nowrap;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+
+.figma-hero__badge svg {
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: #82a6ee;
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.figma-hero__badge i {
+  width: 1px;
+  height: 12px;
+  background: rgb(255 255 255 / 18%);
+}
+
+.figma-hero__badge span:last-child {
+  color: #97a3ba;
+  font-weight: 400;
 }
 
 .figma-hero__copy h1 {
@@ -5661,14 +5703,16 @@ img {
   z-index: 0;
   inset: 0 12px;
   border-radius: 6px;
-  /* верх прозрачный: base-градиент продолжается без шва, синий поднимается снизу */
+  /* верх прозрачный: base-градиент продолжается без шва, синий поднимается снизу.
+     Низ намеренно не уходит в белый — тёмный мокап стоит на приглушённом синем,
+     а не вырезается на светлой полосе. */
   background: radial-gradient(
       ellipse 52% 92% at 50% 100%,
       rgb(8 9 10 / 0%) 0%,
-      rgb(15 39 93 / 25%) 50%,
-      rgb(22 68 176 / 50%) 100%
+      rgb(13 30 68 / 25%) 50%,
+      rgb(18 53 110 / 45%) 100%
     ),
-    linear-gradient(180deg, rgb(9 34 88 / 0%) 0%, rgb(9 34 88 / 0%) 8%, #316bcc 70.406%, #fff 100%);
+    linear-gradient(180deg, rgb(9 34 88 / 0%) 0%, rgb(9 34 88 / 0%) 8%, #1c3f7d 70%, #3a63a8 100%);
   -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 26%);
   mask-image: linear-gradient(to bottom, transparent 0%, #000 26%);
 }
@@ -5806,14 +5850,18 @@ img {
   }
 }
 
+/* Тень мокапа нарисована в hero-texture.png: линия схождения лежит на ~0.8 высоты
+   картинки (713px при height 891px). При top 26px она совпадает с нижним бортом
+   мокапа (14px + 725px). Параллакс двигает тень вместе с мокапом. */
 .figma-hero__texture {
   position: absolute;
   z-index: 1;
-  top: -35px;
+  top: 26px;
   left: 0;
   width: 100%;
   height: 891px;
   object-fit: cover;
+  transform: translateY(var(--pw-parallax, 0px));
 }
 
 .figma-hero__product {
@@ -5827,7 +5875,7 @@ img {
   border-radius: 15px;
   object-fit: cover;
   object-position: bottom;
-  transform: translateX(-50%);
+  transform: translate(-50%, var(--pw-parallax, 0px));
 }
 
 .figma-client-logos {
@@ -6536,9 +6584,21 @@ img {
   }
 
   .figma-hero__copy {
-    top: 112px;
+    top: 98px;
     width: calc(100% - 32px);
     padding-left: 0;
+  }
+
+  .figma-hero__badge {
+    height: 26px;
+    margin-bottom: 16px;
+    padding: 0 10px 0 8px;
+    font-size: 11px;
+  }
+
+  .figma-hero__badge svg {
+    width: 12px;
+    height: 12px;
   }
 
   .figma-hero__copy h1 {
@@ -6576,15 +6636,17 @@ img {
   }
 
   .figma-hero__texture {
-    top: -20px;
+    /* низ мокапа: 8px + 680 × 725 / 1344 ≈ 375px; пол тени 0.8 × 418 = 334px */
+    top: 41px;
     left: 50%;
     width: 900px;
     height: 418px;
     max-width: none;
-    transform: translateX(-50%);
+    transform: translate(-50%, var(--pw-parallax, 0px));
   }
 
   .figma-hero__product {
+    --pw-s: 0.506; /* 680 / 1344 — масштаб до гидратации, чтобы сцена не мигала в полный размер */
     top: 8px;
     width: 680px;
     max-width: none;
