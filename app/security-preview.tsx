@@ -58,14 +58,15 @@ function InfrastructurePreview() {
 
 function DataPreview() {
   return (
-    <div className="security-preview__panel">
-      <div className="security-preview__header">Внешние соединения</div>
-      {['Телеметрия', 'Внешние API'].map((label) => (
-        <div className="security-preview__row" key={label}>
+    <div className="security-preview__flow">
+      {['Телеметрия', 'Внешние API', 'Внешние сервисы'].map((label) => (
+        <div className="security-preview__panel security-preview__flow-row" key={label}>
           <span>{label}</span><span className="security-preview__switch"><span /></span>
         </div>
       ))}
-      <div className="security-preview__privacy"><Check /><span>Данные внутри</span></div>
+      <span className="security-preview__flow-status">
+        <Image src="/assets/icon-security-a.svg" width={14} height={18} alt="" unoptimized />
+      </span>
     </div>
   );
 }
