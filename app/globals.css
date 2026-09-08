@@ -5616,7 +5616,7 @@ img {
 .figma-hero__copy {
   position: absolute;
   z-index: 10;
-  top: 208px;
+  top: 240px;
   left: 50%;
   width: min(1344px, calc(100% - 48px));
   transform: translateX(-50%);
@@ -5671,11 +5671,21 @@ img {
   display: block;
 }
 
-.figma-hero__copy > p {
-  width: 100%;
-  margin: 24px 0 0;
+.figma-hero__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  margin-top: 28px;
+}
+
+.figma-hero__description {
+  width: 414px;
+  max-width: 100%;
+  flex: 0 1 414px;
+  margin: 0;
   color: rgb(255 255 255 / 62%);
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 400;
   letter-spacing: -0.15px;
   line-height: 24px;
@@ -5683,9 +5693,10 @@ img {
 
 .figma-hero__actions {
   display: flex;
+  flex: none;
   align-items: center;
   gap: 12px;
-  margin-top: 46px;
+  margin: 0;
 }
 
 .figma-hero__actions .figma-button--primary {
@@ -5815,7 +5826,7 @@ img {
 @media (prefers-reduced-motion: no-preference) {
   .figma-hero__origin,
   .figma-hero__title-line,
-  .figma-hero__copy > p,
+  .figma-hero__description,
   .figma-hero__actions,
   .figma-hero__product {
     animation: figma-hero-blur-in 1300ms cubic-bezier(0.22, 0.61, 0.36, 1)
@@ -5833,7 +5844,7 @@ img {
     --hero-enter-delay: 260ms;
   }
 
-  .figma-hero__copy > p {
+  .figma-hero__description {
     --hero-enter-delay: 560ms;
     --hero-enter-blur: 8px;
     --hero-enter-offset: 10px;
@@ -6312,6 +6323,22 @@ img {
   }
 }
 
+@media (min-width: 768px) and (max-width: 900px) {
+  .figma-hero__copy {
+    top: 208px;
+  }
+
+  .figma-hero__footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 28px;
+  }
+
+  .figma-hero__description {
+    flex: none;
+  }
+}
+
 @media (max-width: 767px) {
   .figma-shell {
     width: calc(100% - 32px);
@@ -6362,8 +6389,16 @@ img {
     margin-bottom: 20px;
   }
 
-  .figma-hero__copy > p {
+  .figma-hero__footer {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 28px;
     margin-top: 24px;
+  }
+
+  .figma-hero__description {
+    width: 100%;
+    flex: none;
     font-size: 14px;
     line-height: 20px;
   }
@@ -6372,7 +6407,6 @@ img {
     flex-direction: column;
     align-items: stretch;
     gap: 10px;
-    margin-top: 28px;
   }
 
   .figma-hero__actions .figma-button--primary,

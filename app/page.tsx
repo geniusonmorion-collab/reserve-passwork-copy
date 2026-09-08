@@ -72,15 +72,17 @@ export default function Home() {
               <span className="figma-hero__title-line">Пассворк — основа вашей</span>
               <span className="figma-hero__title-line">информационной безопасности</span>
             </h1>
-            <p>
-              Управление корпоративными паролями, доступами и действиями — в одном
-              защищённом контуре
-            </p>
-            <div className="figma-hero__actions">
-              <PrimaryAction />
-              <a className="figma-button figma-button--secondary" href="#certification">
-                Получить демо
-              </a>
+            <div className="figma-hero__footer">
+              <p className="figma-hero__description">
+                Управление корпоративными паролями, доступами и действиями — в одном
+                защищённом контуре
+              </p>
+              <div className="figma-hero__actions">
+                <PrimaryAction />
+                <a className="figma-button figma-button--secondary" href="#certification">
+                  Получить демо
+                </a>
+              </div>
             </div>
           </div>
 
