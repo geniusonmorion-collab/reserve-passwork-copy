@@ -6276,8 +6276,9 @@ img {
   top: 23px;
   left: 23px;
   display: block;
-  width: 20px;
-  height: 25px;
+  width: 24px;
+  height: 24px;
+  filter: brightness(0) invert(1);
 }
 
 .figma-sector-card__copy {

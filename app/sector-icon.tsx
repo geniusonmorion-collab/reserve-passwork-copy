@@ -3,10 +3,12 @@
 import Image from 'next/image';
 import { useEffect, useRef } from 'react';
 
-const rest = 'perspective(160px) rotateY(0deg)';
-const turned = 'perspective(160px) rotateY(360deg)';
+const rest = 'perspective(240px) rotateY(0deg)';
+const turned = 'perspective(240px) rotateY(360deg)';
 
-export default function SectorIcon() {
+type SectorIconName = 'factory' | 'network' | 'landmark' | 'shield-user';
+
+export default function SectorIcon({ name }: { name: SectorIconName }) {
   const iconRef = useRef<HTMLImageElement>(null);
 
   useEffect(() => {
@@ -28,14 +30,14 @@ export default function SectorIcon() {
 
     const start = () => {
       if (!motionAllowed.matches || animation) return;
-      // A quick three-dimensional turn followed by a quiet hold, as in the video.
+      // Ease into a full turn, then hold briefly before repeating.
       animation = icon.animate(
         [
-          { transform: rest, offset: 0, easing: 'cubic-bezier(0.45, 0, 0.2, 1)' },
-          { transform: turned, offset: 0.56 },
+          { transform: rest, offset: 0, easing: 'cubic-bezier(0.42, 0, 0.58, 1)' },
+          { transform: turned, offset: 0.64 },
           { transform: turned, offset: 1 },
         ],
-        { duration: 1600, iterations: Infinity },
+        { duration: 1900, iterations: Infinity },
       );
     };
 
@@ -46,7 +48,7 @@ export default function SectorIcon() {
       settling = true;
       animation = icon.animate(
         [{ transform: current }, { transform: rest }],
-        { duration: 260, easing: 'cubic-bezier(0.22, 0.61, 0.36, 1)' },
+        { duration: 360, easing: 'cubic-bezier(0.22, 0.61, 0.36, 1)' },
       );
       animation.onfinish = () => {
         reset();
@@ -77,9 +79,9 @@ export default function SectorIcon() {
     <Image
       ref={iconRef}
       className="figma-sector-card__icon"
-      src="/assets/figma-517-10784/sector-mark.svg"
-      width={20}
-      height={25}
+      src={`/assets/sector-icons/${name}.svg`}
+      width={24}
+      height={24}
       alt=""
       unoptimized
     />
