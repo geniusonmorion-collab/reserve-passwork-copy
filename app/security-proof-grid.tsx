@@ -1,4 +1,5 @@
 import ApplicationSectors from './application-sectors';
+import SectorIcon from './sector-icon';
 
 /* Figma 517:10784: certification panel beside a two-by-two sector grid. */
 
@@ -10,6 +11,11 @@ export default function SecurityProofGrid() {
           <h3 id="security-proof-fstec">ФСТЭК России, 4 уровень доверия</h3>
           <p>Соответствует требованиям госсектора<br />и критической инфраструктуры</p>
         </div>
+        <SectorIcon
+          name="badge-check"
+          className="figma-security-card__icon"
+          size={48}
+        />
       </article>
       <ApplicationSectors />
     </div>

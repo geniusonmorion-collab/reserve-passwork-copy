@@ -3,6 +3,7 @@
 import PostHeroSections from './post-hero-sections';
 import ClientLogoRotator from './client-logo-rotator';
 import LiveDashboard from './live-dashboard';
+import HeroFeatureChips from './hero-feature-chips';
 import SecurityProofGrid from './security-proof-grid';
 import FstecSection from './fstec-section';
 
@@ -86,8 +87,8 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="figma-hero__visual" aria-hidden="true">
-            <div className="figma-hero__background">
+          <div className="figma-hero__visual">
+            <div className="figma-hero__background" aria-hidden="true">
               <span className="figma-hero__visual-gradient" />
               <img
                 className="figma-hero__cast-shadow"
@@ -106,15 +107,12 @@ export default function Home() {
                 draggable="false"
               />
             </div>
-            <img
+            <span
               className="figma-hero__contact-shadow"
-              src="/assets/figma-473-454/hero-contact-shadow.svg"
-              alt=""
-              width="1451.2"
-              height="71.2"
-              draggable="false"
+              aria-hidden="true"
             />
             <LiveDashboard />
+            <HeroFeatureChips />
           </div>
         </section>
 

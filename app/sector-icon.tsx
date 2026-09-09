@@ -6,14 +6,24 @@ import { useEffect, useRef } from 'react';
 const rest = 'perspective(240px) rotateY(0deg)';
 const turned = 'perspective(240px) rotateY(360deg)';
 
-type SectorIconName = 'factory' | 'network' | 'landmark' | 'shield-user';
+type SectorIconName = 'factory' | 'network' | 'landmark' | 'shield-user' | 'badge-check';
 
-export default function SectorIcon({ name }: { name: SectorIconName }) {
+type SectorIconProps = {
+  name: SectorIconName;
+  className?: string;
+  size?: number;
+};
+
+export default function SectorIcon({
+  name,
+  className = 'figma-sector-card__icon',
+  size = 24,
+}: SectorIconProps) {
   const iconRef = useRef<HTMLImageElement>(null);
 
   useEffect(() => {
     const icon = iconRef.current;
-    const card = icon?.closest('.figma-sector-card');
+    const card = icon?.closest('.figma-sector-card, .figma-security-card');
     if (!icon || !card) return;
 
     const motionAllowed = window.matchMedia(
@@ -78,10 +88,10 @@ export default function SectorIcon({ name }: { name: SectorIconName }) {
   return (
     <Image
       ref={iconRef}
-      className="figma-sector-card__icon"
+      className={className}
       src={`/assets/sector-icons/${name}.svg`}
-      width={24}
-      height={24}
+      width={size}
+      height={size}
       alt=""
       unoptimized
     />

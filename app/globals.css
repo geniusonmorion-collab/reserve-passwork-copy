@@ -5459,6 +5459,7 @@ img {
 
 /* Figma 473:454 — security landing page */
 .figma-passwork-page {
+  --passwork-card-radius: 7px;
   position: relative;
   width: 100%;
   min-width: 320px;
@@ -5564,7 +5565,9 @@ img {
   color: #fff;
 }
 
-.figma-button--secondary {
+.figma-button--secondary,
+.figma-hero__feature-chip,
+.figma-hero__origin {
   background: rgb(255 255 255 / 5%);
   color: #f7f8f8;
 }
@@ -5592,7 +5595,7 @@ img {
   --hero-paint-width: min(1880px, calc(100cqw - var(--hero-frame-inset) * 2));
   --hero-blend-height: clamp(48px, calc(var(--hero-scene-width) / 16), 120px);
   position: relative;
-  height: calc(var(--hero-scene-top) + var(--hero-scene-width) * 832 / 1920);
+  padding-top: var(--hero-scene-top);
   overflow: hidden;
   background: #000;
   isolation: isolate;
@@ -5616,7 +5619,7 @@ img {
 .figma-hero__copy {
   position: absolute;
   z-index: 10;
-  top: 240px;
+  top: 188px;
   left: 50%;
   width: min(1344px, calc(100% - 48px));
   transform: translateX(-50%);
@@ -5643,10 +5646,8 @@ img {
   align-items: center;
   gap: 8px;
   padding: 5px 10px;
-  border: 1px solid rgb(255 255 255 / 10%);
+  border: 1px solid transparent;
   border-radius: 7px;
-  background: rgb(255 255 255 / 3%);
-  color: rgb(255 255 255 / 78%);
   font-size: 12px;
   font-weight: 500;
   letter-spacing: 0.1px;
@@ -5673,16 +5674,16 @@ img {
 
 .figma-hero__footer {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 32px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 42px;
   margin-top: 28px;
 }
 
 .figma-hero__description {
   width: 414px;
   max-width: 100%;
-  flex: 0 1 414px;
+  flex: none;
   margin: 0;
   color: rgb(255 255 255 / 62%);
   font-size: 16px;
@@ -5708,12 +5709,17 @@ img {
 }
 
 .figma-hero__visual {
-  position: absolute;
+  position: relative;
   z-index: 2;
-  top: var(--hero-scene-top);
   left: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
   width: var(--hero-scene-width);
-  height: calc(var(--hero-scene-width) * 832 / 1920);
+  min-height: calc(var(--hero-scene-width) * 832 / 1920);
+  padding-top: calc(var(--hero-scene-width) / 80);
+  padding-bottom: 24px;
   border-radius: 6px;
   transform: translateX(-50%);
 }
@@ -5766,13 +5772,14 @@ img {
   background-size: 100% 100%;
 }
 
-/* 473:458–459: исходный PNG, x=-5, y=-20, 1920 × 891, без новых масок. */
+/* 473:458–459: исходный PNG. Правый край приближен к интерфейсу
+   на 24 px при ширине сцены 1920 px; левый край остаётся на месте. */
 .figma-hero__cast-shadow {
   position: absolute;
   z-index: 1;
   top: -2.4038461538%;
   left: -0.2604166667%;
-  width: 100%;
+  width: 98.75%;
   height: 107.0913461538%;
   max-width: none;
   pointer-events: none;
@@ -5792,25 +5799,28 @@ img {
   pointer-events: none;
 }
 
-/* 485:9377: эллипс 1405 × 25, #1e1e1e, blur=23.1.
-   Экспорт 1451.2 × 71.2 уже содержит полное размытие вокруг фигуры. */
+/* Лёгкая холодная тень по ширине интерфейса, без плотной серой полосы. */
 .figma-hero__contact-shadow {
   position: absolute;
   z-index: 1;
-  top: 85.8052884615%;
-  left: 12.1822916667%;
-  width: 75.5833333333%;
-  height: 8.5576923077%;
-  max-width: none;
+  top: calc(var(--hero-scene-width) * 721 / 1920);
+  left: 15%;
+  width: 70%;
+  height: calc(var(--hero-scene-width) * 56 / 1920);
+  background: radial-gradient(
+    ellipse at center,
+    rgb(7 20 40 / 28%) 0%,
+    rgb(7 20 40 / 12%) 45%,
+    rgb(7 20 40 / 0%) 75%
+  );
   pointer-events: none;
   transform: translateY(var(--pw-parallax, 0px));
 }
 
 .figma-hero__product {
-  position: absolute;
+  position: relative;
   z-index: 3;
-  top: 2.8846153846%;
-  left: 15%;
+  flex: none;
   width: 70%;
   height: auto;
   aspect-ratio: 1344 / 725;
@@ -5818,6 +5828,74 @@ img {
   object-fit: cover;
   object-position: bottom;
   transform: translateY(var(--pw-parallax, 0px));
+}
+
+.figma-hero__features {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex: none;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  width: 70%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  transform: translateY(var(--pw-parallax, 0px));
+}
+
+.figma-hero__feature-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 36px;
+  padding: 8px 13px;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 18px;
+  white-space: nowrap;
+  cursor: default;
+}
+
+.figma-hero__feature-chip img {
+  display: block;
+  flex: none;
+  width: 16px;
+  height: 16px;
+  filter: brightness(0) invert(1);
+  opacity: 0.95;
+}
+
+@media (max-width: 1040px) {
+  .figma-hero__features {
+    max-width: 480px;
+  }
+}
+
+@media (max-width: 767px) {
+  .figma-hero__visual {
+    gap: 16px;
+  }
+
+  .figma-hero__features {
+    gap: 6px;
+    max-width: 420px;
+  }
+
+  .figma-hero__feature-chip {
+    min-height: 32px;
+    gap: 6px;
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+
+  .figma-hero__feature-chip img {
+    width: 14px;
+    height: 14px;
+  }
 }
 
 /* Вступление: происхождение → строки → описание → действия → продукт.
@@ -6148,7 +6226,7 @@ img {
   min-height: 0;
   overflow: hidden;
   border: 1px solid var(--section-line);
-  border-radius: 7px;
+  border-radius: var(--passwork-card-radius);
   background: var(--section-surface);
   background-origin: border-box;
   background-repeat: no-repeat;
@@ -6267,10 +6345,11 @@ img {
   justify-content: flex-end;
   padding: 23px;
   border: 1px solid var(--section-line);
-  border-radius: 7px;
+  border-radius: var(--passwork-card-radius);
   background: var(--section-surface);
 }
 
+.figma-security-card__icon,
 .figma-sector-card__icon {
   position: absolute;
   top: 23px;
@@ -6279,6 +6358,14 @@ img {
   width: 24px;
   height: 24px;
   filter: brightness(0) invert(1);
+}
+
+.figma-security-card__icon {
+  top: auto;
+  bottom: 23px;
+  /* 24 × sqrt((676 × 501) / (328 × 245.5)) ≈ 49 px; rounded to 48. */
+  width: 48px;
+  height: 48px;
 }
 
 .figma-sector-card__copy {
@@ -6343,22 +6430,6 @@ img {
 
   .figma-sector-card {
     min-height: 187px;
-  }
-}
-
-@media (min-width: 768px) and (max-width: 900px) {
-  .figma-hero__copy {
-    top: 208px;
-  }
-
-  .figma-hero__footer {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 28px;
-  }
-
-  .figma-hero__description {
-    flex: none;
   }
 }
 
