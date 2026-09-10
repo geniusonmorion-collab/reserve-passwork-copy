@@ -16,6 +16,7 @@ export default function ApplicationSectors() {
           <CardGlow
             className="security-card-glow"
             borderOnly
+            interiorGlow={0.15}
           />
           <SectorIcon name={sector.icon} />
           <div className="figma-sector-card__copy">

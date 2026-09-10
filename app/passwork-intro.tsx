@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
+import { useThemeMotion } from './theme-motion';
 import './passwork-intro.css';
 
 const paragraphs = [
@@ -25,6 +26,7 @@ function documentOffsetTop(element: HTMLElement) {
 
 export default function PassworkIntro() {
   const reduced = useReducedMotion();
+  const colors = useThemeMotion();
   const section = useRef<HTMLElement>(null);
   const triggers = useRef<HTMLDivElement>(null);
   const [automatic, setAutomatic] = useState<IntroState>('Idle');
@@ -81,7 +83,7 @@ export default function PassworkIntro() {
                   key={text}
                   className="pw-intro__paragraph"
                   initial={false}
-                  animate={{ opacity: active === 'Primary' || active === String(index + 1) ? 1 : 0.25 }}
+                  animate={{ opacity: active === 'Primary' || active === String(index + 1) ? 1 : colors.introRestOpacity }}
                   transition={reduced ? { duration: 0 } : { type: 'spring', duration: 0.4, bounce: 0 }}
                 >
                   {text}

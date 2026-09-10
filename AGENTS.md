@@ -35,6 +35,9 @@ The five cards in `SecurityProofGrid` use one perimeter only: `CardGlow` with
 `borderOnly`, aligned to the card edge. It uses the scenarios' 490px proximity,
 25% light and .05 smoothing for both appearance and fading. Do not add an outer
 frame or a permanent grey outline; the glow must disappear as the cursor leaves.
+Their `interiorGlow={0.15}` keeps the same subtle cursor-controlled interior
+light as the feature cards' 85% glass fill, while preserving the blue gradient.
+The interior and perimeter share one light field and fade together in both themes.
 
 # Card copy
 
@@ -62,5 +65,10 @@ for both themes. Recolour canvas stars on theme changes without resetting their
 positions or clock, and preserve the single fading certification-card border.
 
 The light hero keeps the original saturated blue gradient and depth layers.
-Only the fade into the black page becomes a fade into the white page; do not
-replace the blue atmosphere with a separate pastel palette.
+Its upper sky also has a visible blue tint; white belongs to the lower fade
+into the page. Do not wash the upper hero back to white.
+The light hero's primary button is charcoal instead of white; its secondary
+button uses the same translucent fill and hover animation as the dark theme.
+Keep the light hero visually crisp: saturated blue sky, near-black text and
+bright glass dashboard panels with legible secondary labels. Do not apply a
+washed-out treatment to the entire screen or reduce the shared animations.

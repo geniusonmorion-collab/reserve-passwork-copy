@@ -10,12 +10,15 @@ export default function CardGlow({
   baseColor = '#000',
   surface = 'rgba(0,0,0,.85)',
   borderOnly = false,
+  interiorGlow = 0,
 }: {
   className?: string;
   radius?: number | string;
   baseColor?: string;
   surface?: string;
   borderOnly?: boolean;
+  /** Amount of the edge's light retained inside a card that owns its surface. */
+  interiorGlow?: number;
 }) {
   const frame = useRef<HTMLDivElement>(null);
   const light = useRef<HTMLDivElement>(null);
@@ -33,6 +36,7 @@ export default function CardGlow({
       aria-hidden="true"
       style={{
         '--fora-glow-radius': typeof radius === 'number' ? `${radius}px` : radius,
+        '--fora-glow-interior-alpha': Math.max(0, Math.min(1, interiorGlow)),
         background: borderOnly ? 'transparent' : `var(--card-glow-base, ${baseColor})`,
       } as CSSProperties}
     >

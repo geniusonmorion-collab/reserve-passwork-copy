@@ -11,6 +11,7 @@ export default function SecurityProofGrid() {
         <CardGlow
           className="security-card-glow"
           borderOnly
+          interiorGlow={0.15}
         />
         <div className="figma-security-card__copy">
           <h3 id="security-proof-fstec">ФСТЭК России, 4 уровень доверия</h3>

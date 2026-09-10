@@ -5782,7 +5782,7 @@ img {
   background-image: linear-gradient(100.57872875770329deg, #0a111c 9.8042%, #1a2a44 47.613%, #2c4672 91.17%);
 }
 
-/* The scenario glow follows the cursor along a single 1px card edge. */
+/* One cursor-controlled light field illuminates the edge and softly fills the card. */
 .figma-security-grid :is(.figma-security-card, .figma-sector-card) {
   isolation: isolate;
   overflow: visible;

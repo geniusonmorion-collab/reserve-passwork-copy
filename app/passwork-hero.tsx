@@ -39,8 +39,10 @@ export default function PassworkHero() {
       <div className="pw-hero__content">
         <div className="pw-hero__lockup">
           <div className="pw-hero__copy">
-            <div className="pw-hero__badge">
-              Сделано в России
+            <div className="pw-hero__origin">
+              {/* Original vector mark from https://bfs.su/en. */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/assets/made-in-russia.svg" alt="Сделано в России" width={160} height={48} />
             </div>
             <div className="pw-hero__text">
               <h1 id="hero-title">
