@@ -1,0 +1,296 @@
+.pw-hero,
+.pw-hero * { box-sizing: border-box; }
+
+.pw-hero {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  max-width: 1920px;
+  margin-inline: auto;
+  padding: 0 24px;
+  overflow: clip;
+  isolation: isolate;
+  color: #fff3f0;
+  font-family: var(--font-sans), Inter, sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: -.02em;
+}
+
+.pw-hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-inline: 1px solid rgb(255 255 255 / 10%);
+  pointer-events: none;
+}
+
+.pw-hero__sky {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 85% 54% at 50% 58%, #132b48 0%, rgb(8 20 39 / 0%) 100%),
+    linear-gradient(180deg, #000103 0%, #040d1c 38%, #081a34 74%, #02060f 100%);
+}
+
+/* Depth comes from separate light volumes, with progressively closer edges. */
+.pw-hero__depth {
+  position: absolute;
+  pointer-events: none;
+}
+.pw-hero__depth--distant {
+  z-index: 1;
+  inset: auto -20% 8%;
+  height: 74%;
+  background:
+    radial-gradient(ellipse 42% 32% at 62% 55%, rgb(147 177 220 / 42%) 0%, rgb(72 113 173 / 24%) 48%, transparent 100%),
+    radial-gradient(ellipse 52% 42% at 26% 68%, rgb(46 100 172 / 56%) 0%, rgb(16 53 107 / 22%) 65%, transparent 100%);
+  filter: blur(72px);
+}
+.pw-hero__depth--middle {
+  z-index: 2;
+  inset: auto -18% -18%;
+  height: 76%;
+  background:
+    radial-gradient(ellipse 52% 62% at 15% 84%, #05142c 0%, #0c2d5b 44%, rgb(46 92 156 / 90%) 59%, rgb(115 151 201 / 50%) 67%, transparent 80%),
+    radial-gradient(ellipse 56% 70% at 89% 94%, #030b19 0%, #0a2144 46%, rgb(43 72 117 / 82%) 62%, rgb(140 166 207 / 38%) 69%, transparent 81%);
+  filter: blur(28px);
+}
+.pw-hero__depth--foreground {
+  z-index: 4;
+  inset: auto -12% -7%;
+  height: clamp(230px, 28vw, 460px);
+  background:
+    radial-gradient(ellipse 63% 90% at 5% 112%, #01040b 0%, #041124 54%, rgb(16 45 81 / 88%) 64%, rgb(67 103 148 / 36%) 70%, transparent 81%),
+    radial-gradient(ellipse 62% 100% at 98% 119%, #010309 0%, #07172e 50%, rgb(27 56 96 / 84%) 62%, rgb(92 125 168 / 35%) 69%, transparent 80%),
+    radial-gradient(ellipse 42% 26% at 56% 82%, rgb(115 148 194 / 22%), transparent 100%);
+  filter: blur(22px);
+}
+.pw-hero__fade {
+  position: absolute;
+  z-index: 5;
+  inset: auto 0 -1px;
+  height: clamp(100px, 12vw, 200px);
+  pointer-events: none;
+  background: linear-gradient(180deg, rgb(10 23 43 / 0%), rgb(4 10 20 / 68%) 60%, #000 100%);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  -webkit-mask-image: linear-gradient(180deg, transparent, #000 75%);
+  mask-image: linear-gradient(180deg, transparent, #000 75%);
+}
+
+.pw-hero__content {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 1080px;
+  padding-top: 160px;
+  gap: 80px;
+}
+.pw-hero__lockup,
+.pw-hero__copy,
+.pw-hero__text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+.pw-hero__lockup { gap: 48px; }
+.pw-hero__copy { gap: 24px; }
+.pw-hero__text { gap: 16px; }
+.pw-hero__badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+  padding: 4px 12px;
+  border-radius: var(--passwork-card-radius, 7px);
+  background: rgb(255 255 255 / 10%);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 10%);
+  color: rgb(255 255 255 / 80%);
+  font-size: 14px;
+  line-height: 21px;
+  white-space: nowrap;
+}
+.pw-hero__text h1 {
+  width: 100%;
+  max-width: 880px;
+  margin: 0;
+  font-size: 56px;
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: -.04em;
+  text-align: center;
+  text-wrap: balance;
+}
+.pw-hero__description {
+  width: 100%;
+  max-width: 460px;
+  margin: 0;
+  color: rgb(255 255 255 / 80%);
+  text-align: center;
+  text-wrap: balance;
+}
+.pw-hero__title-line { display: block; }
+.pw-hero__actions { display: flex; justify-content: center; gap: 12px; max-width: 100%; }
+.pw-hero__button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 12px 28px;
+  border-radius: var(--passwork-card-radius, 7px);
+  font-size: 14px;
+  line-height: 21px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.pw-hero__button--primary { color: #121211; box-shadow: inset 0 0 0 1px #fff3f0; }
+.pw-hero__button--secondary { color: #fff3f0; box-shadow: inset 0 0 0 1px rgb(255 255 255 / 10%); }
+.pw-hero__button:focus-visible { outline: 2px solid #fff3f0; outline-offset: 4px; }
+.pw-hero__dashboard-frame { position: relative; width: 100%; aspect-ratio: 1344 / 725; }
+.pw-hero__dashboard-motion { width: 100%; height: 100%; }
+.figma-hero__product { position: relative; width: 100%; height: 100%; }
+
+/* Original hero entrance: staggered blur, opacity and a small upward movement.
+   Independent translate preserves the dashboard's scroll transform; backwards
+   releases filter after the entrance so the live glass stays unobstructed. */
+@media (prefers-reduced-motion: no-preference) {
+  .pw-hero__badge,
+  .pw-hero__title-line,
+  .pw-hero__description,
+  .pw-hero__actions,
+  .pw-hero .figma-hero__product {
+    animation: pw-hero-blur-in 1300ms cubic-bezier(.22, .61, .36, 1)
+      var(--hero-enter-delay, 120ms) backwards;
+  }
+
+  .pw-hero__badge {
+    --hero-enter-delay: 180ms;
+    --hero-enter-blur: 10px;
+    --hero-enter-offset: 12px;
+    animation-duration: 1400ms;
+  }
+
+  .pw-hero__title-line:nth-child(2) { --hero-enter-delay: 260ms; }
+
+  .pw-hero__description {
+    --hero-enter-delay: 560ms;
+    --hero-enter-blur: 8px;
+    --hero-enter-offset: 10px;
+  }
+
+  .pw-hero__actions {
+    --hero-enter-delay: 760ms;
+    --hero-enter-blur: 8px;
+    --hero-enter-offset: 10px;
+  }
+
+  .pw-hero .figma-hero__product {
+    --hero-enter-delay: 1060ms;
+    --hero-enter-blur: 10px;
+    --hero-enter-offset: 18px;
+    animation-duration: 1600ms;
+  }
+
+  .pw-hero__actions:focus-within { animation: none; }
+}
+
+@keyframes pw-hero-blur-in {
+  from {
+    opacity: 0;
+    filter: blur(var(--hero-enter-blur, 12px));
+    translate: 0 var(--hero-enter-offset, 14px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    translate: 0 0;
+  }
+}
+
+/* The atmospheric foreground fades to the feature labels on black. */
+.pw-hero-capabilities { padding: 32px 24px 0; background: #000; }
+.figma-hero__features {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0;
+  list-style: none;
+}
+.figma-hero__feature-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 36px;
+  padding: 8px 13px;
+  border-radius: var(--passwork-card-radius, 7px);
+  background: rgb(255 255 255 / 5%);
+  color: #b8bec6;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 18px;
+  white-space: nowrap;
+}
+.figma-hero__feature-chip img { display: block; flex: none; width: 16px; height: 16px; filter: grayscale(1) brightness(0) invert(1); opacity: .75; }
+
+@media (min-width: 810px) and (max-width: 1279.98px) {
+  .pw-hero__content { max-width: 720px; padding-top: 140px; }
+  .pw-hero__text h1 { max-width: 640px; font-size: 40px; }
+}
+@media (max-width: 809.98px) {
+  .pw-hero__content { max-width: 720px; padding-top: 120px; gap: 64px; }
+  .pw-hero__text h1 { max-width: 520px; font-size: 36px; }
+  .pw-hero__depth--distant { left: -55%; right: -55%; height: 62%; filter: blur(48px); }
+  .pw-hero__depth--middle { left: -65%; right: -65%; bottom: -12%; height: 62%; filter: blur(20px); }
+  .pw-hero__depth--foreground { left: -45%; right: -45%; height: 270px; filter: blur(18px); }
+  .pw-hero__dashboard-frame { aspect-ratio: 1; min-height: 520px; }
+  .pw-hero__description { max-width: 420px; }
+  .pw-hero-capabilities { padding-top: 24px; }
+  .figma-hero__features { max-width: 520px; gap: 6px; }
+  .figma-hero__feature-chip { padding: 6px 10px; min-height: 32px; font-size: 12px; }
+  .figma-hero__feature-chip img { width: 14px; height: 14px; }
+
+  /* Show a native-size record pane instead of shrinking the full desktop UI. */
+  .pw-hero .figma-hero__product .pw-stage { width: 100%; height: 100%; transform: none; }
+  .pw-hero .figma-hero__product.pw-glass .pw-app { display: flex; padding: 6px; gap: 0; }
+  .pw-hero .figma-hero__product :is(.pw-side, .pw-list, .pw-head__actions, .pw-avatar--letter, .pw-detail__meta, .pw-close) { display: none; }
+  .pw-hero .figma-hero__product .pw-main { width: 100%; overflow: hidden; }
+  .pw-hero .figma-hero__product .pw-head { height: 98px; }
+  .pw-hero .figma-hero__product .pw-crumbs { top: 18px; left: 16px; right: 16px; font-size: 14px; line-height: 20px; }
+  .pw-hero .figma-hero__product .pw-crumbs > span { display: none; }
+  .pw-hero .figma-hero__product .pw-crumbs b { overflow: hidden; text-overflow: ellipsis; }
+  .pw-hero .figma-hero__product .pw-people { top: 54px; left: 16px; }
+  .pw-hero .figma-hero__product .pw-avatar { width: 26px; height: 26px; font-size: 11px; }
+  .pw-hero .figma-hero__product .pw-avatar__dot { width: 7px; height: 7px; }
+  .pw-hero .figma-hero__product .pw-people .pw-circle { width: 28px; height: 28px; margin-left: 12px; }
+  .pw-hero .figma-hero__product .pw-people__text { margin-left: 12px; gap: 2px; }
+  .pw-hero .figma-hero__product .pw-people__text b { font-size: 11px; }
+  .pw-hero .figma-hero__product .pw-people__text span { font-size: 10px; }
+  .pw-hero .figma-hero__product .pw-detail { padding: 24px 16px 0; }
+  .pw-hero .figma-hero__product .pw-detail__title h3 { font-size: 18px; }
+  .pw-hero .figma-hero__product .pw-tabs { margin-top: 24px; height: 32px; gap: 16px; }
+  .pw-hero .figma-hero__product .pw-tab { font-size: 12px; }
+  .pw-hero .figma-hero__product .pw-tab:nth-child(3) { display: none; }
+  .pw-hero .figma-hero__product .pw-row { grid-template-columns: 66px minmax(0, 1fr) 16px; gap: 6px; padding: 10px 0; font-size: 12px; line-height: 24px; }
+  .pw-hero .figma-hero__product .pw-row--first { padding-top: 16px; }
+  .pw-hero .figma-hero__product .pw-row__acts { height: 24px; gap: 0; }
+  .pw-hero .figma-hero__product .pw-row__acts .pw-ib + .pw-ib { display: none; }
+  .pw-hero .figma-hero__product .pw-row__val a { overflow: hidden; text-overflow: ellipsis; }
+  .pw-hero .figma-hero__product :is(.pw-dots, .pw-secret) { font-size: 12px; }
+}
+@media (max-width: 479.98px) {
+  .pw-hero__actions { width: 100%; max-width: 320px; flex-direction: column; }
+  .pw-hero__button { width: 100%; }
+}

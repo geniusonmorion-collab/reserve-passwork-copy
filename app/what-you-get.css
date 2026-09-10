@@ -1,0 +1,339 @@
+@font-face {
+  font-family: "Fora Inter";
+  src: url("/assets/fora-what-you-get/inter-400.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Fora Inter";
+  src: url("/assets/fora-what-you-get/inter-500.woff2") format("woff2");
+  font-weight: 500;
+  font-display: swap;
+}
+.wy-section,
+.wy-section * {
+  box-sizing: border-box;
+}
+.wy-section {
+  position: relative;
+  width: 100%;
+  max-width: 1600px;
+  margin: auto;
+  padding: 0 40px;
+  color: rgba(255, 255, 255, 0.8);
+  font:
+    400 14px/1.5 "Fora Inter", var(--font-sans),
+    sans-serif;
+  letter-spacing: -0.02em;
+  -webkit-font-smoothing: antialiased;
+}
+.wy-container {
+  width: 100%;
+  max-width: 1080px;
+  margin: auto;
+  padding-top: 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+}
+.wy-header {
+  display: flex;
+  gap: 36px;
+  align-items: center;
+}
+.wy-heading-column {
+  flex: 1 0 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.wy-intro {
+  flex: 1 0 0;
+  min-width: 0;
+  padding: 0 0 0 32px;
+}
+.wy-intro > div {
+  max-width: 350px;
+  margin-left: auto;
+}
+.wy-intro p {
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+.wy-section p,
+.wy-section h2,
+.wy-section h3 {
+  margin: 0;
+}
+.wy-section h2 {
+  color: #fff;
+  font-size: 40px;
+  line-height: 45px;
+  font-weight: 500;
+  letter-spacing: -0.04em;
+  text-wrap: balance;
+}
+.wy-section h2 span {
+  color: rgba(255, 255, 255, 0.65);
+}
+.wy-label {
+  display: inline-flex;
+  gap: 12px;
+  align-items: center;
+  min-height: 30px;
+}
+.wy-label {
+  color: rgba(255, 255, 255, 0.65);
+}
+.wy-label i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.65);
+  flex: none;
+}
+.wy-cards {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  width: 100%;
+}
+.wy-triggers {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  pointer-events: none;
+}
+.wy-trigger {
+  flex: 1 0 0;
+}
+.wy-card {
+  position: sticky;
+  top: 120px;
+  height: 628px;
+  width: 100%;
+  z-index: 1;
+  flex: none;
+  border-radius: 16px;
+}
+.wy-face {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  overflow: clip;
+  border-radius: 16px;
+  background: rgba(15, 15, 15, 0.85);
+  transform-origin: center;
+}
+.wy-section .wy-outer-glow {
+  inset: -8px;
+}
+.wy-row {
+  position: relative;
+  display: flex;
+  height: 100%;
+  width: 100%;
+  padding: 8px;
+  border-radius: 16px;
+  overflow: hidden;
+}
+.wy-copy {
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 0;
+  min-width: 0;
+  height: 100%;
+  padding: 40px;
+  gap: 48px;
+}
+.wy-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 0;
+  min-height: 0;
+  gap: 24px;
+  padding-right: 24px;
+  overflow: hidden;
+}
+.wy-body h3 {
+  color: #fff3f0;
+  font-weight: 400;
+  font-size: 28px;
+  line-height: 1.35;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+.wy-body p,
+.wy-footnote p {
+  max-width: 440px;
+  text-wrap: balance;
+}
+.wy-extra h4 {
+  margin: 0 0 8px;
+  color: #fff3f0;
+  font: inherit;
+  font-weight: 500;
+}
+.wy-footnote {
+  display: flex;
+  align-items: start;
+  gap: 8px;
+  flex: none;
+}
+.wy-footnote svg {
+  width: 21px;
+  height: 21px;
+  flex: none;
+  color: rgba(255, 255, 255, 0.65);
+}
+.wy-media {
+  position: relative;
+  flex: 1 0 0;
+  min-width: 0;
+  height: 100%;
+  background: #000;
+  overflow: clip;
+  border-radius: 4px 8px 8px 4px;
+}
+.wy-media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: inherit;
+  pointer-events: none;
+}
+.wy-image {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  transform-origin: center;
+}
+.wy-card-2 .wy-media {
+  order: -1;
+  border-radius: 8px 4px 4px 8px;
+}
+@media (min-width: 810px) and (max-width: 1279.98px) {
+  .wy-container {
+    max-width: 720px;
+    padding-top: 120px;
+    gap: 48px;
+  }
+  .wy-heading-column {
+    flex: 2 0 0;
+  }
+  .wy-intro {
+    padding: 0;
+  }
+  .wy-section h2 {
+    font-size: 36px;
+  }
+  .wy-card {
+    height: 480px;
+  }
+  .wy-copy {
+    padding: 28px;
+    gap: 24px;
+  }
+  .wy-body h3 {
+    font-size: 24px;
+  }
+}
+@media (max-width: 809.98px) {
+  .wy-section {
+    padding: 0 24px;
+  }
+  .wy-container {
+    gap: 36px;
+  }
+  .wy-header {
+    flex-direction: column;
+    align-items: start;
+    gap: 16px;
+  }
+  .wy-heading-column,
+  .wy-intro {
+    width: 100%;
+    flex: none;
+  }
+  .wy-intro {
+    padding: 0 0 4px;
+  }
+  .wy-intro > div {
+    margin-left: 0;
+  }
+  .wy-section h2 {
+    font-size: 32px;
+  }
+  .wy-cards {
+    gap: 24px;
+    padding-bottom: 80px;
+  }
+  .wy-triggers {
+    display: none;
+  }
+  .wy-card {
+    position: relative;
+    top: auto;
+    height: auto;
+  }
+  .wy-face {
+    height: auto;
+  }
+  .wy-row {
+    flex-direction: column;
+    height: auto;
+  }
+  .wy-card-1 .wy-row {
+    padding: 12px;
+  }
+  .wy-copy {
+    width: 100%;
+    flex: none;
+    height: auto;
+    padding: 20px;
+    gap: 24px;
+  }
+  .wy-card-1 .wy-copy {
+    gap: 17px;
+  }
+  .wy-body {
+    flex: none;
+    gap: 16px;
+    overflow: visible;
+  }
+  .wy-body h3 {
+    font-size: 22px;
+  }
+  .wy-footnote {
+    padding-top: 16px;
+  }
+  .wy-media {
+    flex: none;
+    width: 100%;
+    height: auto;
+    order: -1;
+  }
+  .wy-image {
+    height: auto;
+    min-height: 480px;
+    aspect-ratio: 1064 / 1224;
+  }
+}
+
+@media (min-width: 810px) {
+  .wy-copy,
+  .wy-media {
+    flex: 0 0 50%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wy-card { position: relative; top: auto; }
+}

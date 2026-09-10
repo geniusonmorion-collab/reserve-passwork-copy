@@ -1,0 +1,38 @@
+[
+  {
+    "name": "overview",
+    "url": "https://framerusercontent.com/images/n1xVmUcl9Kn3XOvJd3FJe2qdg.webp?width=1064&height=1224&lossless=1",
+    "dimensions": [
+      1064,
+      1224
+    ],
+    "bytes": 99404
+  },
+  {
+    "name": "leaderboard",
+    "url": "https://framerusercontent.com/images/ZvDVx7hlgVHOG7O5kXF7y5tn8.webp?width=1064&height=1224",
+    "dimensions": [
+      1064,
+      1224
+    ],
+    "bytes": 104532
+  },
+  {
+    "name": "courses",
+    "url": "https://framerusercontent.com/images/OkFHRTU6rnFb5o15ue6pN5eCMw.webp?width=1064&height=1224",
+    "dimensions": [
+      1064,
+      1224
+    ],
+    "bytes": 83470
+  },
+  {
+    "name": "floating-panel",
+    "url": "https://framerusercontent.com/images/db23ayI3rOkeqix4LeWzkvNJWfk.webp?width=480&height=604",
+    "dimensions": [
+      480,
+      604
+    ],
+    "bytes": 7222
+  }
+]

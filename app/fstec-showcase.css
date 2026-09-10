@@ -1,0 +1,269 @@
+/* Composition and overlapping cards adapted from fora.so / “What you get”. */
+.control-showcase {
+  padding-top: 176px;
+  color: #f5f3f2;
+  background: #000;
+  scroll-margin-top: 36px;
+}
+
+.control-showcase__inner { width: min(1352px, calc(100% - 48px)); }
+.control-showcase__head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 450px);
+  align-items: start;
+  gap: 64px;
+  margin-bottom: 84px;
+}
+.control-showcase__head h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(36px, 3.45vw, 50px);
+  font-weight: 400;
+  line-height: 1.33;
+  letter-spacing: -1.7px;
+}
+.control-showcase__head h2 span { display: block; color: #888; }
+.control-showcase__eyebrow {
+  display: block;
+  margin-bottom: 24px;
+  color: #a6a6a6;
+  font-size: 14px;
+  line-height: 1.5;
+}
+.control-showcase__intro { padding-top: 5px; }
+.control-showcase__intro p {
+  margin: 0;
+  color: #b8b8b8;
+  font-size: 16px;
+  line-height: 1.65;
+  letter-spacing: -.25px;
+}
+.control-showcase__intro p + p { margin-top: 22px; }
+
+.control-showcase__stack { display: flex; flex-direction: column; gap: 56px; isolation: isolate; }
+.control-card {
+  --card-index: 0;
+  position: sticky;
+  top: 32px;
+  z-index: calc(1 + var(--card-index));
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  min-height: 760px;
+  padding: 9px;
+  border: 1px solid rgb(255 255 255 / 8%);
+  border-radius: var(--passwork-card-radius, 7px);
+  background: #101112;
+}
+.control-card__copy { display: flex; flex-direction: column; min-width: 0; padding: 54px 48px 50px; }
+.control-card__label { display: flex; align-items: center; gap: 14px; color: #a6a6a6; font-size: 17px; line-height: 1.5; }
+.control-card__label i { width: 7px; height: 7px; border-radius: 50%; background: #484848; }
+.control-card__body { margin-top: 66px; }
+.control-card__body h3 { margin: 0; color: #f5eeeb; font-size: clamp(27px, 2.55vw, 37px); font-weight: 400; letter-spacing: -1px; line-height: 1.35; }
+.control-card__body > p { max-width: 490px; margin: 30px 0 0; color: #b8b8b8; font-size: 17px; line-height: 1.55; letter-spacing: -.2px; }
+.control-card__note { display: flex; align-items: center; gap: 13px; margin: auto 0 0; padding-top: 65px; color: #b8b8b8; font-size: 16px; line-height: 1.5; }
+.control-card__note-mark { position: relative; display: block; width: 24px; height: 24px; flex: 0 0 auto; }
+.control-card__note-mark::before, .control-card__note-mark::after { position: absolute; inset: 0; margin: auto; content: ''; background: linear-gradient(#989898 0 33%, transparent 33% 66%, #989898 66%); width: 1px; height: 22px; }
+.control-card__note-mark::after { transform: rotate(90deg); }
+.control-card--reversed .control-card__copy { grid-column: 2; grid-row: 1; }
+.control-card--reversed .security-graphic { grid-column: 1; grid-row: 1; }
+
+/* The shared 7px radius is also used by the security and sector cards above. */
+.security-graphic {
+  --graphic-surface: #182b40;
+  --graphic-stroke: #7896ba70;
+  position: relative;
+  min-width: 0;
+  min-height: 740px;
+  overflow: hidden;
+  isolation: isolate;
+  container-type: inline-size;
+  border: 1px solid rgb(147 176 217 / 15%);
+  border-radius: var(--passwork-card-radius, 7px);
+  background: linear-gradient(145deg, #172a42, #0d1725);
+  color: #d0d6e0;
+}
+.security-graphic::before {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  content: '';
+  opacity: .18;
+  background-image: linear-gradient(#9dbcec20 1px, transparent 1px), linear-gradient(90deg, #9dbcec20 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse at center, #000, transparent 73%);
+}
+.security-graphic__content { position: absolute; inset: 0; display: flex; align-items: center; flex-direction: column; justify-content: center; }
+.security-graphic__topline { position: absolute; top: 27px; left: 26px; right: 26px; display: flex; justify-content: space-between; gap: 12px; color: #91a8c4; font-size: 10px; letter-spacing: 1.8px; line-height: 1.4; }
+.security-graphic__registration { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; letter-spacing: .2px; color: #60738c; white-space: nowrap; }
+.security-graphic__caption { position: absolute; bottom: 30px; left: 18px; right: 18px; display: flex; align-items: center; justify-content: center; gap: 9px; color: #9eafc4; font-size: 12px; text-align: center; }
+.security-graphic__caption > i { width: 5px; height: 5px; flex: 0 0 auto; border-radius: 50%; background: #8fb3e7; }
+.sg-stage { position: relative; width: 100%; aspect-ratio: 1; flex: 0 0 auto; }
+.sg-stage * { box-sizing: border-box; }
+.sg-stage img { display: block; object-fit: contain; }
+
+/* Flat certification graphic, using the same surfaces and strokes as all four panels. */
+.sg-credential { position: absolute;
+  left: 19%; top: 15%; width: 62%; height: 67%;
+  padding: 5cqw;
+  border: 1px solid var(--graphic-stroke);
+  border-radius: var(--passwork-card-radius, 7px);
+  background: var(--graphic-surface); }
+.sg-credential__top { display: flex; align-items: center; justify-content: space-between; color: #9faec1; font-size: 1.7cqw; letter-spacing: 2px; }
+.sg-credential__top > i { width: 6px; height: 6px; border-radius: 50%; background: #97b4d9; }
+.sg-credential__shield { position: absolute; top: 24%; right: 11%; width: 14cqw; height: 14cqw; filter: brightness(1.35) saturate(.6); }
+.sg-credential__number { margin-top: 3cqw; font-family: var(--font-display); font-size: 25cqw; line-height: 1; letter-spacing: -1.2cqw; color: #d4e1f2; }
+.sg-credential__title { margin-top: 1cqw; color: #abbdd3; font-size: 3.3cqw; line-height: 1.25; }
+.sg-credential__rule { height: 1px; width: 65%; margin-top: 3.6cqw; background: #c5daf124; }
+.sg-credential__issuer { display: block; margin-top: 2.5cqw; font-size: 1.7cqw; letter-spacing: 1.5px; color: #91a7c1; }
+.sg-verification { position: absolute; top: 87%; left: 0; width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 2cqw; color: #b4c4d8; }
+.sg-verification img { width: 3.5cqw; height: 3.5cqw; }
+
+/* Cryptography: incoming records, a locked cryptographic module, encoded output. */
+.sg-cipher-grid { position: absolute; inset: 8% 0; display: flex; flex-direction: column; justify-content: space-evenly; overflow: hidden; mask-image: radial-gradient(ellipse at center, #000, transparent 75%); }
+.sg-cipher-grid span { display: block; white-space: nowrap; color: #90b0db; opacity: .13; font: 2.1cqw / 1.7 ui-monospace, SFMono-Regular, Consolas, monospace; letter-spacing: 1.6cqw; }
+.sg-cipher-grid span:nth-child(even) { transform: translateX(-8%); opacity: .075; }
+.sg-data-card { position: absolute; width: 31%; padding: 3cqw; border: 1px solid var(--graphic-stroke); border-radius: var(--passwork-card-radius, 7px); background: var(--graphic-surface); }
+.sg-data-card > span { display: block; margin-bottom: 2.5cqw; color: #9eaec2; font-size: 1.5cqw; letter-spacing: .7px; }
+.sg-data-card--input { top: 14%; left: 10%; }
+.sg-data-card--input > div { height: .65cqw; margin-top: 1.8cqw; background: #a9bfd866; border-radius: 2px; }
+.sg-data-card--input > div:last-child { width: 65%; }
+.sg-data-card--output { top: 51%; right: 8%; }
+.sg-data-card--output > span { color: #a8c4ea; }
+.sg-data-card--output code { color: #aac9ec; font: 2.4cqw / 1.75 ui-monospace, SFMono-Regular, Consolas, monospace; letter-spacing: .6cqw; }
+.sg-crypto-core { position: absolute; z-index: 2; width: 27%; aspect-ratio: 1; left: 36.5%; top: 32%; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 1.4cqw; border: 1px solid var(--graphic-stroke); border-radius: var(--passwork-card-radius, 7px); background: var(--graphic-surface); }
+.sg-crypto-core > img { width: 9cqw; height: 9cqw; filter: brightness(1.35) saturate(.6); }
+.sg-crypto-core strong { color: #bfd1e6; font-size: 2.2cqw; font-weight: 400; letter-spacing: 2px; }
+.sg-crypto-core__pins { position: absolute; top: 15%; width: 2.5cqw; height: 70%; background: repeating-linear-gradient(transparent 0 1.5cqw, #8caad16b 1.5cqw 1.8cqw, transparent 1.8cqw 3.5cqw); }
+.sg-crypto-core__pins--left { right: 100%; }
+.sg-crypto-core__pins--right { left: 100%; }
+.sg-crypto-track { position: absolute; height: 14%; width: 23%; border: solid #7da2d952; }
+.sg-crypto-track--in { top: 29%; left: 23%; border-width: 0 0 1px 1px; }
+.sg-crypto-track--out { top: 48%; left: 53%; border-width: 1px 1px 0 0; }
+.sg-crypto-track > i { position: absolute; width: 5px; height: 5px; background: #a9c3e4; border-radius: 50%; }
+.sg-crypto-track--in > i { bottom: -3px; left: 10%; }
+.sg-crypto-track--out > i { top: -3px; right: 10%; }
+.sg-standards { position: absolute; bottom: 4%; width: 100%; display: flex; justify-content: center; gap: 1.5cqw; }
+.sg-standards span { padding: 1.6cqw 2.1cqw; border: 1px solid #a0b8d829; border-radius: var(--passwork-card-radius, 7px); color: #99afca; background: #102031; font: 1.65cqw / 1.5 ui-monospace, SFMono-Regular, Consolas, monospace; }
+
+/* Flat server units connected inside the local infrastructure perimeter. */
+.sg-premises { position: absolute; inset: 10% 8% 9%; border: 1px solid var(--graphic-stroke); border-radius: var(--passwork-card-radius, 7px); background: #142438; }
+.sg-premises > span { position: absolute; top: 4%; width: 100%; text-align: center; color: #99b7c8; font-size: 1.8cqw; letter-spacing: 1.5px; }
+.sg-premises > i { position: absolute; width: 14px; height: 14px; border: solid #80a9c97a; }
+.sg-premises > i:nth-of-type(1) { left: -1px; top: -1px; border-width: 1px 0 0 1px; border-top-left-radius: var(--passwork-card-radius, 7px); }
+.sg-premises > i:nth-of-type(2) { right: -1px; top: -1px; border-width: 1px 1px 0 0; border-top-right-radius: var(--passwork-card-radius, 7px); }
+.sg-premises > i:nth-of-type(3) { right: -1px; bottom: -1px; border-width: 0 1px 1px 0; border-bottom-right-radius: var(--passwork-card-radius, 7px); }
+.sg-premises > i:nth-of-type(4) { left: -1px; bottom: -1px; border-width: 0 0 1px 1px; border-bottom-left-radius: var(--passwork-card-radius, 7px); }
+.sg-server-stack { position: absolute; top: 26%; left: 18%; width: 64%; height: 33%; display: grid; grid-template-rows: repeat(3, 1fr); gap: 2cqw; }
+.sg-server-unit { display: flex; align-items: center; gap: 2cqw; padding: 2.4cqw; border: 1px solid var(--graphic-stroke); border-radius: var(--passwork-card-radius, 7px); background: var(--graphic-surface); }
+.sg-server-unit__status { width: 1.1cqw; height: 1.1cqw; flex: 0 0 auto; border-radius: 50%; background: #9ab9dc; }
+.sg-server-unit__label { color: #a8bcd5; font: 1.7cqw / 1.5 ui-monospace, SFMono-Regular, Consolas, monospace; white-space: nowrap; }
+.sg-server-unit__slots { display: flex; flex: 1; gap: 1cqw; margin-left: 2cqw; }
+.sg-server-unit__slots > i { flex: 1; height: 2.5cqw; border: 1px solid #7896ba40; border-radius: 2px; }
+.sg-server-unit__port { width: 1.9cqw; height: 1.9cqw; border: 1px solid var(--graphic-stroke); border-radius: 2px; }
+.sg-network-trunk { position: absolute; width: 1px; height: 9%; top: 59%; left: 50%; background: #7aadc063; }
+.sg-network-trunk i { position: absolute; top: 15%; left: -2px; width: 5px; height: 5px; border-radius: 50%; background: #9bbdcc; }
+.sg-network-branches { position: absolute; top: 68%; left: 23%; width: 54%; height: 1px; background: #7aadc063; }
+.sg-endpoints { position: absolute; top: 73%; left: 10%; width: 80%; display: grid; grid-template-columns: repeat(3, 1fr); }
+.sg-endpoint { position: relative; display: flex; align-items: center; flex-direction: column; gap: 2cqw; color: #96adbd; font-size: 1.9cqw; }
+.sg-endpoint__connection { position: absolute; width: 1px; height: 5cqw; left: 50%; bottom: 100%; background: #7aadc063; }
+.sg-endpoint__connection i { position: absolute; top: 25%; left: -2px; width: 4px; height: 4px; border-radius: 50%; background: #93b9d4; }
+.sg-workstation { position: relative; width: 8cqw; height: 6cqw; border: 1px solid var(--graphic-stroke); border-radius: 3px; padding: 1cqw; background: var(--graphic-surface); }
+.sg-workstation > span { display: block; width: 100%; height: 100%; border: 1px solid #97b4c216; background: #111d28; }
+.sg-workstation > i { position: absolute; width: 3cqw; height: 1cqw; left: 2.5cqw; top: 100%; border-bottom: 1px solid #97b4c2; border-left: 1px solid #97b4c2; border-right: 1px solid #97b4c2; }
+
+/* Isolation: all external paths visibly stop before reaching the perimeter. */
+.sg-outside-services { position: absolute; top: 14%; left: 7%; width: 86%; display: grid; grid-template-columns: repeat(3, 1fr); gap: 3.5cqw; }
+.sg-outside-service { position: relative; padding: 2.2cqw .5cqw; border: 1px solid #93a7b525; border-radius: var(--passwork-card-radius, 7px); color: #7b8b99; text-align: center; background: #14202a; font-size: 1.9cqw; }
+.sg-blocked-line { position: absolute; top: 100%; left: 50%; height: 8cqw; border-left: 1px dashed #7c8c995c; }
+.sg-stop { position: absolute; top: calc(100% + 4cqw); left: calc(50% - 1.5cqw); width: 3cqw; height: 3cqw; border: 1px solid #aaa6a273; border-radius: 50%; background: #1d272e; }
+.sg-stop::after { position: absolute; width: 65%; height: 1px; left: 17.5%; top: 50%; background: #b7b0a9; transform: rotate(-45deg); content: ''; }
+.sg-perimeter { position: absolute; top: 33%; left: 13%; width: 74%; height: 46%; border: 1px solid var(--graphic-stroke); border-radius: var(--passwork-card-radius, 7px); background: var(--graphic-surface); }
+.sg-perimeter__label { position: absolute; top: 8%; width: 100%; text-align: center; color: #9bb8c9; font-size: 1.7cqw; letter-spacing: 1.2px; }
+.sg-isolated-vault { position: absolute; width: 24%; left: 38%; top: 22%; display: flex; align-items: center; flex-direction: column; gap: 1.5cqw; }
+.sg-isolated-vault > img { width: 11cqw; height: 11cqw; filter: brightness(1.35) saturate(.6); }
+.sg-isolated-vault > span { color: #c6d5df; font-size: 2.3cqw; }
+.sg-private-data { position: absolute; top: 70%; left: 0; width: 100%; display: flex; gap: 1.7cqw; justify-content: center; }
+.sg-private-data > i { width: 3cqw; height: 2.4cqw; border: 1px solid #8aabb957; border-radius: 2px; background: #7498ac18; }
+.sg-perimeter__status { position: absolute; bottom: 7%; width: 100%; display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 1.7cqw; color: #9fb6c4; }
+.sg-perimeter__status > i { width: 4px; height: 4px; border-radius: 50%; background: #a1bdba; }
+.sg-isolation-zero { position: absolute; top: 87%; left: 0; width: 100%; display: flex; align-items: center; justify-content: center; gap: 2cqw; }
+.sg-isolation-zero > strong { color: #ccdae4; font-family: var(--font-display); font-size: 5cqw; line-height: 1; font-weight: 400; }
+.sg-isolation-zero > span { color: #859aa8; font-size: 1.8cqw; }
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .control-card:hover .sg-crypto-track > i { animation: sg-packet 2.5s ease-in-out infinite; }
+  .control-card:hover .sg-network-trunk > i, .control-card:hover .sg-endpoint__connection > i { animation: sg-local-packet 2.8s ease-in-out infinite; }
+  .control-card:hover .sg-endpoint__connection > i { animation-delay: calc(var(--node-index) * .25s); }
+}
+@keyframes sg-packet { 0%, 100% { transform: translateX(0); opacity: .4; } 50% { transform: translateX(9cqw); opacity: 1; } }
+@keyframes sg-local-packet { 0%, 100% { transform: translateY(0); opacity: .25; } 65% { transform: translateY(3cqw); opacity: 1; } }
+
+@media (min-width: 1101px) and (max-height: 820px) {
+  .control-card { top: 18px; min-height: 650px; }
+  .security-graphic { min-height: 630px; }
+  .control-card__copy { padding-top: 40px; padding-bottom: 38px; }
+  .control-card__body { margin-top: 50px; }
+  .sg-stage { width: 90%; }
+}
+@media (max-width: 1100px) {
+  .control-showcase__head { grid-template-columns: minmax(0, 1fr) 320px; gap: 32px; }
+  .control-card__copy { padding-inline: 30px; }
+  .control-card__body > p { font-size: 16px; }
+  .control-card__note { font-size: 14px; }
+  .security-graphic__topline { left: 18px; right: 18px; font-size: 8px; letter-spacing: 1.2px; }
+  .security-graphic__caption { font-size: 10px; }
+}
+@media (max-width: 1100px), (max-height: 740px) {
+  .control-card { position: relative; top: auto; }
+}
+@media (max-width: 800px) {
+  .control-showcase { padding-top: 100px; }
+  .control-showcase__head { grid-template-columns: 1fr; gap: 24px; margin-bottom: 48px; }
+  .control-showcase__head h2 { font-size: clamp(30px, 5.5vw, 44px); letter-spacing: -1px; }
+  .control-showcase__intro { max-width: 560px; padding-top: 0; }
+  .control-showcase__stack { gap: 32px; }
+  .control-card { grid-template-columns: 1fr; min-height: 0; padding: 7px; }
+  .control-card__copy { padding: 30px 25px; }
+  .control-card__label { font-size: 14px; }
+  .control-card__body { margin-top: 30px; }
+  .control-card__body h3 { font-size: 31px; }
+  .control-card__body > p { max-width: 510px; margin-top: 20px; }
+  .control-card__note { margin-top: 28px; padding-top: 0; font-size: 13px; }
+  .control-card--reversed .control-card__copy, .control-card--reversed .security-graphic { grid-column: auto; grid-row: auto; }
+  .security-graphic { min-height: 0; aspect-ratio: 1 / 1.1; }
+  .security-graphic__topline { top: 20px; left: 20px; right: 20px; }
+  .security-graphic__caption { bottom: 22px; }
+  .sg-stage { width: 92%; }
+}
+@media (max-width: 480px) {
+  .control-showcase__inner { width: calc(100% - 32px); }
+  .control-showcase__head h2 { font-size: clamp(26px, 7.6vw, 35px); }
+  .control-showcase__intro p { font-size: 15px; line-height: 1.6; }
+  .control-card__copy { padding: 26px 18px; }
+  .control-card__body h3 { font-size: clamp(25px, 6.6vw, 31px); letter-spacing: -.75px; }
+  .control-card__body > p { font-size: 14px; }
+  .control-card__note { font-size: 12px; gap: 10px; }
+  .control-card__note-mark { width: 21px; height: 21px; }
+  .security-graphic { aspect-ratio: 1 / 1.28; }
+  .security-graphic__topline { top: 18px; left: 14px; right: 14px; font-size: 7px; letter-spacing: 1px; }
+  .security-graphic__caption { bottom: 22px; font-size: 9px; gap: 6px; }
+  .sg-stage { width: 100%; }
+  .sg-credential__top, .sg-credential__issuer { font-size: 8px; letter-spacing: .8px; }
+  .sg-credential__title { font-size: max(12px, 3.3cqw); }
+  .sg-data-card > span { font-size: 7px; letter-spacing: .2px; }
+  .sg-data-card--output code { font-size: 9px; line-height: 1.55; letter-spacing: .35cqw; }
+  .sg-crypto-core strong { font-size: 9px; letter-spacing: 1px; }
+  .sg-standards span { font-size: 8px; padding-inline: 1.7cqw; }
+  .sg-endpoint { font-size: 9px; }
+  .sg-server-unit__label { font-size: 7px; }
+  .sg-premises > span, .sg-perimeter__label { font-size: 8px; letter-spacing: .6px; }
+  .sg-outside-service { font-size: 8px; }
+  .sg-isolated-vault > span { font-size: 10px; }
+  .sg-perimeter__status { font-size: 8px; }
+  .sg-isolation-zero > span { font-size: 8px; }
+  .sg-verification { font-size: 9px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .control-card { position: relative; top: auto; }
+  .sg-stage * { animation: none !important; transition: none !important; }
+}

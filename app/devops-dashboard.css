@@ -1,0 +1,46 @@
+.pw-devops__vaults { display: grid; gap: 7px; }
+.pw-devops__vaults .pw-tree-row { gap: 10px; padding-left: 14px; }
+.pw-devops__vaults .pw-tree-row__folder { color: #777; }
+.pw-devops__vaults .pw-tree-row--active { background: var(--pw-sel); border-radius: 5px; }
+.pw-devops__vaults .pw-tree-row--active .pw-tree-row__folder { color: #9376d1; }
+.pw-devops__vault-count { margin-left: auto; padding-right: 12px; font-size: 11px; color: var(--pw-text-4); }
+.pw-devops__environments, .pw-devops__integration-tabs { display: flex; gap: 8px; margin-bottom: 16px; }
+.pw-devops__environments .pw-it__button { min-width: 126px; }
+.pw-devops-embed .pw-it__button.is-active { background: var(--pw-blue-soft); border-color: #2b4572; color: #a4bee9; }
+.pw-devops__secret-head, .pw-devops__secret-row { display: grid; grid-template-columns: 1.3fr 1fr .8fr; gap: 20px; align-items: center; }
+.pw-devops__secret-head { min-height: 32px; }
+.pw-devops__secret-row { min-height: 68px; border-top: 1px solid var(--pw-line-soft); font-size: 14px; color: var(--pw-text-2); }
+.pw-devops__secret-row > span:first-child { display: flex; align-items: center; gap: 12px; }
+.pw-devops__secret-row small { display: block; margin-top: 6px; color: var(--pw-text-4); font-size: 11px; }
+.pw-devops__secret-row > span:last-child { color: var(--pw-text-4); font-size: 12px; }
+.pw-devops__token-layout { display: grid; grid-template-columns: 1.25fr 1fr; gap: 32px; align-items: start; }
+.pw-devops__token-layout .pw-it__field > span:first-child { width: 112px; }
+.pw-devops__token-card { display: flex; flex-direction: column; gap: 18px; padding: 24px; background: var(--pw-side); border: 1px solid #2a2d32; border-radius: 7px; }
+.pw-devops__token-card > strong { font-weight: 500; font-size: 17px; color: var(--pw-text-2); }
+.pw-devops__token-card code { padding: 16px 0; font-size: 15px; letter-spacing: .09em; color: var(--pw-text-2); }
+.pw-devops__token-card > .pw-it__muted { font-size: 12px; }
+.pw-devops__token-state { align-self: start; padding: 4px 8px; border-radius: 4px; background: var(--pw-blue-soft); color: #a4bee9; font-size: 11px; }
+.pw-devops__token-validity { border-top: 1px solid #292b30; padding-top: 15px; color: var(--pw-text-4); font-size: 11px; }
+.pw-devops__token-card.is-revoked code { opacity: .35; }
+.pw-devops__token-card.is-revoked .pw-devops__token-state { background: #24262a; color: var(--pw-text-3); }
+.pw-devops__integration-tabs > .pw-it__muted { margin-left: auto; align-self: center; font-size: 12px; }
+.pw-devops__console { overflow: hidden; background: var(--pw-side); border: 1px solid #2a2d32; border-radius: 7px; }
+.pw-devops__console-head { display: flex; justify-content: space-between; gap: 20px; padding: 12px 20px; border-bottom: 1px solid #27292d; color: var(--pw-text-3); font-size: 12px; line-height: 16px; }
+.pw-devops__console-head > span:last-child { color: var(--pw-text-4); }
+.pw-devops__console-body { padding: 16px 20px; font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 13px; line-height: 20px; }
+.pw-devops__request { display: flex; align-items: center; gap: 14px; color: var(--pw-text-2); }
+.pw-devops__method { font-size: 11px; color: #a4bee9; }
+.pw-devops__auth { margin-top: 9px; color: var(--pw-text-4); font-size: 11px; }
+.pw-devops__command { display: flex; gap: 12px; color: var(--pw-text-2); }
+.pw-devops__command > span { color: #7592c3; }
+.pw-devops__command code { font: inherit; }
+.pw-devops__output { min-height: 140px; margin-top: 12px; padding-top: 12px; border-top: 1px solid #292b30; }
+.pw-devops__output pre { margin: 5px 0 0; font: inherit; color: var(--pw-text-2); white-space: pre-wrap; overflow-wrap: anywhere; }
+.pw-devops__code-status { color: #8eaddf; }
+.pw-devops__console-actions { display: flex; align-items: center; gap: 18px; min-height: 32px; margin-top: 16px; }
+.pw-devops__rotation-fields { display: grid; grid-template-columns: 1fr 1fr; column-gap: 34px; }
+.pw-devops__rotation-fields .pw-it__field > span:first-child { width: 70px; }
+.pw-devops__rotation-history { margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--pw-line-soft); }
+.pw-devops__rotation-history > div { display: flex; align-items: center; gap: 18px; margin-top: 16px; font-size: 12px; color: var(--pw-text-3); }
+.pw-devops__version { padding: 6px 10px; background: #21242a; border-radius: 4px; color: var(--pw-text-4); }
+.pw-devops__version.is-current { background: var(--pw-blue-soft); color: #a4bee9; }

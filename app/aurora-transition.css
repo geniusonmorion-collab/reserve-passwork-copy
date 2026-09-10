@@ -1,0 +1,104 @@
+.aurora-transition {
+  --aurora-exposure: 1;
+  --aurora-wash: 0;
+  --aurora-top-shade: 1;
+  position: relative;
+  height: 180svh;
+  background: #fff;
+}
+
+.aurora-transition__stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+  isolation: isolate;
+  background: #000;
+}
+
+.aurora-transition__color,
+.aurora-transition__glow,
+.aurora-transition__rays,
+.aurora-transition__shade,
+.aurora-transition__wash {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.aurora-transition__color {
+  background: linear-gradient(
+    180deg,
+    #000 0%,
+    #02070e 18%,
+    #071830 38%,
+    #163b75 59%,
+    #397cdc 82%,
+    #68baff 100%
+  );
+  filter: brightness(var(--aurora-exposure));
+}
+
+.aurora-transition__glow {
+  inset: -4% -8%;
+  background:
+    radial-gradient(ellipse 18% 29% at 81% 102%, rgb(158 255 236 / 96%), transparent 82%),
+    radial-gradient(ellipse 16% 61% at 78% 89%, rgb(9 135 255 / 88%), transparent 78%),
+    radial-gradient(ellipse 25% 53% at 68% 77%, rgb(24 95 234 / 45%), transparent 80%);
+  animation: passwork-aurora-drift 22s ease-in-out infinite alternate;
+}
+
+.aurora-transition__rays {
+  inset: 0 -8%;
+  background: repeating-linear-gradient(
+    94deg,
+    transparent 0 35px,
+    rgb(145 207 255 / 10%) 49px,
+    transparent 66px 103px
+  );
+  mask-image: radial-gradient(ellipse 19% 75% at 79% 100%, #000, transparent 80%);
+  filter: blur(3px);
+  animation: passwork-aurora-drift 26s ease-in-out -7s infinite alternate-reverse;
+}
+
+.aurora-transition__shade {
+  bottom: auto;
+  height: 26%;
+  background: linear-gradient(#000, transparent);
+  opacity: var(--aurora-top-shade);
+}
+
+.aurora-transition__wash {
+  background: #fff;
+  opacity: var(--aurora-wash);
+}
+
+.aurora-transition__glow,
+.aurora-transition__rays {
+  animation-play-state: paused;
+}
+
+.aurora-transition[data-active='true'] .aurora-transition__glow,
+.aurora-transition[data-active='true'] .aurora-transition__rays {
+  animation-play-state: running;
+}
+
+@keyframes passwork-aurora-drift {
+  from { transform: translateX(-3%) scaleX(0.96); }
+  to { transform: translateX(3%) scaleX(1.04); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aurora-transition {
+    height: 100svh;
+  }
+
+  .aurora-transition__stage {
+    position: relative;
+  }
+
+  .aurora-transition__glow,
+  .aurora-transition__rays {
+    animation: none;
+  }
+}

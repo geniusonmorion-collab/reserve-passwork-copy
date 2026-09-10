@@ -5,6 +5,10 @@
 import { useEffect, useRef } from 'react';
 import type { CSSProperties } from 'react';
 
+// Refresh the previous colored assets cached under the same filenames.
+const LOGO_ARTWORK_VERSION = '20260909-mono';
+
+// Current artwork: https://deluxe-strudel-30f61d.netlify.app/ (9 September 2026).
 const logoColumns = [
   [
     {
@@ -21,7 +25,7 @@ const logoColumns = [
   [
     {
       name: 'ПИК',
-      src: '/assets/figma-9206/logo-pik.svg',
+      src: '/assets/client-logos/pik.svg',
       className: 'is-pik',
     },
     {
@@ -33,7 +37,7 @@ const logoColumns = [
   [
     {
       name: 'ВТБ',
-      src: '/assets/figma-9206/logo-vtb.svg',
+      src: '/assets/client-logos/vtb.svg',
       className: 'is-vtb',
     },
     {
@@ -45,7 +49,7 @@ const logoColumns = [
   [
     {
       name: 'Иви',
-      src: '/assets/figma-9206/logo-ivi.svg',
+      src: '/assets/client-logos/ivi.svg',
       className: 'is-ivi',
     },
     {
@@ -74,7 +78,7 @@ const logoColumns = [
     },
     {
       name: 'Иви',
-      src: '/assets/figma-9206/logo-ivi.svg',
+      src: '/assets/client-logos/ivi.svg',
       className: 'is-ivi',
     },
   ],
@@ -157,7 +161,7 @@ export default function ClientLogoRotator() {
                   className={`figma-client-logo__frame ${logo.className}`}
                   key={`${logo.name}-${trackIndex}`}
                 >
-                  <img src={logo.src} alt="" />
+                  <img src={`${logo.src}?v=${LOGO_ARTWORK_VERSION}`} alt="" />
                 </span>
               ))}
             </div>

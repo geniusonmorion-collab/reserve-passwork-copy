@@ -1,4 +1,5 @@
 import SectorIcon from './sector-icon';
+import CardGlow from './card-glow';
 
 const sectors = [
   { title: 'Производство', subtitle: 'АСУ ТП 1 класса', icon: 'factory' },
@@ -12,6 +13,11 @@ export default function ApplicationSectors() {
     <div className="figma-sectors" role="list" aria-label="Области применения">
       {sectors.map((sector) => (
         <article className="figma-sector-card" key={sector.title} role="listitem">
+          <CardGlow
+            className="security-card-glow"
+            baseColor="rgba(255,255,255,.1)"
+            surface="var(--security-glow-surface)"
+          />
           <SectorIcon name={sector.icon} />
           <div className="figma-sector-card__copy">
             <h3>{sector.title}</h3>

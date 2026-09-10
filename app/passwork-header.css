@@ -1,0 +1,234 @@
+.fh-scroll-marker {
+  position: absolute;
+  top: 160px;
+  left: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
+
+.fh-fixed,
+.fh-fixed * {
+  box-sizing: border-box;
+}
+.fh-fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  font-family: var(--font-sans), sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 21px;
+  letter-spacing: -0.02em;
+  color: #fff3f0;
+}
+.fh-nav {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  position: relative;
+  width: 100%;
+  padding: 0 40px;
+  -webkit-backdrop-filter: none;
+}
+.fh-gradient {
+  position: absolute;
+  top: -42px;
+  bottom: -114px;
+  width: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+.fh-inner {
+  width: 100%;
+  max-width: 1080px;
+  padding: 12px 0 0;
+  position: relative;
+  z-index: 1;
+  overflow: visible;
+}
+.fh-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 48px;
+  height: 36px;
+}
+.fh-logo-slot {
+  flex: 1 0 0;
+  max-width: 244px;
+}
+.fh-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: max-content;
+  height: 24px;
+}
+.fh-logo img {
+  display: block;
+  flex: none;
+}
+.fh-logo-symbol {
+  width: 24px;
+  height: 24px;
+}
+.fh-logo-wordmark {
+  width: 82px;
+  height: 17px;
+}
+.fh-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 48px;
+  flex: 1 0 0;
+  min-width: 0;
+}
+.fh-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 16px;
+  flex: none;
+  width: 244px;
+}
+.fh-link {
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 0.4s cubic-bezier(0.44, 0, 0.56, 1);
+}
+.fh-link:hover {
+  color: #fff3f0;
+}
+.fh-signup {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  position: relative;
+  height: 36px;
+  padding: 0 24px;
+  color: #fff3f0;
+  border-radius: 7px;
+  text-decoration: none;
+  white-space: nowrap;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+.fh-signup::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: inherit;
+}
+.fh-signup-desktop {
+  width: 160px;
+}
+.fh-menu-toggle {
+  display: block;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  width: 36px;
+  height: 36px;
+  flex: none;
+  position: relative;
+  cursor: pointer;
+}
+.fh-menu-toggle span {
+  position: absolute;
+  left: 8px;
+  width: 20px;
+  height: 2px;
+  background: #fff;
+}
+.fh-menu {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: clip;
+}
+.fh-menu > * {
+  flex: none;
+}
+.fh-menu-link {
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: -0.01em;
+}
+.fh-menu-cta {
+  position: relative;
+  display: flex;
+  padding-top: 24px;
+  max-width: 400px;
+}
+.fh-menu-cta::before {
+  content: "";
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+}
+.fh-fixed a:focus-visible,
+.fh-menu-toggle:focus-visible {
+  outline: 2px solid #fff3f0;
+  outline-offset: 4px;
+}
+@media (max-width: 1279.98px) {
+  .fh-scroll-marker { top: 140px; }
+  .fh-links,
+  .fh-actions > .fh-link,
+  .fh-actions > .fh-signup { display: none; }
+  .fh-fixed[data-variant="mobile-open"] .fh-nav {
+    max-height: 100dvh;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+  .fh-nav {
+    padding: 0 24px;
+  }
+  .fh-nav::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    pointer-events: none;
+    background: transparent;
+  }
+  .fh-fixed[data-variant="mobile-open"] .fh-nav::after,
+  .fh-fixed[data-variant="mobile-scroll"] .fh-nav::after {
+    background: rgba(255, 255, 255, 0.1);
+  }
+  .fh-fixed[data-variant="mobile-open"] .fh-nav,
+  .fh-fixed[data-variant="mobile-scroll"] .fh-nav {
+    -webkit-backdrop-filter: blur(8px);
+  }
+  .fh-inner {
+    max-width: 720px;
+    padding: 16px 0;
+  }
+  .fh-actions {
+    width: 1px;
+    flex: 1 0 0;
+  }
+}
+@media (max-width: 809.98px) {
+  .fh-scroll-marker { top: 120px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fh-link {
+    transition: none;
+  }
+}

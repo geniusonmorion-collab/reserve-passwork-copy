@@ -1,10 +1,7 @@
 /* Статичная разметка дашборда (сайдбар, шапка, список) и слой курсора.
    Список записей, панель пароля и курсор дорисовывает live-dashboard-engine.ts. */
 
-export const LIVE_DASHBOARD_MARKUP = `
-<div class="pw-stage">
-<div class="pw-app">
-  <aside class="pw-side">
+export const DASHBOARD_SIDEBAR_MARKUP = `  <aside class="pw-side">
     <div class="pw-side__top">
       <div class="pw-search" data-id="search"><svg class="pw-ico" viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.6"/><path d="M10.5 10.5 14 14"/></svg><span class="pw-search__field"><span class="pw-search__placeholder">Поиск</span><span class="pw-search__value"></span><i class="pw-search__caret"></i></span><span class="pw-search__clear" data-act="search-clear"><svg class="pw-ico" viewBox="0 0 16 16"><path d="M4 4l8 8M12 4l-8 8"/></svg></span></div>
       <nav class="pw-nav">
@@ -56,9 +53,9 @@ export const LIVE_DASHBOARD_MARKUP = `
       <div class="pw-nav-item" data-id="hidden"><svg class="pw-ico" viewBox="0 0 16 16"><path d="M2 2l12 12M6.6 6.7A2 2 0 0 0 9.3 9.4M4.2 4.3C2.8 5.2 1.9 6.5 1.4 8c1.2 3 3.6 4.7 6.6 4.7 1.3 0 2.5-.3 3.5-.9M7 3.4c.3 0 .7-.1 1-.1 3 0 5.4 1.7 6.6 4.7-.4 1-1 1.9-1.7 2.6"/></svg><span>14 скрытых сейфов</span></div>
       <div class="pw-nav-item" data-id="trash"><svg class="pw-ico" viewBox="0 0 16 16"><path d="M2.5 4.2h11M6 4.2V2.8h4v1.4M3.8 4.2l.7 9a1 1 0 0 0 1 .9h5a1 1 0 0 0 1-.9l.7-9M6.6 7v4.4M9.4 7v4.4"/></svg><span>Корзина</span></div>
     </div>
-  </aside>
-  <div class="pw-main">
-    <header class="pw-head">
+  </aside>`;
+
+export const DASHBOARD_HEADER_MARKUP = `    <header class="pw-head">
       <div class="pw-crumbs"><span>Администрирование</span><span>/</span><span>…</span><span>/</span><b>Доступы к серверам</b></div>
       <div class="pw-people">
         <div class="pw-avatars">
@@ -75,7 +72,14 @@ export const LIVE_DASHBOARD_MARKUP = `
         <span class="pw-round" data-act="head-more"><svg class="pw-ico" viewBox="0 0 18 18" style="fill:currentColor;stroke:none"><circle cx="4" cy="9" r="1.5"/><circle cx="9" cy="9" r="1.5"/><circle cx="14" cy="9" r="1.5"/></svg></span>
         <span class="pw-btn-add" data-act="add-password">Добавить пароль</span>
       </div>
-    </header>
+    </header>`;
+
+export const LIVE_DASHBOARD_MARKUP = `
+<div class="pw-stage">
+<div class="pw-app">
+${DASHBOARD_SIDEBAR_MARKUP}
+  <div class="pw-main">
+${DASHBOARD_HEADER_MARKUP}
     <div class="pw-body">
       <section class="pw-list">
         <div class="pw-label pw-label--folders">Папки</div>

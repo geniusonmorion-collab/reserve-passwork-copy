@@ -1,0 +1,19 @@
+.fora-card-glow {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: var(--fora-glow-radius);
+  pointer-events: none;
+}
+
+.fora-card-glow__light {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+}
+
+.fora-card-glow__fill {
+  position: absolute;
+  inset: 1px;
+  border-radius: max(0px, calc(var(--fora-glow-radius) - 1px));
+}

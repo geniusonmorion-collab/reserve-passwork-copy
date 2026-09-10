@@ -1,0 +1,144 @@
+/* Shared glass material for the hero and scenario dashboards. */
+:is(.figma-hero__product, .product-features__window).pw-glass {
+  border: 0;
+  background:
+    linear-gradient(180deg, rgb(27 28 29 / 90%) 0%, rgb(29 30 31 / 76%) 46%, rgb(18 20 22 / 92%) 100%);
+  -webkit-backdrop-filter: blur(26px) saturate(75%);
+  backdrop-filter: blur(26px) saturate(75%);
+  box-shadow: 0 18px 48px -18px rgb(0 0 0 / 38%), inset 0 0 0 1px rgb(255 255 255 / 8%), inset 0 1px 0 rgb(255 255 255 / 5%);
+}
+
+.pw-glass .pw-embed,
+.pw-glass.pw-embed {
+  --pw-bg: rgb(24 26 29 / 82%);
+  --pw-side: rgb(255 255 255 / 5%);
+  --pw-line: rgb(255 255 255 / 9%);
+  --pw-line-soft: rgb(255 255 255 / 6%);
+  --pw-search: rgb(255 255 255 / 6%);
+  --pw-chip: rgb(255 255 255 / 7%);
+  --pw-hover: rgb(255 255 255 / 9%);
+  --pw-sel: rgb(255 255 255 / 10%);
+  --pw-blue-soft: rgb(70 114 190 / 19%);
+  --pw-text: #f0f1f3;
+  --pw-text-2: #d4d6da;
+  --pw-text-3: #aeb3bb;
+  --pw-text-4: #8e97a3;
+  --pw-glass-edge: rgb(255 255 255 / 10%);
+  --pw-glass-card: linear-gradient(180deg, rgb(255 255 255 / 6%), rgb(255 255 255 / 3%));
+}
+
+.pw-glass .pw-app {
+  background: transparent;
+  box-shadow: none;
+}
+
+.pw-glass .pw-side {
+  background: linear-gradient(180deg, rgb(255 255 255 / 2%), transparent 72%);
+  border-right: 0;
+}
+
+.pw-glass .pw-main {
+  position: relative;
+  isolation: isolate;
+}
+
+/* Match the real pane's bounds; padding belongs to the app grid. */
+.pw-glass .pw-main::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  border-radius: 12px;
+  background:
+    linear-gradient(180deg, rgb(255 255 255 / 2%), transparent 70%),
+    rgb(25 26 27 / 44%);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 6%), inset 0 1px 0 rgb(255 255 255 / 3%);
+}
+
+/* The hero uses the same inset panes within its existing 1344 × 725 canvas. */
+.figma-hero__product.pw-glass {
+  border-radius: var(--passwork-card-radius, 7px);
+}
+
+.figma-hero__product.pw-glass .pw-app {
+  grid-template-columns: 328px minmax(0, 1fr);
+  gap: 8px;
+  padding: 8px;
+  border-radius: inherit;
+}
+
+.figma-hero__product.pw-glass .pw-side {
+  padding: 5px 0 0 25px;
+  border-radius: 12px;
+}
+
+.figma-hero__product.pw-glass .pw-tree-group--marked::before { left: -25px; }
+.figma-hero__product.pw-glass .pw-main { min-height: 0; border-radius: 12px; }
+
+.pw-glass :is(.pw-search, .pw-it__button:not(.pw-it__button--primary), .pw-it__select, .pw-audit__filter, .pw-it__link-field) {
+  background-color: rgb(255 255 255 / 4%);
+  border-color: var(--pw-glass-edge);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 3%);
+}
+
+.pw-glass :is(.pw-it__login, .pw-it__attachment, .pw-it__browser, .pw-it__phone, .pw-devops__token-card, .pw-devops__console, .pw-sec-demo__activity, .pw-sec-demo__revision, .pw-industry__version) {
+  background: var(--pw-glass-card);
+  border-color: var(--pw-glass-edge);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 4%);
+}
+
+.pw-glass :is(.pw-it__dialog, .pw-menu, .pw-toast) {
+  background:
+    linear-gradient(135deg, rgb(255 255 255 / 8%), transparent),
+    rgb(29 32 37 / 88%);
+  border-color: rgb(255 255 255 / 15%);
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 16px 40px -10px rgb(0 0 0 / 45%), inset 0 1px 0 rgb(255 255 255 / 7%);
+}
+
+.pw-glass :is(.pw-it__notice, .pw-sec-demo__version.is-active, .pw-devops__environments .pw-it__button.is-active, .pw-devops__integration-tabs .pw-it__button.is-active) {
+  background: var(--pw-blue-soft);
+  border-color: rgb(127 166 232 / 25%);
+}
+
+.pw-glass :is(.pw-sec-demo__alert, .pw-industry__alert) {
+  background: rgb(157 117 63 / 12%);
+  border-color: rgb(213 172 115 / 22%);
+}
+
+.pw-glass :is(.pw-devops__console-head, .pw-devops__token-validity, .pw-devops__output, .pw-it__device-bar, .pw-sec-demo__activity > div) {
+  border-color: var(--pw-line-soft);
+}
+
+.pw-glass :is(.pw-nav-item, .pw-tree-row, .pw-item, .pw-meta__sub, .pw-chip) {
+  color: var(--pw-text-3);
+}
+
+.pw-glass :is(.pw-tree-row--active, .pw-item.is-selected, .pw-tab.is-active) {
+  color: var(--pw-text);
+}
+
+.pw-glass :is(.pw-circle, .pw-round) {
+  border-color: rgb(128 166 230 / 24%);
+  color: #8aaeea;
+}
+
+/* Keep the animated focus and selection feedback above the glass surfaces. */
+.pw-glass .pw-search.is-focused {
+  background: var(--pw-hover);
+  box-shadow: inset 0 0 0 1px var(--pw-blue), 0 0 0 3px rgb(56 98 180 / 18%);
+}
+
+.pw-glass [data-demo].pw-hl {
+  background-color: var(--pw-hover);
+  box-shadow: inset 0 0 0 1.5px var(--pw-blue);
+}
+
+.pw-glass .pw-it__button--primary.pw-hl { background: #4270c7; }
+.pw-glass .pw-it__toggle.is-on.pw-hl { background: var(--pw-blue); }
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  :is(.figma-hero__product, .product-features__window).pw-glass { background-color: rgb(23 25 28 / 88%); }
+}

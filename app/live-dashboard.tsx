@@ -3,52 +3,37 @@
 import { useEffect, useRef } from 'react';
 import { initLiveDashboard } from './live-dashboard-engine';
 import { LIVE_DASHBOARD_MARKUP } from './live-dashboard-markup';
+import './dashboard-glass.css';
 
-/**
- * Живой дашборд в hero: вместо статичного product-screen.png — воссозданный
- * интерфейс с одним безымянным курсором (поиск → пароль → журнал → права →
- * дерево сейфов) и паузами между повторами. Занимает тот же
- * бокс, что и картинка (класс figma-hero__product), внутри масштабируется
- * под ширину контейнера. При скролле мокап вместе с тенью чуть приподнимается —
- * лёгкий параллакс через переменную --pw-parallax на .figma-hero__visual.
- */
+/** Live desktop demo and a readable, static password pane on small screens.
+ * The hero owns the surrounding composition and scroll motion. */
 export default function LiveDashboard() {
   const embedRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const embed = embedRef.current;
     if (!embed) return;
-    const stop = initLiveDashboard(embed);
-
-    const visual = embed.parentElement;
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (!visual || reduced) return stop;
-
-    let raf = 0;
-    const onScroll = () => {
-      if (raf) return;
-      raf = requestAnimationFrame(() => {
-        raf = 0;
-        // на нулевом скролле сдвига нет — мокап стоит ровно там, где в макете
-        const progress = Math.min(1, Math.max(0, window.scrollY / 600));
-        visual.style.setProperty('--pw-parallax', `${(-24 * progress).toFixed(1)}px`);
-      });
+    const phone = window.matchMedia('(max-width: 809.98px)');
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let stop: (() => void) | undefined;
+    const initialize = () => {
+      stop?.();
+      stop = initLiveDashboard(embed, { animate: !phone.matches });
     };
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
-
+    initialize();
+    phone.addEventListener('change', initialize);
+    reduced.addEventListener('change', initialize);
     return () => {
-      window.removeEventListener('scroll', onScroll);
-      if (raf) cancelAnimationFrame(raf);
-      visual.style.removeProperty('--pw-parallax');
-      stop();
+      phone.removeEventListener('change', initialize);
+      reduced.removeEventListener('change', initialize);
+      stop?.();
     };
   }, []);
 
   return (
     <div
       ref={embedRef}
-      className="figma-hero__product pw-embed"
+      className="figma-hero__product pw-embed pw-glass"
       aria-hidden="true"
       dangerouslySetInnerHTML={{ __html: LIVE_DASHBOARD_MARKUP }}
     />
