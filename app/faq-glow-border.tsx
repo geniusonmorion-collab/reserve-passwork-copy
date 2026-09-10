@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react';
 
 type Props = {
   className?: string;
-  radius?: number;
+  radius?: number | string;
   baseColor?: string;
   surface?: string;
   color?: readonly [number, number, number, number];
@@ -15,7 +15,7 @@ type Props = {
 // and per-frame interpolation of the pointer, radius and light strength.
 export function GlowBorder({
   className = '',
-  radius = 32,
+  radius = 'var(--passwork-card-radius)',
   baseColor = '#000',
   surface = 'rgba(0,0,0,.85)',
   color = [255, 255, 255, .25],
@@ -116,7 +116,7 @@ export function GlowBorder({
   return (
     <span ref={container} aria-hidden="true" className={`fq-glow ${className}`} style={{ borderRadius: radius, background: `var(--card-glow-base, ${baseColor})` }}>
       <span ref={light} style={{ position: 'absolute', inset: 0, opacity: 0 }} />
-      <span style={{ position: 'absolute', inset: 1, borderRadius: Math.max(0, radius - 1), background: `var(--card-glow-surface, ${surface})` }} />
+      <span style={{ position: 'absolute', inset: 1, borderRadius: `max(0px, calc(${typeof radius === 'number' ? `${radius}px` : radius} - 1px))`, background: `var(--card-glow-surface, ${surface})` }} />
     </span>
   );
 }

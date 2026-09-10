@@ -21,7 +21,7 @@
   -webkit-font-smoothing:antialiased;
 }
 .pw-app{
-  position:absolute; inset:0; background:var(--pw-bg); border-radius:15px; overflow:hidden;
+  position:absolute; inset:0; background:var(--pw-bg); border-radius: var(--passwork-card-radius); overflow:hidden;
   display:grid; grid-template-columns:344px 1fr;
   box-shadow:0 0 0 1px rgba(255,255,255,.06);
 }
@@ -36,7 +36,7 @@
 }
 .pw-side__top{flex:1 1 auto; min-height:0; overflow:hidden}
 .pw-search{
-  position:relative; width:279px; height:39px; border-radius:7px; background:var(--pw-search); color:var(--pw-text-4);
+  position:relative; width:279px; height:39px; border-radius: var(--passwork-card-radius); background:var(--pw-search); color:var(--pw-text-4);
   display:flex; align-items:center; gap:9px; padding:0 11px; font-size:14px;
   transition:background .15s ease, box-shadow .15s ease;
 }
@@ -56,7 +56,7 @@
 .pw-search .pw-ico{width:15px;height:15px}
 .pw-nav{margin-top:14px; display:flex; flex-direction:column}
 .pw-nav-item{
-  width:279px; height:32px; border-radius:6px; padding-left:9px;
+  width:279px; height:32px; border-radius: var(--passwork-card-radius); padding-left:9px;
   display:flex; align-items:center; gap:5px; color:var(--pw-text-3); font-size:15px;
 }
 .pw-sec{
@@ -76,7 +76,7 @@
   content:""; position:absolute; left:-33px; top:0; bottom:0; width:3px; background:var(--pw-blue);
 }
 .pw-tree-row{
-  width:279px; height:31px; border-radius:6px; display:flex; align-items:center; gap:8px;
+  width:279px; height:31px; border-radius: var(--passwork-card-radius); display:flex; align-items:center; gap:8px;
   color:var(--pw-text-3); font-size:15px; white-space:nowrap;
 }
 .pw-tree-row--l1{padding-left:9px}
@@ -110,7 +110,7 @@
 }
 .pw-round .pw-ico{width:18px;height:18px}
 .pw-btn-add{
-  height:39px; width:182px; border-radius:6px; background:var(--pw-blue); color:#fff;
+  height:39px; width:182px; border-radius: var(--passwork-card-radius); background:var(--pw-blue); color:#fff;
   font-size:14px; font-weight:500; display:flex; align-items:center; justify-content:center;
   transition:background .15s ease, transform .1s ease;
 }
@@ -142,7 +142,7 @@
 .pw-label{font-size:11px; font-weight:500; letter-spacing:.06em; text-transform:uppercase; color:#8a8b8d; line-height:14px}
 .pw-folders{margin-top:10px; display:flex; flex-direction:column}
 .pw-folder{
-  height:34px; border-radius:6px; padding:0 8px 0 4px; display:flex; align-items:center; gap:11px;
+  height:34px; border-radius: var(--passwork-card-radius); padding:0 8px 0 4px; display:flex; align-items:center; gap:11px;
   color:#d3d4d6; font-size:15px;
 }
 .pw-folder svg{width:22px;height:18px}
@@ -150,7 +150,7 @@
 .pw-list .pw-label--second{margin-top:21px}
 .pw-items{margin-top:13px; display:flex; flex-direction:column}
 .pw-item{
-  position:relative; height:35px; border-radius:6px; padding:0 8px 0 4px; display:flex; align-items:center; gap:11px;
+  position:relative; height:35px; border-radius: var(--passwork-card-radius); padding:0 8px 0 4px; display:flex; align-items:center; gap:11px;
   color:#9fa0a2; font-size:15px; white-space:nowrap; transition:background .15s ease, color .15s ease;
 }
 .pw-item.is-selected{background:var(--pw-sel); color:#ececed}
@@ -167,7 +167,7 @@
 .pw-glyph--cloud svg{width:20px;height:20px}
 .pw-glyph--astra svg{width:18px;height:18px}
 .pw-glyph--lg{width:30px;height:30px}
-.pw-glyph--lg.pw-glyph--sq{border-radius:7px;font-size:16px}
+.pw-glyph--lg.pw-glyph--sq{border-radius: var(--passwork-card-radius);font-size:16px}
 .pw-glyph--lg.pw-glyph--py{font-size:12px}
 .pw-glyph--lg.pw-glyph--sprinthost{border-radius:50%}
 .pw-glyph--lg.pw-glyph--sprinthost svg{width:17px;height:17px}
@@ -182,11 +182,11 @@
 .pw-detail__head{height:30px; display:flex; align-items:center}
 .pw-detail__title{display:flex; align-items:center; gap:8px; min-width:0}
 .pw-detail__title h3{margin:0 0 0 2px; font-size:20px; line-height:24px; font-weight:500; color:var(--pw-text-2); white-space:nowrap}
-.pw-star{width:22px; height:22px; border-radius:5px; display:flex; align-items:center; justify-content:center; color:#4a4b4e; margin-left:4px}
+.pw-star{width:22px; height:22px; border-radius: var(--passwork-card-radius); display:flex; align-items:center; justify-content:center; color:#4a4b4e; margin-left:4px}
 .pw-star svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linejoin:round}
 .pw-star.is-on{color:#e1af00}
 .pw-star.is-on svg{fill:currentColor}
-.pw-close{margin-left:auto; width:26px; height:26px; border-radius:6px; color:#8a8b8d; display:flex; align-items:center; justify-content:center}
+.pw-close{margin-left:auto; width:26px; height:26px; border-radius: var(--passwork-card-radius); color:#8a8b8d; display:flex; align-items:center; justify-content:center}
 .pw-close .pw-ico{width:16px;height:16px}
 .pw-detail__meta{margin-top:21px; height:33px; display:flex; align-items:flex-start; justify-content:space-between}
 .pw-meta__title{font-size:13px; line-height:16px; color:var(--pw-text-2)}
@@ -194,7 +194,7 @@
 .pw-circles{display:flex; gap:17px}
 .pw-tabs{margin-top:24px; height:38px; display:flex; gap:24px; border-bottom:1px solid var(--pw-line-soft)}
 .pw-tab{
-  position:relative; height:100%; font-size:15px; color:var(--pw-text-4); white-space:nowrap; border-radius:4px 4px 0 0;
+  position:relative; height:100%; font-size:15px; color:var(--pw-text-4); white-space:nowrap; border-radius:var(--passwork-card-radius) var(--passwork-card-radius) 0 0;
   transition:color .15s ease;
 }
 .pw-tab::after{content:""; position:absolute; left:0; right:0; bottom:-1px; height:2px; background:var(--pw-blue); opacity:0; transition:opacity .18s ease}
@@ -215,7 +215,7 @@
 .pw-row__acts--col{height:auto; flex-direction:column; align-items:flex-end; gap:0}
 .pw-row__acts--col .pw-ib{height:27px}
 .pw-chips{height:27px; align-items:center}
-.pw-ib{width:16px; height:20px; border-radius:4px; color:#666769; display:flex; align-items:center; justify-content:center; transition:color .15s ease}
+.pw-ib{width:16px; height:20px; border-radius:var(--passwork-card-radius); color:#666769; display:flex; align-items:center; justify-content:center; transition:color .15s ease}
 .pw-ib .pw-ico{width:16px;height:16px}
 .pw-ib.is-done{color:#3bc78f}
 .pw-dots{letter-spacing:.16em; font-size:15px; color:#fbfbfb}
@@ -227,10 +227,10 @@
 .pw-ring__bg{stroke:#262a31}
 .pw-ring__fg{stroke:var(--pw-blue); stroke-linecap:round; transition:stroke-dashoffset .25s linear}
 .pw-chips{display:flex; gap:10px}
-.pw-chip{height:20px; padding:0 8px; border-radius:4px; background:var(--pw-chip); color:#8f9194; font-size:11px; font-weight:500; display:flex; align-items:center}
+.pw-chip{height:20px; padding:0 8px; border-radius:var(--passwork-card-radius); background:var(--pw-chip); color:#8f9194; font-size:11px; font-weight:500; display:flex; align-items:center}
 
 .pw-hist,.pw-ver{
-  height:50px; border-bottom:1px solid var(--pw-line-soft); border-radius:6px; display:flex; align-items:center; gap:12px; font-size:14px; padding:0 6px;
+  height:50px; border-bottom:1px solid var(--pw-line-soft); border-radius: var(--passwork-card-radius); display:flex; align-items:center; gap:12px; font-size:14px; padding:0 6px;
 }
 .pw-hist--first,.pw-ver--first{margin-top:8px}
 /* журнал: строки прилетают по одной снизу вверх, у верхней один раз мигает «только что» */
@@ -247,7 +247,7 @@
 .pw-hist__time,.pw-ver__meta{margin-left:auto; color:var(--pw-text-4); font-size:12px; white-space:nowrap; font-variant-numeric:tabular-nums}
 .pw-ver__num{color:#e6e7e8; font-weight:500}
 .pw-ver__by{color:#8f9093}
-.pw-ver__cur{height:18px; padding:0 7px; border-radius:4px; background:var(--pw-blue-soft); color:#7f9fe0; font-size:11px; font-weight:500; display:flex; align-items:center; border:1px solid #2a4680}
+.pw-ver__cur{height:18px; padding:0 7px; border-radius:var(--passwork-card-radius); background:var(--pw-blue-soft); color:#7f9fe0; font-size:11px; font-weight:500; display:flex; align-items:center; border:1px solid #2a4680}
 
 /* ---------- Курсор: один, без имени, белый со тенью ---------- */
 .pw-cursors{position:absolute; inset:0; z-index:50; overflow:visible; pointer-events:none}
@@ -266,17 +266,17 @@
 
 /* ---------- Панель доступа к папке ---------- */
 .pw-menu{
-  position:absolute; z-index:40; min-width:236px; background:var(--pw-side); border:1px solid var(--pw-line); border-radius:8px; padding:6px;
+  position:absolute; z-index:40; min-width:236px; background:var(--pw-side); border:1px solid var(--pw-line); border-radius: var(--passwork-card-radius); padding:6px;
   box-shadow:0 14px 34px rgba(0,0,0,.55); animation:pw-pop .18s ease-out both; transform-origin:top left;
 }
 .pw-menu__title{font-size:11px; font-weight:500; letter-spacing:.06em; text-transform:uppercase; color:#8a8b8d; padding:6px 10px}
-.pw-access{display:flex; align-items:center; gap:10px; height:36px; padding:0 10px; border-radius:5px; font-size:13px; color:#d5d6d8}
+.pw-access{display:flex; align-items:center; gap:10px; height:36px; padding:0 10px; border-radius: var(--passwork-card-radius); font-size:13px; color:#d5d6d8}
 .pw-access__role{margin-left:auto; color:var(--pw-text-4); font-size:12px}
 .pw-mini--more{background:#2c2d2e; color:#9a9b9d; font-size:10px}
 
 /* ---------- Тост ---------- */
 .pw-toast{
-  position:absolute; z-index:45; background:#2a2f37; color:#e8e9ea; font-size:12px; font-weight:500; padding:5px 9px; border-radius:6px;
+  position:absolute; z-index:45; background:#2a2f37; color:#e8e9ea; font-size:12px; font-weight:500; padding:5px 9px; border-radius: var(--passwork-card-radius);
   white-space:nowrap; transform:translate(-50%,-100%); box-shadow:0 6px 16px rgba(0,0,0,.4); animation:pw-toast 1.4s ease forwards;
 }
 
@@ -292,7 +292,7 @@
 .pw-list.is-searching .pw-label--second{margin-top:0}
 .pw-item mark{background:rgba(56,98,180,.42); color:#fff; border-radius:3px; padding:0 1px; margin:0 -1px}
 .pw-item__hint{margin-left:auto; padding-left:8px; font-size:12px; color:var(--pw-text-4); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
-.pw-item__hint--chip{flex:none; height:18px; padding:0 6px; border-radius:4px; background:var(--pw-chip); color:#8f9194; font-size:11px; display:flex; align-items:center}
+.pw-item__hint--chip{flex:none; height:18px; padding:0 6px; border-radius:var(--passwork-card-radius); background:var(--pw-chip); color:#8f9194; font-size:11px; display:flex; align-items:center}
 .pw-list__empty{padding:10px 4px; color:var(--pw-text-4); font-size:14px}
 .pw-round.pw-hl,.pw-circle.pw-hl,.pw-ib.pw-hl,.pw-star.pw-hl,.pw-close.pw-hl,.pw-sec__add.pw-hl{color:#dfe0e2}
 .pw-tab.pw-hl{color:#b9babc}

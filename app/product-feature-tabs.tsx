@@ -17,33 +17,28 @@ const features = [
     id: 'it-teams', label: 'IT-команды',
     lead: 'Полный журнал действий пользователей.',
     description: 'Все действия с паролями фиксируются в журнале, а права доступа настраиваются по ролям.',
-    caption: 'Сотрудник уходит из проекта — права снимаются одним действием, без рассылки «всем сменить пароль»',
   },
   {
     id: 'devops', label: 'DevOps',
     lead: 'Отдаёт секрет по API. И через CLI.',
     description: 'Держит окружения в разных сейфах. Выдаёт токен на время сборки. Меняет ключи по расписанию. Помнит каждое обращение.',
-    caption: 'Секреты попадают в сборку автоматически — доступ ограничен окружением и временем её выполнения',
   },
   {
     id: 'security', label: 'Безопасность',
     lead: 'Уведомления о подозрительных действиях.',
     description: 'Полный журнал действий пользователей. Отслеживание изменений и доступа к записям.',
-    caption: 'От уведомления — к журналу, изменениям записи и правам доступа: всё для разбора события в одном месте',
   },
   {
     id: 'government', label: 'Госорганизации',
     lead: 'Полный журнал действий пользователей.',
     description: 'Все действия с паролями фиксируются в журнале, а права доступа настраиваются по ролям.',
-    caption: 'Для ведомственных систем — доступ по ролям и история действий, которая остаётся после отзыва прав',
   },
   {
     id: 'manufacturing', label: 'Производство',
     lead: 'Отслеживание изменений и доступа к записям.',
     description: 'Настройка политики ротации паролей. Уведомления о подозрительных действиях.',
-    caption: 'Доступ к техническим системам под контролем — от истории пароля до ротации и проверки подозрительных действий',
   },
-] as const satisfies readonly { id: string; label: string; lead: string; description: string; caption: string }[];
+] as const satisfies readonly { id: string; label: string; lead: string; description: string }[];
 
 const imageSpring = { type: 'spring' as const, duration: 1, bounce: 0 };
 
@@ -84,7 +79,6 @@ export default function ProductFeatureTabs() {
   const tabs = useRef<(HTMLButtonElement | null)[]>([]);
   const mobile = useMobile();
   const reduced = useReducedMotion();
-  const activeFeature = features[activeIndex];
   const advanceTab = useCallback(() => {
     setActiveIndex((current) => (current + 1) % features.length);
   }, []);
@@ -124,8 +118,7 @@ export default function ProductFeatureTabs() {
 
   return <section className="product-features figma-shell" id="features" aria-labelledby="product-features-title">
     <div className="product-features__heading">
-      <Reveal delay={.1}><h2 id="product-features-title">Сценарии<span>использования</span></h2></Reveal>
-      <Reveal delay={.2} className="product-features__description"><p>Пассворк решает задачи разных команд<br />—&nbsp;от&nbsp;IT&#8209;отдела до специалистов по информационной безопасности.</p></Reveal>
+      <Reveal delay={.1}><h2 id="product-features-title">Пассворк решает{' '}<span>задачи разных команд</span></h2></Reveal>
     </div>
     <div ref={carousel} className="product-features__carousel">
     <div className="product-features__tabs" role="tablist" aria-label="Сценарии использования Пассворка">
@@ -183,12 +176,6 @@ export default function ProductFeatureTabs() {
         </ScenarioStage>
     </motion.div>)}
     </div>
-    <footer className="product-features__footer">
-      <ForaBorderFrame />
-      <button type="button" className="product-features__arrow" aria-label="Предыдущий сценарий" onClick={() => selectTab((activeIndex - 1 + features.length) % features.length)}>←</button>
-      <p className="product-features__caption">{mobile ? activeFeature.label : activeFeature.caption}</p>
-      <button type="button" className="product-features__arrow" aria-label="Следующий сценарий" onClick={() => selectTab((activeIndex + 1) % features.length)}>→</button>
-    </footer>
     </div>
   </section>;
 }

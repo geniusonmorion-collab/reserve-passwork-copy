@@ -107,7 +107,7 @@
   position: relative;
   flex: none;
   border: 1px solid rgb(255 255 255 / 17%);
-  border-radius: 14px;
+  border-radius: var(--passwork-card-radius);
   background: var(--wy-ui-glass-surface);
   box-shadow: inset 0 1px 0 rgb(255 255 255 / 6%), 0 20px 48px -16px rgb(0 0 0 / 52%);
   /* Standard declaration must come last so production minification keeps both. */
@@ -122,7 +122,7 @@
   width: 76%;
   height: 82%;
   padding: 6cqw;
-  border-radius: 12px;
+  border-radius: var(--passwork-card-radius);
 }
 .wy-ui-certificate-issuer {
   display: flex;
@@ -163,8 +163,8 @@
 .wy-ui-icon { display: inline-flex; align-items: center; justify-content: center; flex: none; width: 16px; height: 16px; }
 .wy-ui-icon svg { display: block; width: 100%; height: 100%; fill: none; stroke: currentColor; stroke-width: 1.35; stroke-linecap: round; stroke-linejoin: round; }
 .wy-ui-shield { display: block; width: 22px; height: 22px; object-fit: contain; }
-.wy-ui-square { display: grid; place-items: center; width: 34px; height: 34px; flex: none; background: rgb(255 255 255 / 8%); border: 1px solid rgb(255 255 255 / 6%); border-radius: 8px; color: var(--wy-ui-blue); }
-.wy-ui-tag { display: inline-flex; align-items: center; padding: 3px 7px; border-radius: 5px; background: rgb(136 176 236 / 13%); color: #bad1f7; font-size: .86em; white-space: nowrap; }
+.wy-ui-square { display: grid; place-items: center; width: 34px; height: 34px; flex: none; background: rgb(255 255 255 / 8%); border: 1px solid rgb(255 255 255 / 6%); border-radius: var(--passwork-card-radius); color: var(--wy-ui-blue); }
+.wy-ui-tag { display: inline-flex; align-items: center; padding: 3px 7px; border-radius: var(--passwork-card-radius); background: rgb(136 176 236 / 13%); color: #bad1f7; font-size: .86em; white-space: nowrap; }
 .wy-ui-terminal { width: 100%; overflow: hidden; }
 .wy-ui-terminal-bar { display: flex; align-items: center; gap: 11px; padding: 3cqw 4cqw; border-bottom: 1px solid var(--wy-ui-line); background: rgb(255 255 255 / 3%); font-size: .88em; }
 .wy-ui-terminal-bar > :last-child { margin-left: auto; font-size: .87em; }
@@ -265,7 +265,7 @@
   .wy-ui-brandbar { padding: 12px; }
   .wy-ui-brandbar > .wy-ui-subtle { font-size: 9px; }
   .wy-ui-title-row > strong { font-size: 16px; }
-  .wy-ui-square { width: 28px; height: 28px; border-radius: 6px; }
+  .wy-ui-square { width: 28px; height: 28px; }
   .wy-ui-square .wy-ui-shield { width: 20px; height: 20px; }
   .wy-ui-code-group .wy-ui-indent { padding-left: 1.5em; }
 }

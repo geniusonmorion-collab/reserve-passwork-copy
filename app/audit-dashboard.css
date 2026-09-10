@@ -15,9 +15,9 @@
   padding: 8px;
   border-radius: 0;
 }
-.pw-audit-embed .pw-main { min-height: 0; overflow: hidden; border-radius: 12px; }
+.pw-audit-embed .pw-main { min-height: 0; overflow: hidden; border-radius: var(--passwork-card-radius); }
 .pw-audit__sidebar { min-width: 0; height: 100%; }
-.pw-audit__sidebar > .pw-side { height: 100%; padding: 16px 16px 0; border-radius: 12px; }
+.pw-audit__sidebar > .pw-side { height: 100%; padding: 16px 16px 0; border-radius: var(--passwork-card-radius); }
 .pw-audit__sidebar :is(.pw-search, .pw-nav-item, .pw-sec, .pw-tree-row) { width: 100%; }
 .pw-audit__sidebar .pw-sec { margin-top: 24px; }
 .pw-audit__sidebar .pw-side__bottom { gap: 24px; padding: 20px 0 24px; }
@@ -41,9 +41,9 @@
 .pw-audit__workspace { display: flex; flex-direction: column; flex: 1; min-height: 0; padding: 20px 32px 24px; }
 .pw-audit__tabs { flex: none; margin-top: 0; gap: 28px; }
 .pw-audit__tabs .pw-tab { display: flex; align-items: flex-start; gap: 8px; }
-.pw-audit__tab-count { padding: 1px 5px; border-radius: 4px; background: var(--pw-chip); font-size: 11px; line-height: 16px; }
+.pw-audit__tab-count { padding: 1px 5px; border-radius: var(--passwork-card-radius); background: var(--pw-chip); font-size: 11px; line-height: 16px; }
 .pw-audit__filters { display: flex; flex: none; align-items: center; gap: 12px; margin: 20px 0 18px; height: 32px; }
-.pw-audit__filter { display: flex; align-items: center; gap: 24px; height: 32px; padding: 0 11px; border: 1px solid #2a2d32; border-radius: 6px; color: var(--pw-text-3); font-size: 13px; }
+.pw-audit__filter { display: flex; align-items: center; gap: 24px; height: 32px; padding: 0 11px; border: 1px solid #2a2d32; border-radius: var(--passwork-card-radius); color: var(--pw-text-3); font-size: 13px; }
 .pw-audit__chevron { width: 6px; height: 6px; margin: -3px 2px 0 0; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: rotate(45deg); opacity: .7; }
 .pw-audit__filter-more { margin-left: auto; color: var(--pw-text-4); padding: 0 8px; }
 .pw-audit__icon { display: inline-flex; flex: none; color: var(--pw-text-4); }

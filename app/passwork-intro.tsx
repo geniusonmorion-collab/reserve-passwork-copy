@@ -1,94 +1,69 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
+import { useRef } from 'react';
+import { motion, useReducedMotion, useScroll, useSpring, useTransform, type MotionValue } from 'framer-motion';
 import { useThemeMotion } from './theme-motion';
 import './passwork-intro.css';
 
-const paragraphs = [
-  'Пассворк — корпоративный менеджер паролей для ИТ-команд, DevOps и специалистов по безопасности. Пароли, доступы и действия сотрудников — в едином защищённом пространстве.',
-  'Разработан в России и входит в реестр отечественного ПО. Решение подходит для бизнеса, государственных организаций и критической инфраструктуры.',
-] as const;
+const paragraph = 'Пассворк — корпоративный менеджер паролей для ИТ-команд, DevOps и специалистов по безопасности. Он помогает хранить пароли, управлять доступом и отслеживать действия сотрудников внутри инфраструктуры компании. Разработан в России и входит в реестр отечественного ПО.';
 
-type IntroState = 'Idle' | '1' | '2' | 'Primary';
-const triggerStates = ['1', '2', 'Idle'] as const;
+const words = paragraph.split(' ');
+const fadeWordCount = 4;
+const readingRange = words.length - 1 + fadeWordCount;
+const smoothFade = (progress: number) => progress * progress * (3 - 2 * progress);
 
-// Match the supplied Fora port: layout offsets ignore visual transforms.
-function documentOffsetTop(element: HTMLElement) {
-  let top = 0;
-  let current: HTMLElement | null = element;
-  while (current && current !== document.documentElement) {
-    top += current.offsetTop;
-    current = current.offsetParent as HTMLElement | null;
-  }
-  return top;
+function ReadingWord({ word, index, progress, restOpacity, reduced }: {
+  word: string;
+  index: number;
+  progress: MotionValue<number>;
+  restOpacity: number;
+  reduced: boolean;
+}) {
+  // Overlap neighbouring words and ease both ends of each brightness transition.
+  const opacity = useTransform(progress,
+    [index / readingRange, (index + fadeWordCount) / readingRange],
+    [restOpacity, 1],
+    { ease: smoothFade },
+  );
+
+  return <motion.span className="pw-intro__word" style={{ opacity: reduced ? 1 : opacity }}>
+    {word}
+  </motion.span>;
 }
 
 export default function PassworkIntro() {
   const reduced = useReducedMotion();
   const colors = useThemeMotion();
-  const section = useRef<HTMLElement>(null);
-  const triggers = useRef<HTMLDivElement>(null);
-  const [automatic, setAutomatic] = useState<IntroState>('Idle');
-  const active = reduced ? 'Primary' : automatic;
-
-  useEffect(() => {
-    if (reduced) return;
-
-    let frame = 0;
-    let disposed = false;
-    const update = () => {
-      frame = 0;
-      if (disposed || !triggers.current) return;
-
-      let state: IntroState = 'Idle';
-      Array.from(triggers.current.children).forEach((element, index) => {
-        const threshold = documentOffsetTop(element as HTMLElement) - 1 - window.innerHeight * 0.5;
-        if (window.scrollY >= threshold) state = triggerStates[index];
-      });
-      setAutomatic(state);
-    };
-    const schedule = () => {
-      if (!frame && !disposed) frame = requestAnimationFrame(update);
-    };
-
-    const observer = new ResizeObserver(schedule);
-    if (section.current) observer.observe(section.current);
-    observer.observe(document.documentElement);
-    window.addEventListener('scroll', schedule, { passive: true });
-    window.addEventListener('resize', schedule);
-    document.fonts.ready.then(schedule);
-    schedule();
-
-    return () => {
-      disposed = true;
-      cancelAnimationFrame(frame);
-      observer.disconnect();
-      window.removeEventListener('scroll', schedule);
-      window.removeEventListener('resize', schedule);
-    };
-  }, [reduced]);
+  const text = useRef<HTMLParagraphElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: text,
+    offset: ['start 0.75', 'end 0.45'],
+  });
+  // One damped progress value absorbs wheel steps without bouncing or changing order.
+  const readingProgress = useSpring(scrollYProgress, {
+    stiffness: 160,
+    damping: 30,
+    mass: 0.7,
+    restDelta: 0.0001,
+    restSpeed: 0.001,
+  });
 
   return (
-    <section id="company" ref={section} className="pw-intro" data-state={active} aria-label="О Пассворке">
+    <section id="company" className="pw-intro" aria-label="О Пассворке">
       <div className="pw-intro__container">
         <div className="pw-intro__column">
           <div className="pw-intro__text-frame">
-            <div className="pw-intro__triggers" ref={triggers} aria-hidden="true">
-              {triggerStates.map(state => <div key={state} data-trigger={state} />)}
-            </div>
             <div className="pw-intro__paragraphs">
-              {paragraphs.map((text, index) => (
-                <motion.p
-                  key={text}
-                  className="pw-intro__paragraph"
-                  initial={false}
-                  animate={{ opacity: active === 'Primary' || active === String(index + 1) ? 1 : colors.introRestOpacity }}
-                  transition={reduced ? { duration: 0 } : { type: 'spring', duration: 0.4, bounce: 0 }}
-                >
-                  {text}
-                </motion.p>
-              ))}
+              <p ref={text} className="pw-intro__paragraph">
+                {words.map((word, index) => <ReadingWord
+                  key={index}
+                  word={index < words.length - 1 ? `${word} ` : word}
+                  index={index}
+                  progress={readingProgress}
+                  restOpacity={colors.introRestOpacity}
+                  reduced={Boolean(reduced)}
+                />)}
+              </p>
             </div>
           </div>
         </div>

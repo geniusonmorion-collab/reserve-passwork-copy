@@ -9,7 +9,6 @@ html[data-theme='light'] {
   --theme-text: #404040;
   --theme-muted: #525252;
   --theme-surface: #eeeeee;
-  --theme-surface-hover: #e2e2e2;
   --theme-selected: rgb(226 226 226 / 85%);
   --theme-line: rgb(23 23 23 / 16%);
   --theme-accent: #2456b5;
@@ -91,6 +90,8 @@ html[data-theme='light'] .figma-security-card.is-fstec {
   background-image: linear-gradient(100.57872875770329deg, #f0f1f4 9.8042%, #d9e1ef 47.613%, #9db8e2 91.17%);
 }
 html[data-theme='light'] .figma-security-card h3 { color: var(--theme-ink); }
+/* Keep small copy above 4.5:1 even at the blue gradient's darkest endpoint. */
+html[data-theme='light'] .figma-security-card.is-fstec p { color: var(--theme-text); }
 html[data-theme='light'] :is(.figma-sector-card h3, .product-features__heading h2, .wy-section h2, .wy-body h3, .fq-section h2, .fq-contact h3, .fq-question-button) {
   color: var(--theme-ink);
 }
@@ -99,7 +100,7 @@ html[data-theme='light'] :is(.figma-security-card__icon, .figma-sector-card__ico
   color: var(--theme-ink);
 }
 html[data-theme='light'] :is(.wy-section, .fq-section, .product-features__heading p, .fq-contact a) { color: var(--theme-text); }
-html[data-theme='light'] :is(.product-features__heading h2 span, .product-features__caption, .wy-section h2 span, .wy-label, .wy-footnote svg) {
+html[data-theme='light'] :is(.product-features__heading h2 span, .wy-section h2 span, .wy-label, .wy-footnote svg) {
   color: var(--theme-muted);
 }
 
@@ -119,12 +120,6 @@ html[data-theme='light'] .product-features__stage::after {
 }
 html[data-theme='light'] .product-features__scenario-copy { color: var(--theme-text); }
 html[data-theme='light'] .product-features__scenario-copy > span { color: var(--theme-ink); }
-html[data-theme='light'] .product-features__arrow {
-  color: var(--theme-ink);
-  background: var(--theme-surface);
-  border-color: var(--theme-line);
-}
-html[data-theme='light'] .product-features__arrow:hover { background: var(--theme-surface-hover); }
 html[data-theme='light'] .wy-face { background: var(--theme-surface); }
 html[data-theme='light'] .wy-label i { background: var(--theme-accent); }
 html[data-theme='light'] :is(.wy-outer-glow, .fq-outer-glow) {

@@ -1,10 +1,10 @@
-.pw-sec-demo__alert { display: flex; align-items: center; gap: 16px; padding: 20px; margin-bottom: 22px; border: 1px solid #54432d; border-radius: 7px; background: #252018; }
-.pw-sec-demo__alert-icon { display: grid; place-items: center; width: 34px; height: 34px; flex: none; border: 1px solid #665030; border-radius: 6px; }
+.pw-sec-demo__alert { display: flex; align-items: center; gap: 16px; padding: 20px; margin-bottom: 22px; border: 1px solid #54432d; border-radius: var(--passwork-card-radius); background: #252018; }
+.pw-sec-demo__alert-icon { display: grid; place-items: center; width: 34px; height: 34px; flex: none; border: 1px solid #665030; border-radius: var(--passwork-card-radius); }
 .pw-sec-demo__alert-icon .pw-it__icon { color: #d7ae71; }
 .pw-sec-demo__alert > div { min-width: 0; }
 .pw-sec-demo__alert strong { display: block; font-size: 15px; font-weight: 500; color: #e0c397; }
 .pw-sec-demo__alert p { margin: 7px 0 0; font-size: 12px; color: #a79a87; }
-.pw-sec-demo__badge { margin-left: auto; padding: 5px 8px; border-radius: 4px; background: #3a2f20; color: #d7ae71; font-size: 11px; white-space: nowrap; }
+.pw-sec-demo__badge { margin-left: auto; padding: 5px 8px; border-radius: var(--passwork-card-radius); background: #3a2f20; color: #d7ae71; font-size: 11px; white-space: nowrap; }
 .pw-sec-demo__alert time { font-size: 12px; color: var(--pw-text-4); }
 .pw-sec-demo__event-head, .pw-sec-demo__event { display: grid; grid-template-columns: 70px 1.4fr 1fr; gap: 20px; align-items: center; }
 .pw-sec-demo__event-head { min-height: 30px; }
@@ -16,7 +16,7 @@
 .pw-sec-demo__incident-facts > .pw-it__person { margin: 4px 0 15px; font-size: 15px; }
 .pw-sec-demo__incident-facts .pw-it__field { min-height: 50px; }
 .pw-sec-demo__incident-facts .pw-it__field > span:first-child { width: 110px; }
-.pw-sec-demo__activity { padding: 20px; border: 1px solid #2a2d32; border-radius: 7px; background: var(--pw-side); }
+.pw-sec-demo__activity { padding: 20px; border: 1px solid #2a2d32; border-radius: var(--passwork-card-radius); background: var(--pw-side); }
 .pw-sec-demo__activity > .pw-label { display: block; margin-bottom: 14px; }
 .pw-sec-demo__activity > div { display: grid; grid-template-columns: 72px 1fr; gap: 12px; align-items: center; min-height: 42px; border-top: 1px solid #25272c; color: var(--pw-text-2); font-size: 13px; }
 .pw-sec-demo__activity time { color: var(--pw-text-4); font-size: 11px; }
@@ -24,13 +24,13 @@
 .pw-sec-demo__journal .pw-it__journal-head, .pw-sec-demo__journal .pw-it__journal-row { grid-template-columns: 78px 1.2fr 1.1fr 1fr; }
 .pw-sec-demo__versions { display: grid; grid-template-columns: 170px 1fr; gap: 24px; }
 .pw-sec-demo__version-list { display: flex; flex-direction: column; gap: 8px; }
-.pw-sec-demo__version { padding: 16px; border: 1px solid transparent; border-radius: 6px; background: var(--pw-side); }
+.pw-sec-demo__version { padding: 16px; border: 1px solid transparent; border-radius: var(--passwork-card-radius); background: var(--pw-side); }
 .pw-sec-demo__version strong { display: block; color: var(--pw-text-2); font-weight: 400; font-size: 14px; }
 .pw-sec-demo__version small { display: block; margin-top: 7px; color: var(--pw-text-4); font-size: 11px; }
 .pw-sec-demo__version.is-active { border-color: #2b4572; background: var(--pw-blue-soft); }
 .pw-sec-demo__comparison { min-width: 0; }
 .pw-sec-demo__comparison.is-comparing { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.pw-sec-demo__revision { min-width: 0; padding: 18px; background: var(--pw-side); border: 1px solid #2a2d32; border-radius: 7px; }
+.pw-sec-demo__revision { min-width: 0; padding: 18px; background: var(--pw-side); border: 1px solid #2a2d32; border-radius: var(--passwork-card-radius); }
 .pw-sec-demo__revision > .pw-label { display: block; margin-bottom: 14px; }
 .pw-sec-demo__revision .pw-it__field { flex-direction: column; align-items: flex-start; justify-content: center; gap: 8px; min-height: 62px; font-size: 13px; }
 .pw-sec-demo__revision .pw-it__field > span:first-child { font-size: 11px; width: auto; }

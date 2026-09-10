@@ -127,13 +127,12 @@ function Card({
       style={index === 1 ? exitStyle : undefined}
       aria-label={data.label}
     >
-      {index === 0 && <GlowBorder className="wy-outer-glow" radius={24} />}
+      {index === 0 && <GlowBorder className="wy-outer-glow" radius="var(--passwork-frame-radius)" />}
       <motion.div
         className="wy-face"
         style={index === 0 ? exitStyle : undefined}
       >
         <GlowBorder
-          radius={16}
           baseColor="rgba(255,255,255,.1)"
           surface="rgba(15,15,15,.85)"
         />

@@ -125,14 +125,14 @@
   width: 100%;
   z-index: 1;
   flex: none;
-  border-radius: 16px;
+  border-radius: var(--passwork-card-radius);
 }
 .wy-face {
   position: relative;
   height: 100%;
   width: 100%;
   overflow: clip;
-  border-radius: 16px;
+  border-radius: var(--passwork-card-radius);
   background: rgba(15, 15, 15, 0.85);
   transform-origin: center;
 }
@@ -145,7 +145,7 @@
   height: 100%;
   width: 100%;
   padding: 8px;
-  border-radius: 16px;
+  border-radius: var(--passwork-card-radius);
   overflow: hidden;
 }
 .wy-copy {
@@ -198,7 +198,7 @@
   height: 100%;
   background: #000;
   overflow: clip;
-  border-radius: 4px 8px 8px 4px;
+  border-radius: var(--passwork-card-radius);
 }
 .wy-media::after {
   content: "";
@@ -217,7 +217,6 @@
 }
 .wy-card-2 .wy-media {
   order: -1;
-  border-radius: 8px 4px 4px 8px;
 }
 @media (min-width: 810px) and (max-width: 1279.98px) {
   .wy-container {

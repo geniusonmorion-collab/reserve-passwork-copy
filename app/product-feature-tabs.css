@@ -60,14 +60,14 @@
   z-index: -1;
   overflow: hidden;
   pointer-events: none;
-  border-radius: calc(var(--passwork-card-radius, 7px) + 8px);
+  border-radius: var(--passwork-frame-radius);
   background: #000;
 }
 .product-features__frame-glow { position: absolute; inset: 0; opacity: 0; pointer-events: none; }
 .product-features__frame-fill {
   position: absolute;
   inset: 1px;
-  border-radius: calc(var(--passwork-card-radius, 7px) + 7px);
+  border-radius: max(0px, calc(var(--passwork-frame-radius) - 1px));
   background: rgb(0 0 0 / 85%);
   pointer-events: none;
 }
@@ -95,7 +95,7 @@
   transition: background-color 1s var(--tab-reveal-ease), color 1s var(--tab-reveal-ease);
 }
 
-.product-features__tabs button:focus-visible, .product-features__arrow:focus-visible, .product-features [role="tabpanel"]:focus-visible { outline: 2px solid #85b5ed; outline-offset: 4px; }
+.product-features__tabs button:focus-visible, .product-features [role="tabpanel"]:focus-visible { outline: 2px solid #85b5ed; outline-offset: 4px; }
 
 .product-features__tab-surface {
   position: absolute;
@@ -233,45 +233,6 @@
 
 .product-features__scenario-copy > span { color: #fff; }
 
-/* The supplied Fora footer, with Passwork's captions and corner token. */
-.product-features__footer {
-  position: relative;
-  isolation: isolate;
-  display: grid;
-  grid-template-columns: 48px minmax(0, 1fr) 48px;
-  align-items: center;
-  gap: 12px;
-  min-height: 48px;
-}
-.product-features__caption {
-  width: 100%;
-  max-width: 588px;
-  justify-self: center;
-  margin: 0;
-  padding: 0 8px;
-  color: #8a8f98;
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 24px;
-  letter-spacing: -.01em;
-  text-align: center;
-}
-.product-features__arrow {
-  display: grid;
-  place-items: center;
-  width: 48px;
-  height: 48px;
-  padding: 0;
-  border: 1px solid rgb(255 255 255 / 10%);
-  border-radius: var(--passwork-card-radius, 7px);
-  background: rgb(255 255 255 / 10%);
-  color: #f7f8f8;
-  font: inherit;
-  font-size: 24px;
-  cursor: pointer;
-  transition: background-color 250ms;
-}
-
 .product-features__window {
   overflow: hidden;
   position: relative;
@@ -360,7 +321,6 @@
 @media (hover: hover) {
   /* Fora's inactive hover changes text only; the card belongs to selection. */
   .product-features__tabs button:hover { color: #f7f8f8; }
-  .product-features__arrow:hover { background: rgb(255 255 255 / 18%); }
 }
 
 @media (min-width: 810px) and (max-width: 1279.98px) {
@@ -379,7 +339,11 @@
   .product-features__heading { grid-template-columns: 1fr; gap: 16px; margin-bottom: 36px; }
   .product-features__heading h2 { font-size: 32px; }
   .product-features__description { max-width: 380px; margin-left: 0; padding: 0 0 4px; }
-  .product-features__tabs, .product-features__panels > .product-features__border-frame, .product-features__footer > .product-features__border-frame { display: none; }
+  .product-features__tabs > .product-features__border-frame, .product-features__panels > .product-features__border-frame { display: none; }
+  /* Keep all scenarios reachable on touch screens after removing the footer arrows. */
+  .product-features__tabs { display: flex; overflow-x: auto; padding: 6px; margin: -6px; scrollbar-width: thin; }
+  .product-features__tab-reveal { flex: none; }
+  .product-features__tabs button { padding-inline: 16px; }
   .product-features__stage { gap: 24px; padding: 24px 12px 12px; }
   .product-features__scenario-copy { padding-inline: 4px; font-size: 18px; line-height: 23px; min-height: 115px; letter-spacing: -.45px; }
   .product-features__screenshot { width: 175%; max-width: none; object-fit: cover; object-position: right top; transform: translateX(-42.85%); }
@@ -430,6 +394,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .product-features__tabs button, .product-features__tab-surface, .product-features__arrow { transition: none; }
+  .product-features__tabs button, .product-features__tab-surface { transition: none; }
   .product-features__tab-timer { display: none; }
 }

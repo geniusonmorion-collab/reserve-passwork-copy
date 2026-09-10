@@ -21,26 +21,6 @@ function BrandBar({ label }: { label: string }) {
   </div>;
 }
 
-const illustrationChips = [
-  { primary: "Сертификат", secondary: "ФСТЭК", detail: "PDF" },
-  { primary: "CLI", secondary: "Production", detail: "Ротация" },
-  { primary: "Сервер", secondary: "On-premise", detail: "Локально" },
-];
-
-function IllustrationChips({ index }: { index: number }) {
-  const chips = illustrationChips[index];
-  return <div className="wy-ui-toolbar" aria-hidden="true">
-    <div className="wy-ui-toolbar-group">
-      <span className="wy-ui-toolbar-chip wy-ui-toolbar-icon">
-        {index === 0 ? <Icon name="copy" /> : index === 1 ? <span className="wy-ui-cli-symbol">&gt;_</span> : <Shield />}
-      </span>
-      <span className="wy-ui-toolbar-chip wy-ui-toolbar-chip--active">{chips.primary}</span>
-      <span className="wy-ui-toolbar-chip wy-ui-toolbar-chip--secondary">{chips.secondary}</span>
-    </div>
-    <span className="wy-ui-toolbar-chip">{chips.detail}</span>
-  </div>;
-}
-
 function CertificationVisual() {
   return <div className="wy-ui-panel wy-ui-certificate">
     <div className="wy-ui-certificate-issuer"><span>ФСТЭК России</span><Shield /></div>
@@ -189,7 +169,6 @@ export default function WhatYouGetVisual({ index, reduced, visibility, imageProg
 
   return <div ref={sceneRef} className={`wy-ui-scene wy-ui-scene-${index + 1}`} role="img" aria-label={descriptions[index]}>
     <BackgroundStars occlusionRef={sceneRef} occlusionSelector=".wy-ui-panel" className="wy-ui-stars" active={starsActive} starSize={8} />
-    {index !== 1 && <IllustrationChips index={index} />}
     <div className="wy-ui-composition" aria-hidden="true">
       {index === 0 ? <CertificationVisual /> : index === 1 ? <CryptoVisual reduced={reduced} visibility={visibility} imageProgress={imageProgress} /> : <InfrastructureVisual />}
     </div>

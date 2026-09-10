@@ -5,6 +5,10 @@ import { initLiveDashboard } from './live-dashboard-engine';
 import { LIVE_DASHBOARD_MARKUP } from './live-dashboard-markup';
 import './dashboard-glass.css';
 
+// React compares the innerHTML prop by identity. Keep it stable so parent
+// renders don't replace the engine's live DOM with the empty initial template.
+const dashboardHTML = { __html: LIVE_DASHBOARD_MARKUP };
+
 /** Live desktop demo and a readable, static password pane on small screens.
  * The hero owns the surrounding composition and scroll motion. */
 export default function LiveDashboard() {
@@ -35,7 +39,7 @@ export default function LiveDashboard() {
       ref={embedRef}
       className="figma-hero__product pw-embed pw-glass"
       aria-hidden="true"
-      dangerouslySetInnerHTML={{ __html: LIVE_DASHBOARD_MARKUP }}
+      dangerouslySetInnerHTML={dashboardHTML}
     />
   );
 }

@@ -1,5 +1,4 @@
-/* Geometry and scroll zones from the supplied Fora Intro study.
-   The page frame owns the shared spacing between sections and side borders. */
+/* The page frame owns the shared spacing between sections and side borders. */
 .pw-intro {
   position: relative;
   display: flex;
@@ -32,9 +31,6 @@
 }
 
 .pw-intro__paragraphs {
-  display: flex;
-  flex-direction: column;
-  gap: 48px;
   width: 100%;
 }
 
@@ -48,34 +44,6 @@
   letter-spacing: -0.03em;
   text-align: left;
   text-wrap: pretty;
-}
-
-/* Two equal zones cover all text and the gap, followed by the exit marker. */
-.pw-intro__triggers {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  overflow: clip;
-  pointer-events: none;
-  user-select: none;
-}
-
-.pw-intro__triggers > div {
-  position: relative;
-  flex: 1 0 0;
-  width: 100%;
-  min-height: 0;
-}
-
-.pw-intro__triggers > div:last-child {
-  position: absolute;
-  bottom: -1px;
-  left: calc(50% - 280px);
-  flex: none;
-  width: 560px;
-  height: 1px;
 }
 
 @media (min-width: 810px) and (max-width: 1279.98px) {
@@ -93,24 +61,14 @@
     max-width: 720px;
   }
 
-  .pw-intro__paragraphs {
-    gap: 32px;
-  }
-
   .pw-intro__paragraph {
     font-size: clamp(1.75rem, 4.8vw, 2.25rem);
   }
 
-  .pw-intro__triggers > div:last-child {
-    right: 0;
-    left: 0;
-    width: auto;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .pw-intro__paragraph {
+  .pw-intro__word {
     opacity: 1 !important;
-    transform: none !important;
   }
 }

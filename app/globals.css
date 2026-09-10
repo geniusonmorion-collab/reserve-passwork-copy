@@ -25,6 +25,8 @@
 }
 
 :root {
+  --passwork-card-radius: 7px;
+  --passwork-frame-radius: calc(var(--passwork-card-radius) + 8px);
   color-scheme: light;
   --ink: #000;
   --white: #fff;
@@ -5464,7 +5466,6 @@ img {
 
 /* Figma 473:454 — security landing page */
 .figma-passwork-page {
-  --passwork-card-radius: 7px;
   position: relative;
   width: 100%;
   min-width: 320px;

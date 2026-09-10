@@ -90,7 +90,6 @@ function Question({
       >
         <div className="fq-card-glow">
           <GlowBorder
-            radius={16}
             baseColor="rgba(255,255,255,.1)"
             surface="rgba(15,15,15,.85)"
             proximity={open ? 490 : 300}
@@ -183,14 +182,6 @@ export default function FaqSection() {
               </h2>
             </Reveal>
           </div>
-          <div className="fq-intro">
-            <Reveal reduced={reduced} delay={0.2}>
-              <p>
-                О внедрении Пассворка, совместной работе с паролями
-                и защите корпоративных данных.
-              </p>
-            </Reveal>
-          </div>
         </header>
 
         <div className="fq-columns">
@@ -198,7 +189,7 @@ export default function FaqSection() {
             <div className="fq-nav-space">
               <nav className="fq-nav" aria-label="Темы вопросов">
                 {!mobile && (
-                  <GlowBorder className="fq-outer-glow" radius={28} />
+                  <GlowBorder className="fq-outer-glow" radius="var(--passwork-frame-radius)" />
                 )}
                 <div className="fq-tabs">
                   {categories.map((category) => {
@@ -239,7 +230,6 @@ export default function FaqSection() {
                           }
                         >
                           <GlowBorder
-                            radius={66}
                             proximity={130}
                             color={[255, 255, 255, 0.65]}
                             baseColor="rgba(255,255,255,.1)"
@@ -259,11 +249,10 @@ export default function FaqSection() {
               <div className="fq-contact">
                 <GlowBorder
                   className="fq-outer-glow"
-                  radius={24}
+                  radius="var(--passwork-frame-radius)"
                   surface="#000"
                 />
                 <GlowBorder
-                  radius={16}
                   baseColor="rgba(255,255,255,.1)"
                   surface="rgba(15,15,15,.85)"
                 />
@@ -301,7 +290,7 @@ export default function FaqSection() {
             {!mobile && (
               <GlowBorder
                 className="fq-outer-glow"
-                radius={24}
+                radius="var(--passwork-frame-radius)"
                 surface="#000"
               />
             )}

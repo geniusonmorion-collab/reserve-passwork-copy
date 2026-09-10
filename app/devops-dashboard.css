@@ -1,7 +1,7 @@
 .pw-devops__vaults { display: grid; gap: 7px; }
 .pw-devops__vaults .pw-tree-row { gap: 10px; padding-left: 14px; }
 .pw-devops__vaults .pw-tree-row__folder { color: #777; }
-.pw-devops__vaults .pw-tree-row--active { background: var(--pw-sel); border-radius: 5px; }
+.pw-devops__vaults .pw-tree-row--active { background: var(--pw-sel); border-radius: var(--passwork-card-radius); }
 .pw-devops__vaults .pw-tree-row--active .pw-tree-row__folder { color: #9376d1; }
 .pw-devops__vault-count { margin-left: auto; padding-right: 12px; font-size: 11px; color: var(--pw-text-4); }
 .pw-devops__environments, .pw-devops__integration-tabs { display: flex; gap: 8px; margin-bottom: 16px; }
@@ -15,16 +15,16 @@
 .pw-devops__secret-row > span:last-child { color: var(--pw-text-4); font-size: 12px; }
 .pw-devops__token-layout { display: grid; grid-template-columns: 1.25fr 1fr; gap: 32px; align-items: start; }
 .pw-devops__token-layout .pw-it__field > span:first-child { width: 112px; }
-.pw-devops__token-card { display: flex; flex-direction: column; gap: 18px; padding: 24px; background: var(--pw-side); border: 1px solid #2a2d32; border-radius: 7px; }
+.pw-devops__token-card { display: flex; flex-direction: column; gap: 18px; padding: 24px; background: var(--pw-side); border: 1px solid #2a2d32; border-radius: var(--passwork-card-radius); }
 .pw-devops__token-card > strong { font-weight: 500; font-size: 17px; color: var(--pw-text-2); }
 .pw-devops__token-card code { padding: 16px 0; font-size: 15px; letter-spacing: .09em; color: var(--pw-text-2); }
 .pw-devops__token-card > .pw-it__muted { font-size: 12px; }
-.pw-devops__token-state { align-self: start; padding: 4px 8px; border-radius: 4px; background: var(--pw-blue-soft); color: #a4bee9; font-size: 11px; }
+.pw-devops__token-state { align-self: start; padding: 4px 8px; border-radius: var(--passwork-card-radius); background: var(--pw-blue-soft); color: #a4bee9; font-size: 11px; }
 .pw-devops__token-validity { border-top: 1px solid #292b30; padding-top: 15px; color: var(--pw-text-4); font-size: 11px; }
 .pw-devops__token-card.is-revoked code { opacity: .35; }
 .pw-devops__token-card.is-revoked .pw-devops__token-state { background: #24262a; color: var(--pw-text-3); }
 .pw-devops__integration-tabs > .pw-it__muted { margin-left: auto; align-self: center; font-size: 12px; }
-.pw-devops__console { overflow: hidden; background: var(--pw-side); border: 1px solid #2a2d32; border-radius: 7px; }
+.pw-devops__console { overflow: hidden; background: var(--pw-side); border: 1px solid #2a2d32; border-radius: var(--passwork-card-radius); }
 .pw-devops__console-head { display: flex; justify-content: space-between; gap: 20px; padding: 12px 20px; border-bottom: 1px solid #27292d; color: var(--pw-text-3); font-size: 12px; line-height: 16px; }
 .pw-devops__console-head > span:last-child { color: var(--pw-text-4); }
 .pw-devops__console-body { padding: 16px 20px; font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 13px; line-height: 20px; }
@@ -42,5 +42,5 @@
 .pw-devops__rotation-fields .pw-it__field > span:first-child { width: 70px; }
 .pw-devops__rotation-history { margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--pw-line-soft); }
 .pw-devops__rotation-history > div { display: flex; align-items: center; gap: 18px; margin-top: 16px; font-size: 12px; color: var(--pw-text-3); }
-.pw-devops__version { padding: 6px 10px; background: #21242a; border-radius: 4px; color: var(--pw-text-4); }
+.pw-devops__version { padding: 6px 10px; background: #21242a; border-radius: var(--passwork-card-radius); color: var(--pw-text-4); }
 .pw-devops__version.is-current { background: var(--pw-blue-soft); color: #a4bee9; }
