@@ -22,12 +22,26 @@ Its copy comes from Figma node `15:5629`: scenarios for IT teams, DevOps,
 security, government organizations, and manufacturing. The bottom transition follows this
 new section, and the `certification` anchor belongs to the second block.
 
+# Section spacing
+
+Section spacing is owned by `.pw-page-frame` in `app/globals.css`: a shared gap
+and matching outer padding of 200px on desktop, 144px on tablet, and 96px on
+mobile. Do not add separate top/bottom section padding that doubles these gaps;
+spacing inside sections and the sticky-card stack remains independent.
+
+# Certification card borders
+
+The five cards in `SecurityProofGrid` use one perimeter only: `CardGlow` with
+`borderOnly`, aligned to the card edge. It uses the scenarios' 490px proximity,
+25% light and .05 smoothing for both appearance and fading. Do not add an outer
+frame or a permanent grey outline; the glow must disappear as the cursor leaves.
+
 # Card copy
 
-The user prefers the text volume of the infrastructure card in `app/what-you-get.tsx`:
-a main title, a short paragraph, a subheading, a second short paragraph, and a
-one-line footnote. Keep the other cards close to that volume (roughly 90 characters
-per body paragraph), using supported product information.
+The user now prefers the Fora card structure in `app/what-you-get.tsx`: one main
+title and one concise body paragraph, with the category label and one-line
+footnote retained. Merge supporting details into the single paragraph; do not
+add a second heading or paragraph. Use supported product information.
 
 The user subsequently requested Passwork interface elements in the illustrations,
 with Fora-style glass (using terminal and audit-table examples). The three cards
@@ -36,3 +50,17 @@ terminal, and a centered infrastructure panel. The certificate uses the site's
 Inter typography and a large 4 for its trust level; no extra floating panels.
 Keep their translucent surfaces, the reference landscape, and the shared Passwork
 type and icons consistent when editing them.
+
+# Theme parity
+
+Light mode mirrors dark mode's composition, gradients, glass and animations,
+including the hero dashboard, all scenario demos and feature illustrations.
+Use light palette tokens in `app/theme.css` and `app/theme-illustrations.css`;
+use `app/theme-motion.ts` for animated colour targets instead of CSS overrides
+that block Framer's transitions. Keep one shared animation engine and timeline
+for both themes. Recolour canvas stars on theme changes without resetting their
+positions or clock, and preserve the single fading certification-card border.
+
+The light hero keeps the original saturated blue gradient and depth layers.
+Only the fade into the black page becomes a fade into the white page; do not
+replace the blue atmosphere with a separate pastel palette.

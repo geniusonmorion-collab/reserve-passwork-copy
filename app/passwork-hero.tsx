@@ -1,7 +1,10 @@
 'use client';
 
+import { useRef } from 'react';
 import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
 import LiveDashboard from './live-dashboard';
+import BackgroundStars from './background-stars';
+import { useThemeMotion } from './theme-motion';
 import './passwork-hero.css';
 
 const spring = (delay = 0, duration = 1) => ({
@@ -10,6 +13,8 @@ const spring = (delay = 0, duration = 1) => ({
 
 /** Centered Passwork hero with a soft blue atmosphere and a live glass dashboard. */
 export default function PassworkHero() {
+  const colors = useThemeMotion();
+  const dashboardRef = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion();
   const { scrollY } = useScroll();
   const distant = useTransform(scrollY, y => reduced ? 0 : Math.min(y, 1400) * .3);
@@ -23,6 +28,7 @@ export default function PassworkHero() {
       <motion.div className="pw-hero__sky" aria-hidden="true"
         initial={reduced ? false : { opacity: .001 }} animate={{ opacity: 1 }}
         transition={reduced ? { duration: 0 } : spring(0, .5)} />
+      <BackgroundStars occlusionRef={dashboardRef} />
       <motion.div className="pw-hero__depth pw-hero__depth--distant" style={{ y: distant }} aria-hidden="true"
         initial={reduced ? false : { opacity: 0 }} animate={{ opacity: 1 }}
         transition={reduced ? { duration: 0 } : spring(.1, 1.2)} />
@@ -48,14 +54,14 @@ export default function PassworkHero() {
           </div>
           <div className="pw-hero__actions">
             <motion.a className="pw-hero__button pw-hero__button--primary" href="https://passwork.ru/help/"
-              initial={false} animate={{ backgroundColor: 'rgba(255,255,255,.8)' }}
-              whileHover={{ backgroundColor: '#fff3f0' }}
+              initial={false} animate={{ backgroundColor: colors.primary }}
+              whileHover={{ backgroundColor: colors.primaryHover }}
               transition={reduced ? { duration: 0 } : { type: 'spring', duration: .4, bounce: .2 }}>
               Запросить демо
             </motion.a>
             <motion.a className="pw-hero__button pw-hero__button--secondary" href="https://passwork.ru/help/"
-              initial={false} animate={{ backgroundColor: 'rgba(255,255,255,.06)' }}
-              whileHover={{ backgroundColor: 'rgba(255,255,255,.12)' }}
+              initial={false} animate={{ backgroundColor: colors.secondary }}
+              whileHover={{ backgroundColor: colors.secondaryHover }}
               transition={reduced ? { duration: 0 } : { type: 'spring', duration: .4, bounce: .2 }}>
               Обсудить внедрение
             </motion.a>
@@ -63,7 +69,7 @@ export default function PassworkHero() {
         </div>
 
         <div className="pw-hero__dashboard-frame">
-          <motion.div className="pw-hero__dashboard-motion" style={{ y: dashboard }}>
+          <motion.div ref={dashboardRef} className="pw-hero__dashboard-motion" style={{ y: dashboard }}>
             <LiveDashboard />
           </motion.div>
         </div>

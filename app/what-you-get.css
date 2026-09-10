@@ -31,7 +31,6 @@
   width: 100%;
   max-width: 1080px;
   margin: auto;
-  padding-top: 80px;
   display: flex;
   flex-direction: column;
   gap: 64px;
@@ -89,11 +88,18 @@
   color: rgba(255, 255, 255, 0.65);
 }
 .wy-label i {
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.65);
+  background: #fff3f0;
   flex: none;
+  /* Fora Chip: a linear one-second fade, mirrored without a pause. */
+  animation: wy-label-dot-pulse 1s linear infinite alternate;
+}
+
+@keyframes wy-label-dot-pulse {
+  from { opacity: 1; }
+  to { opacity: 0; }
 }
 .wy-cards {
   position: relative;
@@ -173,12 +179,6 @@
   max-width: 440px;
   text-wrap: balance;
 }
-.wy-extra h4 {
-  margin: 0 0 8px;
-  color: #fff3f0;
-  font: inherit;
-  font-weight: 500;
-}
 .wy-footnote {
   display: flex;
   align-items: start;
@@ -222,7 +222,6 @@
 @media (min-width: 810px) and (max-width: 1279.98px) {
   .wy-container {
     max-width: 720px;
-    padding-top: 120px;
     gap: 48px;
   }
   .wy-heading-column {
@@ -273,7 +272,6 @@
   }
   .wy-cards {
     gap: 24px;
-    padding-bottom: 80px;
   }
   .wy-triggers {
     display: none;
@@ -336,4 +334,5 @@
 
 @media (prefers-reduced-motion: reduce) {
   .wy-card { position: relative; top: auto; }
+  .wy-label i { animation: none; }
 }

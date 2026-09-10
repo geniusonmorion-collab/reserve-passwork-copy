@@ -1,3 +1,11 @@
+@font-face {
+  font-family: 'Inter Hero';
+  src: url('/fonts/Inter-SemiBold.woff2') format('woff2');
+  font-display: swap;
+  font-style: normal;
+  font-weight: 600;
+}
+
 .pw-hero,
 .pw-hero * { box-sizing: border-box; }
 
@@ -27,13 +35,13 @@
 }
 
 .pw-hero__sky {
+  --pw-hero-sky: radial-gradient(ellipse 85% 54% at 50% 58%, #132b48 0%, rgb(8 20 39 / 0%) 100%),
+    linear-gradient(180deg, #000103 0%, #040d1c 38%, #081a34 74%, #02060f 100%);
   position: absolute;
   z-index: 0;
   inset: 0;
   pointer-events: none;
-  background:
-    radial-gradient(ellipse 85% 54% at 50% 58%, #132b48 0%, rgb(8 20 39 / 0%) 100%),
-    linear-gradient(180deg, #000103 0%, #040d1c 38%, #081a34 74%, #02060f 100%);
+  background: var(--pw-hero-sky);
 }
 
 /* Depth comes from separate light volumes, with progressively closer edges. */
@@ -69,17 +77,44 @@
     radial-gradient(ellipse 42% 26% at 56% 82%, rgb(115 148 194 / 22%), transparent 100%);
   filter: blur(22px);
 }
+
+.pw-hero__stars {
+  position: absolute;
+  /* In the sky, beneath every atmospheric light volume and the glass interface. */
+  z-index: 0;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  opacity: 0.7;
+  pointer-events: none;
+}
+
 .pw-hero__fade {
+  --pw-hero-fade: linear-gradient(180deg, rgb(10 23 43 / 0%), rgb(4 10 20 / 24%) 40%, rgb(4 10 20 / 54%) 60%, #000 calc(100% - 8px));
   position: absolute;
   z-index: 5;
   inset: auto 0 -1px;
   height: clamp(100px, 12vw, 200px);
   pointer-events: none;
-  background: linear-gradient(180deg, rgb(10 23 43 / 0%), rgb(4 10 20 / 68%) 60%, #000 100%);
+}
+.pw-hero__fade::before,
+.pw-hero__fade::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+.pw-hero__fade::before {
+  /* End the filtered layer beneath the opaque tail, away from the clipped edge. */
+  bottom: 8px;
   -webkit-backdrop-filter: blur(16px);
   backdrop-filter: blur(16px);
   -webkit-mask-image: linear-gradient(180deg, transparent, #000 75%);
   mask-image: linear-gradient(180deg, transparent, #000 75%);
+}
+.pw-hero__fade::after {
+  /* Keep the final colour unfiltered so moving backdrop layers cannot reveal a seam. */
+  background: var(--pw-hero-fade);
 }
 
 .pw-hero__content {
@@ -122,8 +157,9 @@
   width: 100%;
   max-width: 880px;
   margin: 0;
+  font-family: 'Inter Hero', var(--font-sans);
   font-size: 56px;
-  font-weight: 400;
+  font-weight: 600;
   line-height: 1.15;
   letter-spacing: -.04em;
   text-align: center;
@@ -194,10 +230,9 @@
   }
 
   .pw-hero .figma-hero__product {
-    --hero-enter-delay: 1060ms;
+    /* Share the heading's 120ms start and 1300ms reveal duration. */
     --hero-enter-blur: 10px;
     --hero-enter-offset: 18px;
-    animation-duration: 1600ms;
   }
 
   .pw-hero__actions:focus-within { animation: none; }

@@ -15,8 +15,7 @@ export default function ApplicationSectors() {
         <article className="figma-sector-card" key={sector.title} role="listitem">
           <CardGlow
             className="security-card-glow"
-            baseColor="rgba(255,255,255,.1)"
-            surface="var(--security-glow-surface)"
+            borderOnly
           />
           <SectorIcon name={sector.icon} />
           <div className="figma-sector-card__copy">

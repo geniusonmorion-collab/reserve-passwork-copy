@@ -6,12 +6,11 @@ import SectorIcon from './sector-icon';
 
 export default function SecurityProofGrid() {
   return (
-    <div className="figma-security-grid" id="certification">
+    <div className="figma-security-grid">
       <article className="figma-security-card is-fstec" aria-labelledby="security-proof-fstec">
         <CardGlow
           className="security-card-glow"
-          baseColor="rgba(255,255,255,.1)"
-          surface="var(--security-glow-surface)"
+          borderOnly
         />
         <div className="figma-security-card__copy">
           <h3 id="security-proof-fstec">ФСТЭК России, 4 уровень доверия</h3>

@@ -59,7 +59,7 @@ export function GlowBorder({
       opacity += (targetOpacity - opacity) * smoothing;
       reach += (target.proximity - reach) * smoothing;
       rgba.forEach((value, i) => { rgba[i] = value + (target.color[i] - value) * smoothing; });
-      glow.style.background = `radial-gradient(${reach * 1.5}px circle at ${x}px ${y}px, rgba(${rgba.slice(0, 3).map(Math.round).join(',')},${rgba[3].toFixed(3)}), transparent)`;
+      glow.style.background = `radial-gradient(${reach * 1.5}px circle at ${x}px ${y}px, rgb(var(--border-glow-rgb, ${rgba.slice(0, 3).map(Math.round).join(' ')}) / ${rgba[3].toFixed(3)}), transparent)`;
       glow.style.opacity = String(opacity);
     }
 
@@ -114,9 +114,9 @@ export function GlowBorder({
   }, []);
 
   return (
-    <span ref={container} aria-hidden="true" className={`fq-glow ${className}`} style={{ borderRadius: radius, background: baseColor }}>
+    <span ref={container} aria-hidden="true" className={`fq-glow ${className}`} style={{ borderRadius: radius, background: `var(--card-glow-base, ${baseColor})` }}>
       <span ref={light} style={{ position: 'absolute', inset: 0, opacity: 0 }} />
-      <span style={{ position: 'absolute', inset: 1, borderRadius: Math.max(0, radius - 1), background: surface }} />
+      <span style={{ position: 'absolute', inset: 1, borderRadius: Math.max(0, radius - 1), background: `var(--card-glow-surface, ${surface})` }} />
     </span>
   );
 }

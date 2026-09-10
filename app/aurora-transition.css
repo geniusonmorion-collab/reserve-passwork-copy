@@ -17,6 +17,7 @@
 }
 
 .aurora-transition__color,
+.aurora-transition__stars,
 .aurora-transition__glow,
 .aurora-transition__rays,
 .aurora-transition__shade,
@@ -37,6 +38,14 @@
     #68baff 100%
   );
   filter: brightness(var(--aurora-exposure));
+}
+
+/* The shared star field sits inside the background, below the light and wash. */
+.aurora-transition__stars {
+  display: block;
+  width: 100%;
+  height: 100%;
+  opacity: 0.7;
 }
 
 .aurora-transition__glow {

@@ -4,6 +4,7 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { easedBlackGradient } from "./header-gradient";
+import ThemeToggle from "./theme-toggle";
 import "./passwork-header.css";
 
 /** Fora header geometry and motion, adapted to the Passwork navigation. */
@@ -71,19 +72,14 @@ function useHeaderPosition(selector: string) {
 }
 
 function DemoAction({ desktop = false, onClick }: { desktop?: boolean; onClick?: () => void }) {
-  const reduced = useReducedMotion();
   return (
-    <motion.a
+    <a
       className={`fh-signup ${desktop ? "fh-signup-desktop" : ""}`}
       href={supportHref}
       onClick={onClick}
-      initial={false}
-      animate={{ backgroundColor: "rgba(255,255,255,0.1)" }}
-      whileHover={{ backgroundColor: "rgba(255,255,255,0.25)" }}
-      transition={reduced ? { duration: 0 } : ICON_SPRING}
     >
       Запросить демо
-    </motion.a>
+    </a>
   );
 }
 
@@ -144,7 +140,6 @@ export default function PassworkHeader({
         aria-label="Основная навигация"
         initial={false}
         animate={{
-          backgroundColor: solid ? "rgba(0,0,0,0.85)" : "rgba(0,0,0,0)",
           backdropFilter: solid ? "blur(8px)" : "none",
         }}
         transition={transition}
@@ -153,7 +148,7 @@ export default function PassworkHeader({
           <motion.div
             className="fh-gradient"
             aria-hidden="true"
-            style={{ backgroundImage: gradient }}
+            style={{ backgroundImage: `var(--fh-gradient, ${gradient})` }}
             initial={false}
             animate={{ opacity: scrolled ? 1 : 0 }}
             transition={transition}
@@ -188,6 +183,7 @@ export default function PassworkHeader({
               </div>
             )}
             <div className="fh-actions">
+              <ThemeToggle />
               {mobile ? (
                 <button
                   ref={toggle}

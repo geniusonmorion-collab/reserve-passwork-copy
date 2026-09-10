@@ -5,6 +5,7 @@ import { motion, useReducedMotion } from 'framer-motion';
 import AuditDashboard from './audit-dashboard';
 import DevopsDashboard from './devops-dashboard';
 import IndustryDashboard from './industry-dashboard';
+import BackgroundStars from './background-stars';
 import ForaTabEffects, { ForaBorderFrame } from './fora-tab-effects';
 import { startFeatureTabTimer } from './feature-tab-timer';
 import './product-feature-tabs.css';
@@ -65,6 +66,14 @@ function useMobile() {
     return () => query.removeEventListener('change', notify);
   }, []);
   return useSyncExternalStore(subscribe, () => window.matchMedia('(max-width: 809.98px)').matches, () => false);
+}
+
+function ScenarioStage({ active, children }: { active: boolean; children: ReactNode }) {
+  const stageRef = useRef<HTMLDivElement>(null);
+  return <div ref={stageRef} className="product-features__stage">
+    <BackgroundStars occlusionRef={stageRef} className="product-features__stars" active={active} />
+    {children}
+  </div>;
 }
 
 export default function ProductFeatureTabs() {
@@ -158,7 +167,7 @@ export default function ProductFeatureTabs() {
         }
       }}
     >
-        <div className="product-features__stage">
+        <ScenarioStage active={index === activeIndex}>
           <p className="product-features__scenario-copy">
             <span>{feature.lead}</span>{' '}{feature.description}
           </p>
@@ -171,7 +180,7 @@ export default function ProductFeatureTabs() {
                   ? <AuditDashboard key={demoCycles[index]} animated scenario="security" onComplete={repeatDemo[index]} />
                   : <IndustryDashboard key={demoCycles[index]} scenario={feature.id} onComplete={repeatDemo[index]} />}
           </div>
-        </div>
+        </ScenarioStage>
     </motion.div>)}
     </div>
     <footer className="product-features__footer">

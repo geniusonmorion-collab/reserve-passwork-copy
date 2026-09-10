@@ -4,6 +4,7 @@ import { useCallback, useId, useState, useSyncExternalStore, type ReactNode } fr
 import { motion } from "framer-motion";
 import { GlowBorder } from "./faq-glow-border";
 import { faqCategories as categories } from "./faq-content";
+import { useThemeMotion } from "./theme-motion";
 import "./faq-section.css";
 
 const spring = { type: "spring" as const, duration: 0.6, bounce: 0 };
@@ -63,12 +64,13 @@ function Question({
   const [hover, setHover] = useState(false);
   const id = useId();
   const duration = reduced ? { duration: 0 } : spring;
+  const colors = useThemeMotion();
   const circleFill =
     mobile && !open
-      ? "rgba(255,255,255,.05)"
+      ? colors.subtle
       : !mobile && hover
-        ? "rgba(38,38,38,.85)"
-        : "rgba(23,23,23,.85)";
+        ? colors.surfaceHover
+        : colors.surface;
 
   return (
     <Reveal
@@ -113,8 +115,8 @@ function Question({
                 backgroundColor: circleFill,
                 borderColor:
                   mobile && !open
-                    ? "rgba(255,255,255,0)"
-                    : "rgba(255,255,255,.1)",
+                    ? colors.clearEdge
+                    : colors.edge,
               }}
               transition={duration}
             >
@@ -158,6 +160,7 @@ function Question({
 
 /** Fora FAQ layout and motion, adapted to the Passwork page and its typography. */
 export default function FaqSection() {
+  const colors = useThemeMotion();
   const [active, setActive] = useState<(typeof categories)[number]['id']>(categories[0].id);
   const [hoveredTab, setHoveredTab] = useState<string | null>(null);
   const mobile = useMediaQuery("(max-width:809.98px)");
@@ -174,12 +177,6 @@ export default function FaqSection() {
       <div className="fq-content">
         <header className="fq-header">
           <div className="fq-heading-column">
-            <Reveal reduced={reduced}>
-              <span className="fq-chip">
-                <i aria-hidden="true" />
-                FAQ
-              </span>
-            </Reveal>
             <Reveal reduced={reduced} delay={0.1}>
               <h2 id={`${group}-heading`}>
                 Ответы на вопросы,<br />которые возникают чаще
@@ -217,12 +214,12 @@ export default function FaqSection() {
                         onMouseLeave={() => setHoveredTab(null)}
                         animate={{
                           backgroundColor: isActive
-                            ? "rgba(23,23,23,.85)"
-                            : "rgba(0,0,0,0)",
+                            ? colors.surface
+                            : colors.clear,
                           color:
                             isActive || hoveredTab === category.id
-                              ? "#fff3f0"
-                              : "rgba(255,255,255,.8)",
+                              ? colors.ink
+                              : colors.text,
                         }}
                         initial={false}
                         transition={

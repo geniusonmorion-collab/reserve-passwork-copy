@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import BackgroundStars from './background-stars';
 import './aurora-transition.css';
 
 export default function AuroraTransition() {
@@ -66,6 +67,7 @@ export default function AuroraTransition() {
     <section className="aurora-transition" ref={sectionRef} aria-hidden="true">
       <div className="aurora-transition__stage">
         <div className="aurora-transition__color">
+          <BackgroundStars className="aurora-transition__stars" />
           <div className="aurora-transition__glow" />
           <div className="aurora-transition__rays" />
         </div>

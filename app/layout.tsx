@@ -1,5 +1,10 @@
 import type { Metadata } from 'next';
+import 'lenis/dist/lenis.css';
 import './globals.css';
+import './theme.css';
+import './theme-illustrations.css';
+import SmoothScroll from './smooth-scroll';
+import { themeBootstrap } from './theme-preference';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://reserve-passwork-copy.andrtek.chatgpt.site'),
@@ -39,8 +44,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ru">
-      <body>{children}</body>
+    <html lang="ru" data-theme="dark" suppressHydrationWarning>
+      <head>
+        <script id="passwork-theme" dangerouslySetInnerHTML={{ __html: themeBootstrap }} />
+      </head>
+      <body>
+        <SmoothScroll />
+        {children}
+      </body>
     </html>
   );
 }

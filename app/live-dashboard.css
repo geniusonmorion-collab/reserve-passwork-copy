@@ -304,7 +304,7 @@
 @keyframes pw-fade-in{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
 @keyframes pw-item-in{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
 @keyframes pw-rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-@keyframes pw-pulse{0%,100%{color:var(--pw-text-4)}40%{color:#9fb6e6}}
+@keyframes pw-pulse{0%,100%{color:var(--pw-text-4)}40%{color:var(--pw-pulse-color,#9fb6e6)}}
 @keyframes pw-toast{0%{opacity:0;margin-top:2px}12%{opacity:1;margin-top:-6px}78%{opacity:1;margin-top:-6px}100%{opacity:0;margin-top:-10px}}
 @keyframes pw-flip{0%{opacity:1;transform:translateY(0)}45%{opacity:0;transform:translateY(-6px)}55%{opacity:0;transform:translateY(6px)}100%{opacity:1;transform:translateY(0)}}
 

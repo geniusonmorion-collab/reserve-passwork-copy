@@ -15,39 +15,26 @@ import "./what-you-get.css";
 // data isolation share the final card. Product visuals use Fora-style glass.
 const content: {
   label: string; title: string; description: string; footnote: string;
-  extra?: { title: string; description: string };
 }[] = [
   {
     label: "Сертификация",
     title: "ФСТЭК России, 4 уровень доверия",
     description:
-      "Подтверждает соответствие требованиям безопасности госсектора и критической инфраструктуры",
-    extra: {
-      title: "Российская разработка",
-      description: "Пассворк разработан в России и включён в реестр отечественного программного обеспечения Минцифры.",
-    },
+      "Сертификат ФСТЭК подтверждает соответствие требованиям безопасности госсектора и критической инфраструктуры. Пассворк разработан в России и включён в реестр отечественного ПО Минцифры.",
     footnote: "Готов к проверке ФСБ",
   },
   {
     label: "Шифрование",
     title: "ГОСТ-шифрование",
     description:
-      "Поддержка ГОСТ Р 34.10-2012 и ГОСТ Р 34.11-2012 — отечественные стандарты шифрования и подписи",
-    extra: {
-      title: "Защита в закрытом контуре",
-      description: "Работа на серверах заказчика без телеметрии, внешних API и зависимости от зарубежных сервисов.",
-    },
+      "Поддержка ГОСТ Р 34.10-2012 и ГОСТ Р 34.11-2012. Работа в закрытом контуре на серверах компании без зависимости от зарубежных сервисов.",
     footnote: "Без иностранных зависимостей",
   },
   {
     label: "Инфраструктура",
     title: "Размещение внутри инфраструктуры",
     description:
-      "Полное on-premise развёртывание на серверах заказчика без зависимости от облачных провайдеров",
-    extra: {
-      title: "Отсутствие передачи данных",
-      description: "Никакой телеметрии, внешних API и зависимостей от зарубежных сервисов — абсолютная изоляция",
-    },
+      "Пассворк разворачивается на серверах компании и хранит данные внутри её инфраструктуры. Без телеметрии, внешних API и зависимости от облачных провайдеров.",
     footnote: "Без облачных провайдеров",
   },
 ];
@@ -154,7 +141,7 @@ function Card({
           <div className="wy-copy">
             <Reveal reduced={reduced}>
               <span className="wy-label">
-                <i />
+                <i aria-hidden="true" />
                 {data.label}
               </span>
             </Reveal>
@@ -165,10 +152,6 @@ function Card({
               <Reveal reduced={reduced} delay={0.2}>
                 <p>{data.description}</p>
               </Reveal>
-              {data.extra && <Reveal reduced={reduced} delay={0.2} className="wy-extra">
-                <h4>{data.extra.title}</h4>
-                <p>{data.extra.description}</p>
-              </Reveal>}
             </div>
             <Reveal reduced={reduced} delay={0.2} className="wy-footnote">
               <Marker />

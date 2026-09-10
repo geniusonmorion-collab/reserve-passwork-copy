@@ -1,0 +1,116 @@
+/* Geometry and scroll zones from the supplied Fora Intro study.
+   The page frame owns the shared spacing between sections and side borders. */
+.pw-intro {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  max-width: 1600px;
+  margin-inline: auto;
+  padding-inline: 24px;
+  font-family: var(--font-sans);
+}
+
+.pw-intro__container {
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+  max-width: 1080px;
+}
+
+.pw-intro__column {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.pw-intro__text-frame {
+  position: relative;
+  width: 100%;
+  overflow: clip;
+}
+
+.pw-intro__paragraphs {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  width: 100%;
+}
+
+.pw-intro__paragraph {
+  width: 100%;
+  margin: 0;
+  color: #fff3f0;
+  font-size: 3.5rem;
+  font-weight: 500;
+  line-height: 1.18;
+  letter-spacing: -0.03em;
+  text-align: left;
+  text-wrap: pretty;
+}
+
+/* Two equal zones cover all text and the gap, followed by the exit marker. */
+.pw-intro__triggers {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: clip;
+  pointer-events: none;
+  user-select: none;
+}
+
+.pw-intro__triggers > div {
+  position: relative;
+  flex: 1 0 0;
+  width: 100%;
+  min-height: 0;
+}
+
+.pw-intro__triggers > div:last-child {
+  position: absolute;
+  bottom: -1px;
+  left: calc(50% - 280px);
+  flex: none;
+  width: 560px;
+  height: 1px;
+}
+
+@media (min-width: 810px) and (max-width: 1279.98px) {
+  .pw-intro__container {
+    max-width: 720px;
+  }
+
+  .pw-intro__paragraph {
+    font-size: 2.5rem;
+  }
+}
+
+@media (max-width: 809.98px) {
+  .pw-intro__container {
+    max-width: 720px;
+  }
+
+  .pw-intro__paragraphs {
+    gap: 32px;
+  }
+
+  .pw-intro__paragraph {
+    font-size: clamp(1.75rem, 4.8vw, 2.25rem);
+  }
+
+  .pw-intro__triggers > div:last-child {
+    right: 0;
+    left: 0;
+    width: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pw-intro__paragraph {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

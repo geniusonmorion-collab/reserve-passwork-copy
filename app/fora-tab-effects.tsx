@@ -24,7 +24,7 @@ export function attachBorderGlow(card: HTMLElement, light: HTMLElement, proximit
     x += (targetX - x) * smoothing;
     y += (targetY - y) * smoothing;
     opacity += (targetOpacity - opacity) * smoothing;
-    light.style.background = `radial-gradient(${proximity * 1.5}px circle at ${x}px ${y}px, rgba(255,255,255,${glowOpacity.toFixed(3)}), transparent)`;
+    light.style.background = `radial-gradient(${proximity * 1.5}px circle at ${x}px ${y}px, rgb(var(--border-glow-rgb, 255 255 255) / ${glowOpacity.toFixed(3)}), transparent)`;
     light.style.opacity = String(opacity);
   }
 
@@ -54,13 +54,25 @@ export function attachBorderGlow(card: HTMLElement, light: HTMLElement, proximit
     if (frame !== null) cancelAnimationFrame(frame);
     frame = null;
     document.removeEventListener('mousemove', move);
+    document.removeEventListener('mouseleave', fadeOut);
+    window.removeEventListener('blur', fadeOut);
     light.style.willChange = 'auto';
+  }
+
+  function fadeOut() {
+    targetOpacity = 0;
+    if (reducedMotion.matches) draw();
   }
 
   function update() {
     stop();
-    if (!visible || document.hidden) return;
+    if (!visible || document.hidden) {
+      fadeOut();
+      return;
+    }
     document.addEventListener('mousemove', move);
+    document.addEventListener('mouseleave', fadeOut);
+    window.addEventListener('blur', fadeOut);
     if (reducedMotion.matches) draw();
     else {
       light.style.willChange = 'opacity, background';

@@ -42,6 +42,11 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Lenis supplies the easing; native CSS smoothing would compete with it. */
+html.lenis {
+  scroll-behavior: auto !important;
+}
+
 body {
   margin: 0;
   min-width: 320px;
@@ -5475,8 +5480,21 @@ img {
 
 /* One uninterrupted pair of Fora-style side rails below the wider hero. */
 .pw-page-frame {
+  --pw-section-gap: 200px;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--pw-section-gap);
   width: 100%;
+  padding-block: var(--pw-section-gap);
+}
+
+@media (min-width: 810px) and (max-width: 1279.98px) {
+  .pw-page-frame { --pw-section-gap: 144px; }
+}
+
+@media (max-width: 809.98px) {
+  .pw-page-frame { --pw-section-gap: 96px; }
 }
 
 .pw-page-frame::after {
@@ -5548,7 +5566,7 @@ img {
 
 
 .figma-client-logos {
-  padding: 64px 0;
+  padding: 0;
   background: #000;
 }
 
@@ -5686,7 +5704,7 @@ img {
   --section-muted: #8a8f98;
   --section-line: rgb(255 255 255 / 8%);
   --section-surface: #0f1011;
-  padding-top: 80px;
+  padding-top: 0;
   background: #000;
 }
 
@@ -5695,18 +5713,35 @@ img {
   width: min(1080px, calc(100% - 48px));
 }
 
-.figma-security__statement {
-  width: 100%;
-  margin: 0;
-  color: var(--section-ink);
-  font-size: 40px;
-  font-weight: 500;
-  letter-spacing: -0.04em;
-  line-height: 45px;
+.figma-security__heading {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: 36px;
+  margin-bottom: 64px;
 }
 
-.figma-security__statement span:last-child {
-  color: var(--section-muted);
+.figma-security__heading h2 {
+  max-width: 420px;
+  margin: 0;
+  color: var(--section-ink);
+  font-size: 2.25rem;
+  font-weight: 500;
+  line-height: 1.06;
+  letter-spacing: -0.035em;
+}
+
+.figma-security__heading p {
+  /* Match the description column in the following scenarios section. */
+  width: 100%;
+  max-width: 412px;
+  margin: 0 0 0 auto;
+  padding-left: 32px;
+  color: var(--section-text);
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
 }
 
 .figma-eyebrow {
@@ -5722,7 +5757,6 @@ img {
 /* Two equal halves; the sector half divides into two equal columns. */
 .figma-security-grid {
   display: grid;
-  margin-top: 64px;
   gap: 16px;
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
@@ -5744,20 +5778,15 @@ img {
 }
 
 .figma-security-card.is-fstec {
-  --security-glow-surface: linear-gradient(100.57872875770329deg, rgb(10 17 28 / 85%) 9.8042%, rgb(26 42 68 / 85%) 47.613%, rgb(44 70 114 / 85%) 91.17%);
   min-height: 400px;
   background-image: linear-gradient(100.57872875770329deg, #0a111c 9.8042%, #1a2a44 47.613%, #2c4672 91.17%);
 }
 
-/* The same 1px edge and translucent glow surface as the What you get cards. */
+/* The scenario glow follows the cursor along a single 1px card edge. */
 .figma-security-grid :is(.figma-security-card, .figma-sector-card) {
   isolation: isolate;
   overflow: visible;
   border-color: transparent;
-}
-
-.figma-security-grid .figma-sector-card {
-  --security-glow-surface: rgba(15, 16, 17, .85);
 }
 
 .figma-security-grid .security-card-glow {
@@ -5966,13 +5995,20 @@ img {
     width: min(720px, calc(100% - 48px));
   }
 
-  .figma-security__statement {
-    font-size: 36px;
-  }
-
   .figma-security-grid {
     grid-template-columns: 1fr;
-    margin-top: 48px;
+  }
+
+  .figma-security__heading h2 {
+    font-size: 2rem;
+  }
+
+  .figma-security__heading {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  }
+
+  .figma-security__heading p {
+    padding-left: 0;
   }
 
   .figma-security-card.is-fstec {
@@ -6075,7 +6111,6 @@ img {
 @media (max-width: 809.98px) {
   .figma-client-logos {
     height: auto;
-    padding: 48px 0;
   }
 
   .figma-client-logos__row {
@@ -6100,19 +6135,24 @@ img {
     width: min(720px, calc(100% - 48px));
   }
 
-  .figma-security__statement {
-    width: 100%;
-    font-size: 32px;
-    letter-spacing: -0.04em;
-    line-height: 38px;
+  .figma-security__heading {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    margin-bottom: 36px;
   }
 
-  .figma-security {
-    padding-top: 32px;
+  .figma-security__heading h2 {
+    font-size: 2rem;
+    line-height: 1.12;
+  }
+
+  .figma-security__heading p {
+    max-width: 380px;
+    margin-left: 0;
+    padding-left: 0;
   }
 
   .figma-security-grid {
-    margin-top: 36px;
     gap: 16px;
     grid-template-columns: 1fr;
   }

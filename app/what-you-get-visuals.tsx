@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
 import type { MotionValue } from "framer-motion";
+import BackgroundStars from "./background-stars";
 import { DASHBOARD_ICONS } from "./dashboard-shared";
 import { TERMINAL_COMMANDS, TERMINAL_COMPLETE, TERMINAL_TIMELINE } from "./terminal-typing";
 import "./what-you-get-visuals.css";
@@ -176,7 +177,18 @@ const descriptions = [
 ];
 
 export default function WhatYouGetVisual({ index, reduced, visibility, imageProgress }: { index: number; reduced: boolean; visibility: MotionValue<number>; imageProgress: MotionValue<number> }) {
-  return <div className={`wy-ui-scene wy-ui-scene-${index + 1}`} role="img" aria-label={descriptions[index]}>
+  const sceneRef = useRef<HTMLDivElement>(null);
+  const subscribe = useCallback((notify: () => void) => {
+    const stopVisibility = visibility.on("change", notify);
+    const stopImage = imageProgress.on("change", notify);
+    return () => { stopVisibility(); stopImage(); };
+  }, [visibility, imageProgress]);
+  const starsActive = useSyncExternalStore(subscribe,
+    () => visibility.get() > 0.05 && imageProgress.get() > 0.05,
+    () => false);
+
+  return <div ref={sceneRef} className={`wy-ui-scene wy-ui-scene-${index + 1}`} role="img" aria-label={descriptions[index]}>
+    <BackgroundStars occlusionRef={sceneRef} occlusionSelector=".wy-ui-panel" className="wy-ui-stars" active={starsActive} starSize={8} />
     {index !== 1 && <IllustrationChips index={index} />}
     <div className="wy-ui-composition" aria-hidden="true">
       {index === 0 ? <CertificationVisual /> : index === 1 ? <CryptoVisual reduced={reduced} visibility={visibility} imageProgress={imageProgress} /> : <InfrastructureVisual />}
