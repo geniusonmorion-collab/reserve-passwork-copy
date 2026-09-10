@@ -32,6 +32,7 @@
   width: 100%;
   padding: 0 40px;
   -webkit-backdrop-filter: none;
+  backdrop-filter: none;
 }
 .fh-gradient {
   position: absolute;
@@ -116,8 +117,8 @@
   border-radius: 7px;
   text-decoration: none;
   white-space: nowrap;
-  backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
 }
 .fh-signup::after {
   content: "";
@@ -213,6 +214,7 @@
   .fh-fixed[data-variant="mobile-open"] .fh-nav,
   .fh-fixed[data-variant="mobile-scroll"] .fh-nav {
     -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
   }
   .fh-inner {
     max-width: 720px;
