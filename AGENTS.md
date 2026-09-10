@@ -38,6 +38,12 @@ frame or a permanent grey outline; the glow must disappear as the cursor leaves.
 Their `interiorGlow={0.15}` keeps the same subtle cursor-controlled interior
 light as the feature cards' 85% glass fill, while preserving the blue gradient.
 The interior and perimeter share one light field and fade together in both themes.
+The FSTEC card keeps the dark theme's saturated blue gradient in light mode,
+with light copy, a white icon and white cursor glow.
+
+The hero dashboard also uses `CardGlow` with `borderOnly` and the same shared
+hover settings. Keep it outside the engine-managed HTML, inside the dashboard's
+entrance and scroll wrappers, so the outline moves with the glass in both themes.
 
 # Card copy
 
@@ -53,6 +59,18 @@ terminal, and a centered infrastructure panel. The certificate uses the site's
 Inter typography and a large 4 for its trust level; no extra floating panels.
 Keep their translucent surfaces, the reference landscape, and the shared Passwork
 type and icons consistent when editing them.
+In light mode, these three illustration panels use light translucent white glass
+with soft white reflections and dark text and icons. Avoid an opaque white fill
+or a dark smoked/grey tint. This preference
+applies to `.wy-ui-scene` (certificate, terminal and infrastructure), not the
+separate `SecurityProofGrid`. Keep the blue landscape visible through the glass
+and preserve the shared typing and scrolling animations.
+Light-mode hero and scenario dashboards share the illustrations' translucent
+white glass through `--product-light-glass`. Their sidebar and main pane add only
+subtle translucent layers; do not stack opaque white fills over the outer glass.
+Use the darker text and accent tokens to keep small interface copy readable.
+Dashboard popovers, dialogs and toasts also use `--product-light-glass` with
+26px backdrop blur and a soft white edge, rather than a separate opaque fill.
 
 # Theme parity
 
@@ -64,11 +82,18 @@ that block Framer's transitions. Keep one shared animation engine and timeline
 for both themes. Recolour canvas stars on theme changes without resetting their
 positions or clock, and preserve the single fading certification-card border.
 
-The light hero keeps the original saturated blue gradient and depth layers.
-Its upper sky also has a visible blue tint; white belongs to the lower fade
-into the page. Do not wash the upper hero back to white.
-The light hero's primary button is charcoal instead of white; its secondary
-button uses the same translucent fill and hover animation as the dark theme.
-Keep the light hero visually crisp: saturated blue sky, near-black text and
-bright glass dashboard panels with legible secondary labels. Do not apply a
-washed-out treatment to the entire screen or reduce the shared animations.
+The light hero uses the dark theme's exact saturated blue sky, depth layers,
+white copy, original white Russia mark and button colours, including hover
+states. The header above the hero also uses white text and translucent controls,
+including scrolled and open-menu states. Its palette changes only as the hero's
+bottom fade reaches the navigation, with a smoothly animated masked background;
+resizing must recompute this boundary. White belongs to
+the lower fade into the page. Keep the light dashboard panels and their legible
+dark text, and preserve the shared animations.
+The light hero's lower fade uses blue and pale-blue intermediate stops before
+the page colour. Avoid a neutral white overlay on navy that creates a grey band;
+retain the opaque final 8px so the section boundary stays seamless.
+
+Scenario stages also share the saturated landscape, dark overlay, pale stars
+and white copy in both themes. Do not add a white wash over their background;
+the demo interfaces and tabs still follow the selected page theme.

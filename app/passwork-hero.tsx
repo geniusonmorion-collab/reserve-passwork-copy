@@ -4,6 +4,7 @@ import { useRef } from 'react';
 import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
 import LiveDashboard from './live-dashboard';
 import BackgroundStars from './background-stars';
+import CardGlow from './card-glow';
 import { useThemeMotion } from './theme-motion';
 import './passwork-hero.css';
 
@@ -72,7 +73,10 @@ export default function PassworkHero() {
 
         <div className="pw-hero__dashboard-frame">
           <motion.div ref={dashboardRef} className="pw-hero__dashboard-motion" style={{ y: dashboard }}>
-            <LiveDashboard />
+            <div className="pw-hero__dashboard-surface">
+              <LiveDashboard />
+              <CardGlow className="pw-hero__dashboard-glow" borderOnly />
+            </div>
           </motion.div>
         </div>
       </div>

@@ -176,6 +176,8 @@
 }
 
 .product-features__stage {
+  /* Keep the saturated landscape and pale stars in both page themes. */
+  --star-rgb: 199 224 255;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -223,7 +225,7 @@
   max-width: 615px;
   min-height: 81px;
   margin: 0;
-  color: rgb(255 255 255 / 48%);
+  color: rgb(255 255 255 / 80%);
   font-size: 24px;
   font-weight: 500;
   line-height: 27px;

@@ -5,6 +5,7 @@ import { useEffect, useId, useRef, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { easedBlackGradient } from "./header-gradient";
 import ThemeToggle from "./theme-toggle";
+import { motionPalettes, useThemeMotion } from "./theme-motion";
 import "./passwork-header.css";
 
 /** Fora header geometry and motion, adapted to the Passwork navigation. */
@@ -35,9 +36,12 @@ function useHeaderPosition(selector: string) {
   // Keep the first client render consistent with the server-rendered header.
   const [mobile, setMobile] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [overHero, setOverHero] = useState(true);
   useEffect(() => {
     const media = matchMedia("(max-width: 1279.98px)");
     const target = document.querySelector(selector);
+    const hero = target?.closest('.pw-hero');
+    const heroFade = hero?.querySelector('.pw-hero__fade');
     let frame = 0;
     let disposed = false;
     const update = () => {
@@ -48,12 +52,18 @@ function useHeaderPosition(selector: string) {
       setScrolled(
         target ? target.getBoundingClientRect().top <= 1 : scrollY > 0,
       );
+      // Switch colour only as the hero's bottom fade reaches the navigation.
+      // Measure on resize too, rather than tying the palette to the 160px marker.
+      const fadeHeight = heroFade?.getBoundingClientRect().height ?? 0;
+      const navHeight = media.matches ? 72 : 60;
+      setOverHero(Boolean(hero && hero.getBoundingClientRect().bottom > navHeight + fadeHeight / 2));
     };
     const schedule = () => {
       if (!disposed && !frame) frame = requestAnimationFrame(update);
     };
     const observer = new ResizeObserver(schedule);
     observer.observe(document.documentElement);
+    if (hero) observer.observe(hero);
     update();
     document.fonts.ready.then(schedule);
     addEventListener("scroll", schedule, { passive: true });
@@ -68,7 +78,7 @@ function useHeaderPosition(selector: string) {
       media.removeEventListener("change", schedule);
     };
   }, [selector]);
-  return { mobile, scrolled };
+  return { mobile, scrolled, overHero };
 }
 
 function DemoAction({ desktop = false, onClick }: { desktop?: boolean; onClick?: () => void }) {
@@ -87,7 +97,9 @@ export default function PassworkHeader({
   scrollTarget = "#header-scroll-marker",
   homeHref = "",
 }: HeaderProps) {
-  const { mobile, scrolled } = useHeaderPosition(scrollTarget);
+  const { mobile, scrolled, overHero } = useHeaderPosition(scrollTarget);
+  const themeColors = useThemeMotion();
+  const headerColors = overHero ? motionPalettes.dark : themeColors;
   const [open, setOpen] = useState(false);
   const [closedSolid, setClosedSolid] = useState(false);
   const reduced = useReducedMotion();
@@ -131,6 +143,7 @@ export default function PassworkHeader({
     <motion.header
       className="fh-fixed"
       data-variant={variant}
+      data-over-hero={overHero}
       initial={reduced ? false : { opacity: 0.001, y: -36 }}
       animate={{ opacity: 1, y: 0 }}
       transition={reduced ? { duration: 0 } : APPEAR}
@@ -141,6 +154,7 @@ export default function PassworkHeader({
         initial={false}
         animate={{
           backdropFilter: solid ? "blur(8px)" : "none",
+          backgroundColor: solid ? headerColors.headerSurface : 'rgba(0,0,0,0)',
         }}
         transition={transition}
       >
@@ -148,9 +162,12 @@ export default function PassworkHeader({
           <motion.div
             className="fh-gradient"
             aria-hidden="true"
-            style={{ backgroundImage: `var(--fh-gradient, ${gradient})` }}
+            style={{ maskImage: gradient, WebkitMaskImage: gradient }}
             initial={false}
-            animate={{ opacity: scrolled ? 1 : 0 }}
+            animate={{
+              opacity: scrolled ? 1 : 0,
+              backgroundColor: headerColors.headerBackground,
+            }}
             transition={transition}
           />
         )}

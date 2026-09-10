@@ -17,7 +17,6 @@ html[data-theme='light'] {
   --star-rgb: 74 74 74;
   --card-glow-base: var(--theme-line);
   --card-glow-surface: rgb(238 238 238 / 85%);
-  --fh-gradient: linear-gradient(180deg, #fafafa 0%, rgb(250 250 250 / 94%) 28%, rgb(250 250 250 / 65%) 55%, transparent 100%);
   background: var(--theme-page);
 }
 html[data-theme='light'] body,
@@ -27,9 +26,9 @@ html[data-theme='light'] .figma-security {
   background: var(--theme-page);
   color: var(--theme-ink);
 }
-html[data-theme='light'] :is(.pw-page-frame, .pw-hero)::after { border-color: var(--theme-line); }
-html[data-theme='light'] :is(.fh-fixed, .pw-hero, .pw-intro__paragraph) { color: var(--theme-ink); }
-html[data-theme='light'] :is(.fh-link, .pw-hero__description) { color: var(--theme-text); }
+html[data-theme='light'] .pw-page-frame::after { border-color: var(--theme-line); }
+html[data-theme='light'] :is(.fh-fixed, .pw-intro__paragraph) { color: var(--theme-ink); }
+html[data-theme='light'] .fh-link { color: var(--theme-text); }
 html[data-theme='light'] .fh-link:hover { color: var(--theme-accent); }
 html[data-theme='light'] .fh-logo-wordmark { filter: brightness(0); }
 html[data-theme='light'] :is(.fh-signup, .fh-theme-toggle) {
@@ -40,9 +39,6 @@ html[data-theme='light'] :is(.fh-signup, .fh-theme-toggle) {
 html[data-theme='light'] :is(.fh-signup, .fh-theme-toggle):hover { background: rgb(23 23 23 / 13%); }
 html[data-theme='light'] .fh-signup::after { border-color: var(--theme-line); }
 html[data-theme='light'] .fh-menu-toggle span { background: var(--theme-ink); }
-html[data-theme='light'] .fh-fixed:is([data-variant='mobile-open'], [data-variant='mobile-scroll']) .fh-nav {
-  background: rgb(250 250 250 / 96%);
-}
 html[data-theme='light'] .fh-nav::after,
 html[data-theme='light'] .fh-menu-cta::before { background: var(--theme-line); }
 /* A solid focus ring remains visible against both neutral glass and the blue sky. */
@@ -51,31 +47,39 @@ html[data-theme='light'] :is(a, button, [tabindex]):focus-visible {
   outline-offset: 4px;
 }
 
-/* Keep the original blue volumes, a blue upper sky and the white lower fade. */
+/* Share the dark hero's sky, white copy and buttons; fade into the light page below. */
 html[data-theme='light'] .pw-hero {
   --star-rgb: 199 224 255;
-  --theme-ink: #0b1420;
 }
-html[data-theme='light'] .fh-fixed:is([data-variant='desktop-top'], [data-variant='mobile-top']) {
-  --theme-ink: #0b1420;
-  --theme-text: #27374d;
+html[data-theme='light'] .pw-hero__actions { --theme-focus: #fff3f0; }
+html[data-theme='light'] .fh-fixed[data-over-hero='true'] {
+  --theme-ink: #fff3f0;
+  --theme-text: rgb(255 255 255 / 80%);
+  --theme-accent: #fff3f0;
+  --theme-line: rgb(255 255 255 / 10%);
+  --theme-focus: #fff3f0;
 }
-html[data-theme='light'] .pw-hero__sky {
-  background: linear-gradient(180deg, #9fc8ff 0%, rgb(153 194 250 / 94%) 38%, rgb(153 194 250 / 0%) 66%, var(--theme-page) 100%),
-    var(--pw-hero-sky);
+html[data-theme='light'] .fh-fixed[data-over-hero='true'] .fh-logo-wordmark {
+  filter: brightness(1);
 }
-html[data-theme='light'] .pw-hero__description { color: #1b2c43; }
+html[data-theme='light'] .fh-fixed[data-over-hero='true'] :is(.fh-signup, .fh-theme-toggle) {
+  background: rgb(255 255 255 / 10%);
+}
+html[data-theme='light'] .fh-fixed[data-over-hero='true'] .fh-signup:hover {
+  background: rgb(255 255 255 / 25%);
+}
+html[data-theme='light'] .fh-fixed[data-over-hero='true'] .fh-theme-toggle:hover {
+  background: rgb(255 255 255 / 20%);
+}
 html[data-theme='light'] .pw-hero__fade {
-  --pw-hero-fade: linear-gradient(180deg, rgb(250 250 250 / 0%), rgb(250 250 250 / 25%) 40%, rgb(250 250 250 / 56%) 60%, var(--theme-page) calc(100% - 8px));
-}
-html[data-theme='light'] .pw-hero__origin img { filter: brightness(0); }
-/* Framer receives theme-aware colour targets and keeps the same spring in both themes. */
-html[data-theme='light'] .pw-hero__button--primary {
-  color: #fff;
-  box-shadow: inset 0 0 0 1px rgb(18 18 17 / 16%);
-}
-html[data-theme='light'] .pw-hero__button--secondary {
-  color: var(--theme-ink);
+  /* Blue intermediate stops keep the navy-to-white blend from turning grey. */
+  --pw-hero-fade: linear-gradient(180deg,
+    rgb(112 162 226 / 0%) 0%,
+    rgb(127 175 237 / 32%) 24%,
+    rgb(170 205 249 / 78%) 48%,
+    rgb(217 235 255 / 96%) 70%,
+    #f1f7fe 86%,
+    var(--theme-page) calc(100% - 8px));
 }
 html[data-theme='light'] .figma-client-logo__frame img { filter: grayscale(1) brightness(.15); }
 
@@ -87,10 +91,12 @@ html[data-theme='light'] .figma-security {
   --section-surface: var(--theme-surface);
 }
 html[data-theme='light'] .figma-security-card.is-fstec {
-  background-image: linear-gradient(100.57872875770329deg, #f0f1f4 9.8042%, #d9e1ef 47.613%, #9db8e2 91.17%);
+  --theme-ink: #f7f8f8;
+  --theme-text: #d0d6e0;
+  --border-glow-rgb: 255 255 255;
 }
 html[data-theme='light'] .figma-security-card h3 { color: var(--theme-ink); }
-/* Keep small copy above 4.5:1 even at the blue gradient's darkest endpoint. */
+/* Keep small copy legible over the shared saturated blue gradient. */
 html[data-theme='light'] .figma-security-card.is-fstec p { color: var(--theme-text); }
 html[data-theme='light'] :is(.figma-sector-card h3, .product-features__heading h2, .wy-section h2, .wy-body h3, .fq-section h2, .fq-contact h3, .fq-question-button) {
   color: var(--theme-ink);
@@ -98,6 +104,9 @@ html[data-theme='light'] :is(.figma-sector-card h3, .product-features__heading h
 html[data-theme='light'] :is(.figma-security-card__icon, .figma-sector-card__icon) {
   filter: none;
   color: var(--theme-ink);
+}
+html[data-theme='light'] .figma-security-card.is-fstec .figma-security-card__icon {
+  filter: brightness(0) invert(1);
 }
 html[data-theme='light'] :is(.wy-section, .fq-section, .product-features__heading p, .fq-contact a) { color: var(--theme-text); }
 html[data-theme='light'] :is(.product-features__heading h2 span, .wy-section h2 span, .wy-label, .wy-footnote svg) {
@@ -113,13 +122,6 @@ html[data-theme='light'] .product-features__border-frame { background: var(--the
 html[data-theme='light'] .product-features__frame-fill { background: rgb(250 250 250 / 85%); }
 html[data-theme='light'] .product-features__tabs button { color: var(--theme-text); }
 html[data-theme='light'] .product-features__tabs button:is([aria-selected='true'], :hover) { color: var(--theme-ink); }
-html[data-theme='light'] .product-features__stage { background: var(--theme-surface); }
-html[data-theme='light'] .product-features__stage::before { opacity: 1; filter: blur(28.4px); }
-html[data-theme='light'] .product-features__stage::after {
-  background: linear-gradient(180deg, rgb(250 250 250 / 94%), rgb(250 250 250 / 58%) 48%, rgb(250 250 250 / 12%));
-}
-html[data-theme='light'] .product-features__scenario-copy { color: var(--theme-text); }
-html[data-theme='light'] .product-features__scenario-copy > span { color: var(--theme-ink); }
 html[data-theme='light'] .wy-face { background: var(--theme-surface); }
 html[data-theme='light'] .wy-label i { background: var(--theme-accent); }
 html[data-theme='light'] :is(.wy-outer-glow, .fq-outer-glow) {

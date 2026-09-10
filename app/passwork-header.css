@@ -23,6 +23,7 @@
   line-height: 21px;
   letter-spacing: -0.02em;
   color: #fff3f0;
+  transition: color 0.4s ease;
 }
 .fh-nav {
   display: flex;
@@ -79,6 +80,8 @@
 .fh-logo-wordmark {
   width: 82px;
   height: 17px;
+  filter: brightness(1);
+  transition: filter 0.4s ease;
 }
 .fh-links {
   display: flex;
@@ -115,7 +118,7 @@
   padding: 0 24px;
   color: #fff3f0;
   background: rgba(255, 255, 255, 0.1);
-  transition: background-color 0.4s ease;
+  transition: background-color 0.4s ease, color 0.4s ease;
   border-radius: var(--passwork-card-radius);
   text-decoration: none;
   white-space: nowrap;
@@ -136,7 +139,7 @@
   color: inherit;
   background: rgba(255, 255, 255, 0.1);
   cursor: pointer;
-  transition: background-color 0.2s ease, border-color 0.2s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.4s ease;
 }
 .fh-theme-toggle:hover { background: rgba(255, 255, 255, 0.2); }
 .fh-theme-toggle svg { width: 19px; height: 19px; grid-area: 1 / 1; }
@@ -171,6 +174,7 @@ html[data-theme='light'] .fh-theme-toggle .fh-theme-moon { display: block; }
   width: 20px;
   height: 2px;
   background: #fff;
+  transition: background-color 0.4s ease;
 }
 .fh-menu {
   width: 100%;
@@ -256,7 +260,7 @@ html[data-theme='light'] .fh-theme-toggle .fh-theme-moon { display: block; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .fh-link, .fh-signup, .fh-theme-toggle {
+  .fh-fixed, .fh-link, .fh-signup, .fh-theme-toggle, .fh-logo-wordmark, .fh-menu-toggle span {
     transition: none;
   }
 }

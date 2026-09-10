@@ -1,34 +1,40 @@
+/* Shared light glass for product dashboards and the three feature illustrations. */
+html[data-theme='light'] {
+  --product-light-glass: linear-gradient(150deg, rgb(255 255 255 / 24%), transparent 55%),
+    linear-gradient(180deg, rgb(255 255 255 / 74%), rgb(255 255 255 / 66%) 56%, rgb(255 255 255 / 76%));
+}
+
 /* Recolour the existing live demos; keep their DOM, glass blur and animation engines. */
 html[data-theme='light'] .pw-embed {
-  --pw-bg: rgb(245 245 245 / 94%);
-  --pw-side: rgb(245 245 245 / 70%);
+  --pw-bg: rgb(255 255 255 / 72%);
+  --pw-side: rgb(255 255 255 / 14%);
   --pw-line: rgb(23 23 23 / 18%);
   --pw-line-soft: rgb(23 23 23 / 10%);
   --pw-search: rgb(23 23 23 / 6%);
   --pw-chip: rgb(23 23 23 / 7%);
   --pw-hover: rgb(23 23 23 / 8%);
   --pw-sel: rgb(23 23 23 / 10%);
-  --pw-blue: #2456b5;
-  --pw-blue-soft: rgb(36 86 181 / 9%);
-  --pw-text: #171717;
-  --pw-text-2: #333333;
-  --pw-text-3: #454545;
-  --pw-text-4: #525252;
-  --pw-pulse-color: #2456b5;
+  --pw-blue: #143c75;
+  --pw-blue-soft: rgb(20 60 117 / 9%);
+  --pw-text: #1c1f23;
+  --pw-text-2: #272b30;
+  --pw-text-3: #2d3238;
+  --pw-text-4: #34383d;
+  --pw-pulse-color: #143c75;
   --pw-glass-edge: rgb(23 23 23 / 18%);
-  --pw-glass-card: linear-gradient(180deg, rgb(255 255 255 / 80%), rgb(245 245 245 / 66%));
+  --pw-glass-card: linear-gradient(180deg, rgb(255 255 255 / 18%), rgb(255 255 255 / 8%));
 }
 html[data-theme='light'] :is(.figma-hero__product, .product-features__window).pw-glass {
   color-scheme: light;
-  background: linear-gradient(180deg, rgb(255 255 255 / 96%) 0%, rgb(247 247 247 / 90%) 46%, rgb(238 238 238 / 96%) 100%);
-  box-shadow: 0 18px 48px -18px rgb(0 0 0 / 32%), inset 0 0 0 1px rgb(23 23 23 / 18%), inset 0 1px 0 rgb(255 255 255 / 85%);
+  background: var(--product-light-glass);
+  box-shadow: 0 18px 48px -18px rgb(8 25 50 / 28%), inset 0 0 0 1px rgb(255 255 255 / 55%), inset 0 1px 0 rgb(255 255 255 / 85%);
 }
 html[data-theme='light'] .pw-glass .pw-side {
-  background: linear-gradient(180deg, rgb(232 232 232 / 64%), rgb(242 242 242 / 32%) 72%);
+  background: linear-gradient(180deg, rgb(255 255 255 / 10%), transparent 72%), var(--pw-side);
 }
 html[data-theme='light'] .pw-glass .pw-main::before {
-  background: linear-gradient(180deg, rgb(255 255 255 / 38%), transparent 70%), rgb(255 255 255 / 64%);
-  box-shadow: inset 0 0 0 1px rgb(23 23 23 / 10%), inset 0 1px 0 rgb(255 255 255 / 75%);
+  background: linear-gradient(180deg, rgb(255 255 255 / 6%), transparent 70%), rgb(255 255 255 / 12%);
+  box-shadow: inset 0 0 0 1px rgb(23 23 23 / 8%), inset 0 1px 0 rgb(255 255 255 / 40%);
 }
 html[data-theme='light'] .pw-glass :is(.pw-search, .pw-it__button:not(.pw-it__button--primary), .pw-it__select, .pw-audit__filter, .pw-it__link-field) {
   background-color: var(--pw-search);
@@ -36,10 +42,12 @@ html[data-theme='light'] .pw-glass :is(.pw-search, .pw-it__button:not(.pw-it__bu
   box-shadow: inset 0 1px 0 rgb(255 255 255 / 55%);
 }
 html[data-theme='light'] .pw-glass :is(.pw-it__dialog, .pw-menu, .pw-toast) {
-  background: linear-gradient(135deg, rgb(255 255 255 / 65%), transparent), rgb(245 245 245 / 96%);
+  background: var(--product-light-glass);
   color: var(--pw-text);
-  border-color: var(--pw-glass-edge);
-  box-shadow: 0 16px 40px -10px rgb(0 0 0 / 26%), inset 0 1px 0 rgb(255 255 255 / 80%);
+  border-color: rgb(255 255 255 / 55%);
+  -webkit-backdrop-filter: blur(26px) saturate(75%);
+  backdrop-filter: blur(26px) saturate(75%);
+  box-shadow: 0 16px 40px -10px rgb(8 25 50 / 22%), inset 0 1px 0 rgb(255 255 255 / 85%);
 }
 
 /* Body and state colours that were authored directly in the dark demo. */
@@ -64,7 +72,7 @@ html[data-theme='light'] .pw-embed :is(.pw-round, .pw-circle) { color: var(--pw-
 html[data-theme='light'] .pw-embed .pw-item mark { background: rgb(49 95 187 / 18%); color: #234d98; }
 html[data-theme='light'] .pw-embed .pw-ver__cur { color: var(--pw-blue); border-color: rgb(49 95 187 / 24%); }
 html[data-theme='light'] .pw-embed :is(.pw-round, .pw-circle, .pw-ib, .pw-star, .pw-close, .pw-sec__add, .pw-tab).pw-hl { color: var(--pw-blue); }
-html[data-theme='light'] .pw-embed .pw-ib.is-done { color: #187456; }
+html[data-theme='light'] .pw-embed .pw-ib.is-done { color: #12432f; }
 html[data-theme='light'] .pw-embed .pw-it__checkbox { border-color: #737373; }
 html[data-theme='light'] .pw-embed .pw-it__record.is-selected .pw-it__checkbox { border-color: var(--pw-blue); }
 html[data-theme='light'] .pw-embed .pw-it__toggle:not(.is-on) { background: #737373; }
@@ -81,9 +89,9 @@ html[data-theme='light'] .pw-embed :is(.pw-sec-demo__alert, .pw-industry__alert)
   border-color: rgb(153 108 36 / 24%);
 }
 html[data-theme='light'] .pw-embed :is(.pw-sec-demo__alert-icon, .pw-industry__alert-icon) { border-color: rgb(153 108 36 / 28%); }
-html[data-theme='light'] .pw-embed :is(.pw-sec-demo__alert-icon .pw-it__icon, .pw-industry__alert-icon .pw-it__icon, .pw-sec-demo__alert strong, .pw-industry__alert strong) { color: #82531d; }
-html[data-theme='light'] .pw-embed :is(.pw-sec-demo__alert p, .pw-industry__alert p) { color: #78664c; }
-html[data-theme='light'] .pw-embed .pw-sec-demo__badge { color: #82531d; background: rgb(185 136 63 / 14%); }
+html[data-theme='light'] .pw-embed :is(.pw-sec-demo__alert-icon .pw-it__icon, .pw-industry__alert-icon .pw-it__icon, .pw-sec-demo__alert strong, .pw-industry__alert strong) { color: #4d381f; }
+html[data-theme='light'] .pw-embed :is(.pw-sec-demo__alert p, .pw-industry__alert p) { color: #4d381f; }
+html[data-theme='light'] .pw-embed .pw-sec-demo__badge { color: #4d381f; background: rgb(185 136 63 / 14%); }
 html[data-theme='light'] .pw-embed .pw-sec-demo__comparison.is-comparing .pw-sec-demo__revision:last-child .pw-it__field:nth-of-type(-n+2),
 html[data-theme='light'] .pw-embed .pw-industry__versions.is-comparing .pw-industry__version:last-child .pw-it__field:nth-of-type(2) { background: var(--pw-blue-soft); }
 /* Retain the existing feedback animation over the light search surface. */
@@ -92,59 +100,51 @@ html[data-theme='light'] .pw-glass .pw-search.is-focused {
   box-shadow: inset 0 0 0 1px var(--pw-blue), 0 0 0 3px rgb(49 95 187 / 14%);
 }
 
-/* A brighter product surface separates the hero demo from the saturated sky. */
-html[data-theme='light'] .figma-hero__product.pw-glass {
-  --pw-bg: rgb(250 250 250 / 98%);
-  background: linear-gradient(180deg, rgb(255 255 255 / 98%) 0%, rgb(248 248 248 / 95%) 46%, rgb(239 239 239 / 98%) 100%);
-  box-shadow: 0 18px 48px -18px rgb(0 0 0 / 40%), inset 0 0 0 1px rgb(23 23 23 / 24%), inset 0 1px 0 rgb(255 255 255 / 90%);
-}
+/* The hero keeps one outer perimeter, using the same material as the scenarios. */
 html[data-theme='light'] .figma-hero__product.pw-glass .pw-main::before {
-  background: linear-gradient(180deg, rgb(255 255 255 / 38%), transparent 70%), rgb(255 255 255 / 70%);
+  box-shadow: none;
 }
 
 /* The same landscape, stars and glass composition in each feature illustration. */
 html[data-theme='light'] .wy-media { background: #142842; }
 html[data-theme='light'] .wy-media::after { border-color: var(--theme-line); }
 html[data-theme='light'] .wy-ui-scene {
-  --wy-ui-ink: #171717;
-  --wy-ui-muted: #454545;
-  --wy-ui-line: rgb(23 23 23 / 18%);
-  --wy-ui-blue: #2456b5;
-  --wy-ui-glass-surface: linear-gradient(150deg, rgb(255 255 255 / 60%), transparent 50%),
-    linear-gradient(180deg, rgb(250 250 250 / 95%), rgb(245 245 245 / 90%) 56%, rgb(235 235 235 / 96%));
-  --wy-ui-chip-surface: rgb(250 250 250 / 94%);
+  --wy-ui-ink: #1c1f23;
+  --wy-ui-muted: #34383d;
+  --wy-ui-line: rgb(28 31 35 / 16%);
+  --wy-ui-blue: #143c75;
+  /* White translucent glass lets the landscape show through without a grey tint. */
+  --wy-ui-glass-surface: var(--product-light-glass);
+  --wy-ui-chip-surface: rgb(255 255 255 / 72%);
   --wy-ui-landscape-overlay: linear-gradient(180deg, rgb(8 25 50 / 16%), transparent 55%, rgb(6 18 40 / 32%));
   --wy-ui-landscape-colors: linear-gradient(155deg, #3f6d96 0%, #82acce 47%, #5281b3 75%, #142842 100%);
   --star-rgb: 199 224 255;
   color-scheme: light;
   background: #142842;
 }
-html[data-theme='light'] .wy-ui-scene-1 {
-  --wy-ui-glass-surface: linear-gradient(145deg, rgb(255 255 255 / 65%), transparent 55%),
-    linear-gradient(180deg, rgb(250 250 250 / 92%), rgb(245 245 245 / 87%) 55%, rgb(235 235 235 / 94%));
-  --wy-ui-chip-surface: rgb(250 250 250 / 92%);
-}
 html[data-theme='light'] .wy-ui-scene::before { background-blend-mode: normal, luminosity, normal; }
 html[data-theme='light'] .wy-ui-panel {
-  border-color: rgb(23 23 23 / 20%);
-  box-shadow: inset 0 1px 0 rgb(255 255 255 / 80%), 0 20px 48px -16px rgb(0 0 0 / 40%);
+  border-color: rgb(255 255 255 / 55%);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 85%), 0 20px 48px -16px rgb(8 25 50 / 28%);
 }
 html[data-theme='light'] .wy-ui-toolbar-chip {
-  box-shadow: inset 0 0 0 1px rgb(23 23 23 / 20%), inset 0 1px 0 rgb(255 255 255 / 80%);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 55%), inset 0 1px 0 rgb(255 255 255 / 85%);
 }
 html[data-theme='light'] .wy-ui-scene .wy-ui-certificate-product,
 html[data-theme='light'] .wy-ui-certificate-number { color: var(--wy-ui-ink); }
 html[data-theme='light'] .wy-ui-certificate-level > span:last-child { color: var(--wy-ui-muted); }
-html[data-theme='light'] :is(.wy-ui-certificate-issuer, .wy-ui-toolbar-icon) .wy-ui-shield { filter: brightness(0) saturate(100%) opacity(.75); }
-html[data-theme='light'] :is(.wy-ui-certificate-footer .wy-ui-icon, .wy-ui-success, .wy-ui-terminal-result, .wy-ui-online) { color: #216b57; }
-html[data-theme='light'] .wy-ui-square { background: rgb(23 23 23 / 7%); border-color: var(--wy-ui-line); }
-html[data-theme='light'] .wy-ui-tag { background: rgb(49 95 187 / 10%); color: var(--wy-ui-blue); }
-html[data-theme='light'] .wy-ui-terminal-bar { background: rgb(255 255 255 / 26%); }
-html[data-theme='light'] .wy-ui-command-value { color: #70553b; }
-html[data-theme='light'] .wy-ui-text-caret { background: var(--wy-ui-ink); box-shadow: 0 0 7px rgb(49 95 187 / 13%); }
-html[data-theme='light'] .wy-ui-terminal-spinner { border-color: rgb(33 107 87 / 22%); border-top-color: #216b57; }
+html[data-theme='light'] .wy-ui-scene .wy-ui-shield { filter: brightness(0) opacity(.85); }
+html[data-theme='light'] .wy-ui-scene .wy-ui-brandmark .wy-ui-shield { filter: brightness(0) invert(1); }
+html[data-theme='light'] :is(.wy-ui-certificate-footer .wy-ui-icon, .wy-ui-success, .wy-ui-terminal-result, .wy-ui-online) { color: #12432f; }
+html[data-theme='light'] .wy-ui-square { background: rgb(255 255 255 / 18%); border-color: var(--wy-ui-line); }
+html[data-theme='light'] .wy-ui-tag { background: rgb(255 255 255 / 24%); color: var(--wy-ui-blue); }
+html[data-theme='light'] .wy-ui-terminal-bar { background: rgb(255 255 255 / 22%); }
+html[data-theme='light'] .wy-ui-command-value { color: #4d381f; }
+html[data-theme='light'] .wy-ui-text-caret { background: var(--wy-ui-ink); box-shadow: 0 0 7px rgb(28 31 35 / 10%); }
+html[data-theme='light'] .wy-ui-terminal-spinner { border-color: rgb(18 67 47 / 22%); border-top-color: #12432f; }
 
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  html[data-theme='light'] :is(.figma-hero__product, .product-features__window).pw-glass,
-  html[data-theme='light'] :is(.wy-ui-panel, .wy-ui-toolbar-chip) { background-color: #f5f5f5; }
+  html[data-theme='light'] :is(.figma-hero__product, .product-features__window).pw-glass { background-color: #f5f5f5; }
+  html[data-theme='light'] .pw-glass :is(.pw-it__dialog, .pw-menu, .pw-toast) { background-color: #f5f7fa; }
+  html[data-theme='light'] :is(.wy-ui-panel, .wy-ui-toolbar-chip) { background-color: #f5f7fa; }
 }

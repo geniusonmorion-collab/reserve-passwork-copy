@@ -190,6 +190,8 @@
 .pw-hero__button:focus-visible { outline: 2px solid #fff3f0; outline-offset: 4px; }
 .pw-hero__dashboard-frame { position: relative; width: 100%; aspect-ratio: 1344 / 725; }
 .pw-hero__dashboard-motion { width: 100%; height: 100%; }
+.pw-hero__dashboard-surface { position: relative; width: 100%; height: 100%; }
+.pw-hero__dashboard-glow { z-index: 1; }
 .figma-hero__product { position: relative; width: 100%; height: 100%; }
 
 /* Original hero entrance: staggered blur, opacity and a small upward movement.
@@ -200,7 +202,7 @@
   .pw-hero__title-line,
   .pw-hero__description,
   .pw-hero__actions,
-  .pw-hero .figma-hero__product {
+  .pw-hero__dashboard-surface {
     animation: pw-hero-blur-in 1300ms cubic-bezier(.22, .61, .36, 1)
       var(--hero-enter-delay, 120ms) backwards;
   }
@@ -226,7 +228,7 @@
     --hero-enter-offset: 10px;
   }
 
-  .pw-hero .figma-hero__product {
+  .pw-hero__dashboard-surface {
     /* Share the heading's 120ms start and 1300ms reveal duration. */
     --hero-enter-blur: 10px;
     --hero-enter-offset: 18px;

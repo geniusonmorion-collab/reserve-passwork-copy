@@ -75,6 +75,7 @@
 
 .figma-hero__product.pw-glass .pw-tree-group--marked::before { left: -25px; }
 .figma-hero__product.pw-glass .pw-main { min-height: 0; border-radius: var(--passwork-card-radius); }
+.figma-hero__product.pw-glass .pw-main::before { box-shadow: none; }
 
 .pw-glass :is(.pw-search, .pw-it__button:not(.pw-it__button--primary), .pw-it__select, .pw-audit__filter, .pw-it__link-field) {
   background-color: rgb(255 255 255 / 4%);
