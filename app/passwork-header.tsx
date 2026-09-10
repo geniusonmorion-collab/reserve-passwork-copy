@@ -5,6 +5,7 @@ import { useEffect, useId, useRef, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { easedBlackGradient } from "./header-gradient";
 import ThemeToggle from "./theme-toggle";
+import HeaderNavigation from "./header-navigation";
 import { motionPalettes, useThemeMotion } from "./theme-motion";
 import "./passwork-header.css";
 
@@ -17,12 +18,6 @@ const APPEAR = {
   ease: [0.44, 0, 0.56, 1],
 } as const;
 const gradient = easedBlackGradient();
-const links = [
-  ["Компания", "#company"],
-  ["Сценарии", "#features"],
-  ["Ресурсы", "https://manuals.passwork.ru/"],
-  ["Цены", "https://passwork.ru/#prices"],
-] as const;
 const supportHref = "https://passwork.ru/help/";
 
 export type HeaderProps = {
@@ -188,15 +183,7 @@ export default function PassworkHeader({
             </div>
             {!mobile && (
               <div className="fh-links">
-                {links.map(([label, href]) => (
-                  <a
-                    key={label}
-                    className="fh-link"
-                    href={href.startsWith("#") ? homeHref + href : href}
-                  >
-                    {label}
-                  </a>
-                ))}
+                <HeaderNavigation homeHref={homeHref} />
               </div>
             )}
             <div className="fh-actions">
@@ -246,16 +233,7 @@ export default function PassworkHeader({
               }}
               transition={transition}
             >
-              {links.map(([label, href]) => (
-                <a
-                  key={label}
-                  className="fh-link fh-menu-link"
-                  href={href.startsWith("#") ? homeHref + href : href}
-                  onClick={close}
-                >
-                  {label}
-                </a>
-              ))}
+              <HeaderNavigation key={open ? 'open' : 'closed'} mobile homeHref={homeHref} onNavigate={close} />
               <div className="fh-menu-cta">
                 <DemoAction onClick={close} />
               </div>

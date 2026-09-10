@@ -97,3 +97,13 @@ retain the opaque final 8px so the section boundary stays seamless.
 Scenario stages also share the saturated landscape, dark overlay, pale stars
 and white copy in both themes. Do not add a white wash over their background;
 the demo interfaces and tabs still follow the selected page theme.
+
+# Header navigation
+
+The header uses Company, Resources and Support dropdowns with short descriptions,
+adapted from `deluxe-strudel-30f61d.netlify.app`. Keep Scenarios and Prices as
+direct links. Menu destinations use existing page anchors or live Passwork pages,
+not the reference's placeholder links. Desktop panels and mobile accordions share
+`app/header-navigation.tsx`, with keyboard navigation, Escape and outside-click
+dismissal. Match the header's hero palette and the light glass below the hero;
+preserve the shared card radius and reduced-motion support.
