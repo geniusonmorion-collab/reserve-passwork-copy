@@ -1,0 +1,107 @@
+/*
+ * Материал и движение иллюстрации панели сертификации, Figma 65:197.
+ *
+ * Вся композиция живёт в одном SVG с viewBox 535 × 535 и прижата к правому
+ * нижнему углу, поэтому пересчитывать координаты под брейкпоинты не нужно.
+ *
+ * Движение целиком на CSS: комета по граням — одна анимация зарегистрированного
+ * `--fs-head`, от которой все слои следа считают свой сдвиг штриха; рябь по полю
+ * контуров — та же анимация с задержкой по номеру кольца. Ни rAF, ни JS.
+ */
+@property --fs-head { syntax: '<number>'; inherits: true; initial-value: 0; }
+/* Близость курсора к контуру: пишет движок, читает отклик кольца. */
+@property --fs-near { syntax: '<number>'; inherits: false; initial-value: 0; }
+
+.fs-shield {
+  /* Длина следа кометы: комета уходит за замыкание ровно на неё. */
+  --fs-trail: .34;
+
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  overflow: hidden;
+  border-radius: var(--passwork-card-radius);
+  pointer-events: none;
+}
+
+.fs-shield__art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Обводки держим ровно в 1 px на любом размере карточки. */
+.fs-shield__ring,
+.fs-shield__hero,
+.fs-shield__comet {
+  vector-effect: non-scaling-stroke;
+}
+
+/*
+ * Отклик на курсор: кольцо под ним разгорается, чуть толстеет и подаётся
+ * наружу. Масштаб живёт в CSS и умножается на трансформ группы, поэтому
+ * `transform` у самой группы остаётся нетронутым.
+ */
+.fs-shield__ring,
+.fs-shield__hero {
+  transform-box: fill-box;
+  transform-origin: center;
+  scale: calc(1 + var(--fs-near) * .016);
+}
+
+.fs-shield__ring {
+  fill: none;
+  stroke: #fff;
+  stroke-width: calc(1px + var(--fs-near) * .4px);
+  opacity: calc(var(--fs-o) + var(--fs-near) * .42);
+}
+
+.fs-shield__hero {
+  stroke-width: calc(1.4px + var(--fs-near) * .5px);
+  filter: drop-shadow(0 0 calc(22px + var(--fs-near) * 16px) rgb(130 180 255 / 34%));
+}
+
+/* ---------- Комета по граням щита ---------- */
+
+.fs-shield__comet {
+  fill: none;
+  stroke: #dceaff;
+  stroke-linecap: round;
+  stroke-dasharray: var(--fs-dash) 1;
+  stroke-dashoffset: calc(var(--fs-dash) - var(--fs-head));
+}
+
+.fs-shield__comet--tail { stroke-width: 1px; opacity: .16; }
+.fs-shield__comet--mid { stroke-width: 1.3px; opacity: .34; }
+.fs-shield__comet--glow { stroke-width: 5px; opacity: .22; filter: blur(2px); }
+.fs-shield__comet--head { stroke-width: 1.7px; opacity: .95; }
+
+/* Эмблема декоративна и чуть притушена, чтобы не перебивать заголовок. */
+.fs-shield__emblem {
+  opacity: .92;
+  filter: drop-shadow(0 6px 24px rgb(4 16 40 / 45%));
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Одна анимация головы: слои следа читают её и считают свой сдвиг сами. */
+  .fs-shield__art {
+    animation: fs-comet 7s linear infinite;
+  }
+
+  /* Рябь идёт изнутри наружу — поле откликается на подтверждённый контур. */
+  .fs-shield__ring {
+    animation: fs-ripple 7s ease-in-out infinite;
+    animation-delay: calc(var(--fs-ring) * .16s);
+  }
+}
+
+@keyframes fs-comet {
+  from { --fs-head: 0; }
+  to { --fs-head: calc(1 + var(--fs-trail)); }
+}
+
+@keyframes fs-ripple {
+  0%, 68%, 100% { opacity: var(--fs-o); }
+  10% { opacity: calc(var(--fs-o) * 3.1); }
+}

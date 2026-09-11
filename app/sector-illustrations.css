@@ -1,0 +1,311 @@
+/*
+ * Материал и движение иллюстраций карточек применения, Figma 45:6893.
+ *
+ * Геометрия живёт в разметке, в дизайн-единицах карточки 262.5 × 262.5.
+ * `--u` переводит их в пиксели от текущей ширины карточки, поэтому сцена
+ * остаётся пропорциональной на любом брейкпоинте.
+ *
+ * Дробные обводки макета (0.186–1.25 px) приведены к общей формуле с полом
+ * в 1 px: субпиксельная линия в браузерах либо размывается до полупрозрачной,
+ * либо пропадает совсем.
+ *
+ * Цвета вынесены в зарегистрированные через `@property` свойства: только так
+ * градиенты и стекло интерполируются при смене темы, а не переключаются кадром.
+ * Числа наведения (`--si-h`, `--si-t`, `--si-px`, `--si-py`, `--si-flash`)
+ * пишет `sector-hover.ts`; регистрация даёт им тип и значение по умолчанию,
+ * поэтому сцена корректна ещё до первого кадра движка.
+ */
+
+/* Цвета темы */
+@property --si-glass { syntax: '<color>'; inherits: true; initial-value: #1a1b1d; }
+@property --si-edge { syntax: '<color>'; inherits: true; initial-value: rgb(255 255 255 / 12%); }
+@property --si-sheen { syntax: '<color>'; inherits: true; initial-value: rgb(255 255 255 / 1.2%); }
+@property --si-glyph { syntax: '<color>'; inherits: true; initial-value: #8a8f98; }
+@property --si-line { syntax: '<color>'; inherits: true; initial-value: #383737; }
+@property --si-fade { syntax: '<color>'; inherits: true; initial-value: #0f1011; }
+@property --si-accent { syntax: '<color>'; inherits: true; initial-value: #dbe7f7; }
+@property --si-shadow { syntax: '<color>'; inherits: true; initial-value: rgb(0 0 0 / 52%); }
+
+/* Числа наведения */
+@property --si-h { syntax: '<number>'; inherits: true; initial-value: 0; }
+@property --si-t { syntax: '<number>'; inherits: true; initial-value: 0; }
+@property --si-signal { syntax: '<number>'; inherits: false; initial-value: 0; }
+@property --si-depth { syntax: '<number>'; inherits: false; initial-value: 0; }
+/* Вспышка наследуется: её ставит плитка, а подхватывает и глиф внутри. */
+@property --si-flash { syntax: '<number>'; inherits: true; initial-value: 0; }
+@property --si-delay { syntax: '<number>'; inherits: false; initial-value: 0; }
+@property --si-e { syntax: '<number>'; inherits: false; initial-value: 0; }
+@property --si-in { syntax: '<number>'; inherits: false; initial-value: 0; }
+@property --si-row { syntax: '<number>'; inherits: false; initial-value: 0; }
+@property --si-dot { syntax: '<number>'; inherits: false; initial-value: 0; }
+@property --si-phase { syntax: '<number>'; inherits: false; initial-value: 0; }
+@property --si-q { syntax: '<number>'; inherits: false; initial-value: 0; }
+@property --si-pulse { syntax: '<number>'; inherits: false; initial-value: 0; }
+@property --si-ink { syntax: '<number>'; inherits: true; initial-value: 1; }
+@property --si-glass-alpha { syntax: '<number>'; inherits: true; initial-value: 1; }
+
+.si-scene {
+  --u: calc(100cqw / 262.5);
+  --si-ease: cubic-bezier(.33, 1, .68, 1);
+  --si-lift: 0 calc(3.726 * var(--u)) calc(8.942 * var(--u)) calc(-2.981 * var(--u)) var(--si-shadow);
+  /* Подъём плана при наведении, дизайн-единицы. */
+
+  container-type: inline-size;
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  overflow: hidden;
+  border-radius: var(--passwork-card-radius);
+  color: var(--si-glyph);
+  transition:
+    --si-glass .5s var(--si-ease), --si-edge .5s var(--si-ease),
+    --si-sheen .5s var(--si-ease), --si-glyph .5s var(--si-ease),
+    --si-line .5s var(--si-ease), --si-fade .5s var(--si-ease),
+    --si-accent .5s var(--si-ease), --si-shadow .5s var(--si-ease);
+}
+
+/*
+ * Ход плана: линейная доля хода, сдвинутая на задержку плана, и поверх неё
+ * smoothstep. Плоский `--si-h` поднимал бы все элементы синхронно и с обрывом
+ * на концах; здесь планы вступают по очереди и приходят в покой без излома.
+ */
+.si-tile,
+.si-branch,
+.si-record,
+.si-pill {
+  --si-e: clamp(0, calc((var(--si-h) - var(--si-delay)) / .72), 1);
+  --si-in: calc(var(--si-e) * var(--si-e) * (3 - 2 * var(--si-e)));
+}
+
+/*
+ * Ничего не двигаем: при наведении элементы только разгораются по очереди.
+ * Сдвиг плана читался как дрожание композиции под курсором.
+ */
+.si-tile,
+.si-branch,
+.si-record {
+  translate: none;
+}
+
+/* Обводки не утолщаются вместе со сценой, но и не уходят в субпиксель. */
+.si-glyph > *,
+.si-branch path {
+  vector-effect: non-scaling-stroke;
+}
+
+.si-glyph {
+  display: block;
+  flex: none;
+  opacity: calc(var(--si-ink) + var(--si-in) * (1 - var(--si-ink)) * .8);
+  stroke: color-mix(in srgb, var(--si-accent) calc(var(--si-flash) * 100% + var(--si-in) * 34%), currentColor);
+  stroke-width: max(1px, calc(var(--si-stroke) * var(--u)));
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ---------- Ветви связи ---------- */
+
+.si-branch {
+  position: absolute;
+  overflow: visible;
+  stroke-width: max(1px, calc(1 * var(--u)));
+}
+
+.si-branch[data-flip='x'] { transform: scaleX(-1); }
+.si-branch[data-flip='y'] { transform: scaleY(-1); }
+.si-branch[data-flip='xy'] { transform: scale(-1); }
+
+/* ---------- Общее стекло ---------- */
+
+/* Тело стекла: один тон и три плотности от общей альфы стопки. */
+.si-tile,
+.si-record,
+.si-pill {
+  --si-glass-body:
+    color-mix(in srgb, var(--si-glass) calc(89% * var(--si-glass-alpha)), transparent) 0%,
+    color-mix(in srgb, var(--si-glass) calc(79% * var(--si-glass-alpha)), transparent) 56%,
+    color-mix(in srgb, var(--si-glass) calc(92% * var(--si-glass-alpha)), transparent) 100%;
+
+  position: absolute;
+  overflow: hidden;
+  /* Принятый импульс подсвечивает кромку и добавляет мягкий ореол. */
+  border: 1px solid color-mix(in srgb, var(--si-accent) calc(var(--si-flash) * 58% + var(--si-in) * 20%), var(--si-edge));
+  box-shadow:
+    var(--si-lift),
+    inset 0 1px 0 rgb(255 255 255 / 6%),
+    0 0 calc(var(--si-flash) * 10 * var(--u)) color-mix(in srgb, var(--si-accent) calc(var(--si-flash) * 22%), transparent);
+}
+
+/*
+ * Размытие подложки — только там, где под стеклом действительно что-то есть:
+ * панель ПДн лежит на вуали и фоне карточки, плашки перекрывают друг друга.
+ * Под плитками подложка плоская, и блюр там не виден, зато при движении
+ * заставляет пересчитывать backdrop на каждом кадре.
+ */
+.si-record,
+.si-pill {
+  -webkit-backdrop-filter: blur(var(--si-blur));
+  backdrop-filter: blur(var(--si-blur));
+}
+
+.si-tile {
+  display: grid;
+  place-items: center;
+  /* Принятый импульс отзывается в самой плитке, а не только в кромке. */
+  border-radius: var(--si-radius);
+  background:
+    linear-gradient(113.44deg, var(--si-sheen) 0%, rgb(255 255 255 / 0%) 50%),
+    linear-gradient(180deg, var(--si-glass-body));
+}
+
+/* Плитки со щитом лежат выше остальных и дают более глубокую тень. */
+.si-tile--lifted {
+  --si-lift: 0 calc(6.584 * var(--u)) calc(15.801 * var(--u)) calc(-5.267 * var(--u)) rgb(0 0 0 / 52%);
+
+  z-index: 1;
+}
+
+/* ---------- Операторы ПДн: запись со скрытыми значениями ---------- */
+
+.si-record {
+  --si-lift: 0 calc(8.291 * var(--u)) calc(19.899 * var(--u)) calc(-6.633 * var(--u)) rgb(0 0 0 / 52%);
+  --si-blur: calc(13.21 * var(--u));
+
+  top: calc(140.5 * var(--u));
+  left: calc(88 * var(--u));
+  display: flex;
+  width: calc(240 * var(--u));
+  height: calc(130.667 * var(--u));
+  gap: calc(14.222 * var(--u));
+  padding: calc(18.192 * var(--u));
+  /* Левый нижний угол макета острый: панель уходит за край карточки. */
+  border-radius: calc(9.778 * var(--u)) calc(9.778 * var(--u)) calc(9.778 * var(--u)) 0;
+  background:
+    linear-gradient(128.54deg, var(--si-sheen) 0%, rgb(255 255 255 / 0%) 50%),
+    linear-gradient(180deg, var(--si-glass-body));
+}
+
+.si-record__keys,
+.si-record__values {
+  display: flex;
+  flex-direction: column;
+  gap: calc(12.009 * var(--u));
+  color: var(--si-glyph);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  line-height: calc(19 * var(--u));
+  white-space: nowrap;
+}
+
+.si-record__keys { font-size: calc(15.612 * var(--u)); }
+
+/* Ряд скрытых значений: точки с явным шагом, уходящие за край панели. */
+.si-record__row {
+  display: flex;
+  height: calc(19 * var(--u));
+  align-items: center;
+  gap: calc(10.4 * var(--u));
+}
+
+/*
+ * Волна считывания: фаза точки складывается из её номера в строке и номера
+ * строки, поэтому свет идёт слева направо и сверху вниз. Треугольный импульс
+ * собран из двух clamp — нарастание и спад, — а амплитуду держит наведение.
+ */
+.si-record__row i {
+  --si-phase: calc(var(--si-dot) * .022 + var(--si-row) * .07);
+  --si-q: calc(var(--si-t) - var(--si-phase));
+  --si-pulse: min(clamp(0, calc(var(--si-q) / .05), 1), clamp(0, calc((.13 - var(--si-q)) / .05), 1));
+
+  width: calc(4.6 * var(--u));
+  height: calc(4.6 * var(--u));
+  flex: none;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: calc(.42 + var(--si-h) * (.16 + var(--si-pulse) * .62));
+}
+
+
+/* Радиальная и линейная вуали макета гасят края панели в фон карточки. */
+.si-record-fade {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(calc(243.06 * var(--u)) calc(160.06 * var(--u)) at 50% 50%,
+      transparent, color-mix(in srgb, var(--si-fade) 4%, transparent) 58%,
+      color-mix(in srgb, var(--si-fade) 62%, transparent) 100%),
+    linear-gradient(132.8deg,
+      color-mix(in srgb, var(--si-fade) 58%, transparent) 20.35%,
+      color-mix(in srgb, var(--si-fade) 4%, transparent) 34.2%,
+      color-mix(in srgb, var(--si-fade) 5%, transparent) 54.57%,
+      color-mix(in srgb, var(--si-fade) 58%, transparent) 74.12%,
+      color-mix(in srgb, var(--si-fade) 93%, transparent) 87.16%,
+      var(--si-fade) 101.82%);
+}
+
+/* ---------- Госорганы: стопка систем ---------- */
+
+.si-pill {
+  --si-lift: 0 calc(5.91 * var(--u)) calc(14.184 * var(--u)) calc(-4.728 * var(--u)) rgb(0 0 0 / 52%);
+
+  left: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* Центровка и разъезд стопки в одном сдвиге. */
+  translate: -50% 0;
+  border-radius: var(--si-radius);
+  background:
+    linear-gradient(153.1deg, var(--si-sheen) 0%, rgb(255 255 255 / 0%) 50%),
+    linear-gradient(180deg, var(--si-glass-body));
+}
+
+.si-pill__label {
+  color: var(--si-glyph);
+  font-family: var(--font-sans);
+  font-size: var(--si-pill-font);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  /* При наведении подписи в глубине стопки проявляются, но не до конца. */
+  opacity: calc(var(--si-ink) + var(--si-in) * (1 - var(--si-ink)) * .8);
+  white-space: nowrap;
+}
+
+/* ---------- Импульс по ветви ---------- */
+
+/*
+ * Импульс собран из слоёв с общей головой: чем длиннее штрих, тем дальше
+ * назад уходит след и тем он бледнее. Движок пишет сдвиг штриха и `--si-signal`,
+ * яркость слоя — здесь.
+ */
+.si-branch__signal {
+  stroke: var(--si-accent);
+  stroke-linecap: round;
+  opacity: 0;
+}
+
+.si-branch__signal--tail {
+  stroke-width: max(1px, calc(1.1 * var(--u)));
+  stroke-dasharray: .44 1;
+  opacity: calc(var(--si-signal) * .16);
+}
+
+.si-branch__signal--mid {
+  stroke-width: max(1.2px, calc(1.4 * var(--u)));
+  stroke-dasharray: .26 1;
+  opacity: calc(var(--si-signal) * .34);
+}
+
+/* Свет: широкий мягкий слой под головой. */
+.si-branch__signal--glow {
+  stroke-width: max(4px, calc(5 * var(--u)));
+  stroke-dasharray: .13 1;
+  opacity: calc(var(--si-signal) * .2);
+  filter: blur(2px);
+}
+
+.si-branch__signal--head {
+  stroke-width: max(1.5px, calc(1.8 * var(--u)));
+  stroke-dasharray: .13 1;
+  opacity: var(--si-signal);
+}

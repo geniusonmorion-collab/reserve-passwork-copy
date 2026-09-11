@@ -148,3 +148,31 @@ html[data-theme='light'] .wy-ui-terminal-spinner { border-color: rgb(18 67 47 / 
   html[data-theme='light'] .pw-glass :is(.pw-it__dialog, .pw-menu, .pw-toast) { background-color: #f5f7fa; }
   html[data-theme='light'] :is(.wy-ui-panel, .wy-ui-toolbar-chip) { background-color: #f5f7fa; }
 }
+
+/* Иллюстрации карточек применения, Figma 45:6893. Светлый режим повторяет
+   композицию, геометрию и движение, меняя только материал: полупрозрачное
+   белое стекло вместо тёмного и светлая вуаль в цвет карточки. Сам переход
+   между темами сглажен на токенах в `sector-illustrations.css`.
+
+   Альфа живёт в самом токене стекла: плотное белое читается как бумага,
+   а не как стекло, поэтому карточка должна просвечивать сквозь плитки. */
+html[data-theme='light'] .si-scene {
+  --si-glass: rgb(255 255 255 / 65%);
+  --si-edge: rgb(23 23 23 / 9%);
+  --si-sheen: rgb(255 255 255 / 26%);
+  --si-glyph: var(--theme-muted);
+  --si-line: rgb(23 23 23 / 20%);
+  --si-fade: var(--theme-surface);
+  --si-accent: var(--theme-accent);
+  /* Тени макета на светлом грязнят, поэтому мельче и мягче. */
+  --si-shadow: rgb(23 23 23 / 8%);
+  --si-lift: 0 calc(2.5 * var(--u)) calc(7 * var(--u)) calc(-2.5 * var(--u)) var(--si-shadow);
+}
+
+html[data-theme='light'] .si-tile--lifted {
+  --si-lift: 0 calc(4 * var(--u)) calc(11 * var(--u)) calc(-4 * var(--u)) var(--si-shadow);
+}
+
+html[data-theme='light'] :is(.si-record, .si-pill) {
+  --si-lift: 0 calc(5 * var(--u)) calc(13 * var(--u)) calc(-5 * var(--u)) var(--si-shadow);
+}

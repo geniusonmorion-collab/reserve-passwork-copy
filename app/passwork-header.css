@@ -60,7 +60,6 @@
 }
 .fh-logo-slot {
   flex: 1 0 0;
-  max-width: 244px;
 }
 .fh-logo {
   display: flex;
@@ -96,8 +95,9 @@
   align-items: center;
   justify-content: flex-end;
   gap: 16px;
-  flex: none;
-  width: 244px;
+  /* Симметрично слоту логотипа: обе стороны забирают свободное место поровну,
+     поэтому ссылки остаются по центру, а логотип и кнопки — по краям сетки. */
+  flex: 1 0 0;
 }
 .fh-link {
   color: rgba(255, 255, 255, 0.8);

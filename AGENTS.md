@@ -39,11 +39,37 @@ Their `interiorGlow={0.15}` keeps the same subtle cursor-controlled interior
 light as the feature cards' 85% glass fill, while preserving the blue gradient.
 The interior and perimeter share one light field and fade together in both themes.
 The FSTEC card keeps the dark theme's saturated blue gradient in light mode,
-with light copy, a white icon and white cursor glow.
+with light copy and white cursor glow.
 
 The hero dashboard also uses `CardGlow` with `borderOnly` and the same shared
 hover settings. Keep it outside the engine-managed HTML, inside the dashboard's
 entrance and scroll wrappers, so the outline moves with the glass in both themes.
+
+# Certification block, Figma 45:6893
+
+The block is a four-column grid with a 10px gap on the 1080px container, so a
+sector card is (1080 - 30) / 4 = 262.5px square; the FSTEC panel spans two
+columns and both rows. Sector copy sits top-left with 20px padding, and the rest
+of the card belongs to the illustration. The 24px corner icons and the FSTEC
+badge-check are gone — `sector-icon.tsx` is retained but no longer rendered.
+
+Sector illustrations live in `app/sector-illustrations.tsx`, in the mockup's
+262.5 design units scaled by `--u`. Their colours are registered through
+`@property` so the theme interpolates instead of switching in one frame; plain
+custom properties cannot animate inside gradients. Glass tiles carry no
+`backdrop-filter`: their backdrop is flat, so it cost frames without showing.
+
+Hover never moves anything. Planes light up in sequence through the smoothed
+`--si-h` with a per-plane delay and a smoothstep, and a trailing pulse runs the
+wires. `sector-hover.ts` restarts its cycle on every enter, so one hover always
+tells the same story. Smoothing is time-based, not per-frame.
+
+The FSTEC panel's illustration is one self-contained SVG in `fstec-shield.tsx`
+with a 535 viewBox and `preserveAspectRatio="xMaxYMax meet"`, so the card can
+take any aspect: the composition anchors bottom-right and simply occupies less.
+Shield geometry lives in `fstec-shield-geometry.ts` — a faceted silhouette whose
+lower vertices fall below the card edge, leaving only the peaks and straight
+lines in frame. Its polar table also tells the pointer which contour it is over.
 
 # Card copy
 

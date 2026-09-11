@@ -1,30 +1,40 @@
-import SectorIcon from './sector-icon';
 import CardGlow from './card-glow';
+import SectorIllustration, { type SectorSceneName } from './sector-illustrations';
 
-const sectors = [
-  { title: 'Производство', subtitle: 'АСУ ТП 1 класса', icon: 'factory' },
-  { title: 'Инфраструктура', subtitle: 'КИИ 1 категории', icon: 'network' },
-  { title: 'Госорганы', subtitle: 'ГИС 1 класса', icon: 'landmark' },
-  { title: 'Операторы ПДн', subtitle: 'ИСПДн 1 уровня', icon: 'shield-user' },
-] as const;
+/*
+ * Четыре области применения, Figma 45:6893. Порядок макета: производство и
+ * инфраструктура в верхнем ряду, операторы ПДн и госорганы — в нижнем.
+ * Карточки — прямые элементы сетки секции, поэтому компонент возвращает
+ * фрагмент, а не собственный контейнер.
+ */
+const sectors: readonly {
+  id: string; title: string; subtitle: string; scene: SectorSceneName;
+}[] = [
+  { id: 'production', title: 'Производство', subtitle: 'АСУ ТП 1 класса', scene: 'production' },
+  { id: 'infrastructure', title: 'Инфраструктура', subtitle: 'КИИ 1 категории', scene: 'infrastructure' },
+  { id: 'personal-data', title: 'Операторы ПДн', subtitle: 'ИСПДн 1 уровня', scene: 'personal-data' },
+  { id: 'government', title: 'Госорганы', subtitle: 'ГИС 1 класса', scene: 'government' },
+];
 
 export default function ApplicationSectors() {
-  return (
-    <div className="figma-sectors" role="list" aria-label="Области применения">
-      {sectors.map((sector) => (
-        <article className="figma-sector-card" key={sector.title} role="listitem">
-          <CardGlow
-            className="security-card-glow"
-            borderOnly
-            interiorGlow={0.15}
-          />
-          <SectorIcon name={sector.icon} />
-          <div className="figma-sector-card__copy">
-            <h3>{sector.title}</h3>
-            <p>{sector.subtitle}</p>
-          </div>
-        </article>
-      ))}
-    </div>
-  );
+  return <>
+    {sectors.map((sector) => (
+      <article
+        className="figma-sector-card"
+        key={sector.id}
+        aria-labelledby={`sector-${sector.id}`}
+      >
+        <CardGlow
+          className="security-card-glow"
+          borderOnly
+          interiorGlow={0.15}
+        />
+        <SectorIllustration scene={sector.scene} />
+        <div className="figma-sector-card__copy">
+          <h3 id={`sector-${sector.id}`}>{sector.title}</h3>
+          <p>{sector.subtitle}</p>
+        </div>
+      </article>
+    ))}
+  </>;
 }
