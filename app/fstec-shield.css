@@ -28,26 +28,28 @@
 .fs-shield__ring,
 .fs-shield__hero {
   vector-effect: non-scaling-stroke;
-  /* Отклик на курсор: кольцо под ним разгорается и чуть подаётся наружу.
+  /* Отклик на курсор: кольцо под ним чуть разгорается и едва подаётся наружу.
+     Держим его слабым — контуры сами живут на 5–11 % плотности, и заметная
+     добавка читается как подсветка, а не как часть рисунка.
      Масштаб живёт в CSS и умножается на трансформ группы, поэтому сам
      трансформ группы остаётся нетронутым. */
   transform-box: fill-box;
   transform-origin: center;
-  scale: calc(1 + var(--fs-near) * .016);
+  scale: calc(1 + var(--fs-near) * .005);
 }
 
 .fs-shield__ring {
   fill: none;
   stroke: #fff;
-  stroke-width: calc(1px + var(--fs-near) * .4px);
-  opacity: calc(var(--fs-o) + var(--fs-near) * .42);
+  stroke-width: calc(1px + var(--fs-near) * .12px);
+  opacity: calc(var(--fs-o) + var(--fs-near) * .085);
 }
 
 .fs-shield__hero {
   stroke: #d9ebff;
   stroke-opacity: .62;
-  stroke-width: calc(1.4px + var(--fs-near) * .5px);
-  filter: drop-shadow(0 0 calc(30px + var(--fs-near) * 16px) rgb(140 191 255 / 30%));
+  stroke-width: calc(1.4px + var(--fs-near) * .15px);
+  filter: drop-shadow(0 0 calc(30px + var(--fs-near) * 5px) rgb(140 191 255 / 30%));
 }
 
 /* Эмблема чуть притушена, чтобы не перебивать заголовок карточки. */
