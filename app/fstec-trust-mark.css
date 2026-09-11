@@ -1,0 +1,146 @@
+@property --ftm-wave-radius {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0px;
+}
+
+.ftm {
+  --ftm-x: 260px;
+  --ftm-y: 280px;
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  overflow: hidden;
+  border-radius: var(--passwork-card-radius);
+  pointer-events: none;
+}
+
+/* Figma 54:206 / 64:196: the original 535px point cloud starts at 120,84.
+   Keeping that offset is what makes the hemisphere leave the card on the right. */
+.ftm__cloud {
+  position: absolute;
+  left: calc(120 / 535 * 100%);
+  top: calc(84 / 535 * 100%);
+  width: 100%;
+  aspect-ratio: 535 / 555;
+}
+
+.ftm__cloud-base,
+.ftm__cloud-light,
+.ftm__cloud-wave {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.ftm__cloud-base {
+  display: block;
+  opacity: .82;
+  background: url('/assets/figma-54-206-dot-cloud.svg') 0 0 / 100% 100% no-repeat;
+  transition: opacity .45s cubic-bezier(.22, 1, .36, 1);
+}
+
+.ftm__cloud-light,
+.ftm__cloud-wave {
+  opacity: 0;
+  mask: url('/assets/figma-54-206-dot-cloud.svg') 0 0 / 100% 100% no-repeat;
+  -webkit-mask: url('/assets/figma-54-206-dot-cloud.svg') 0 0 / 100% 100% no-repeat;
+  transition: opacity .38s cubic-bezier(.22, 1, .36, 1);
+}
+
+/* Pointer-following illumination changes only luminance. Dot positions never
+   move, so entering and leaving the card cannot create a visual jump. */
+.ftm__cloud-light {
+  background: radial-gradient(circle 82px at var(--ftm-x) var(--ftm-y),
+    rgb(255 255 255 / 100%) 0%,
+    rgb(198 225 255 / 78%) 34%,
+    rgb(147 198 255 / 24%) 62%,
+    transparent 100%);
+}
+
+.ftm__cloud-wave {
+  background: radial-gradient(circle at var(--ftm-x) var(--ftm-y),
+    transparent calc(var(--ftm-wave-radius) - 9px),
+    rgb(230 242 255 / 70%) var(--ftm-wave-radius),
+    transparent calc(var(--ftm-wave-radius) + 10px));
+}
+
+.ftm[data-active='true'] .ftm__cloud-base { opacity: .96; }
+.ftm[data-active='true'] .ftm__cloud-light { opacity: .88; }
+.ftm[data-active='true'] .ftm__cloud-wave {
+  opacity: .62;
+  animation: ftm-dot-wave 2.25s cubic-bezier(.25, .7, .3, 1) infinite;
+}
+
+@keyframes ftm-dot-wave {
+  0% { --ftm-wave-radius: 18px; opacity: 0; }
+  16% { opacity: .62; }
+  72%, 100% { --ftm-wave-radius: 150px; opacity: 0; }
+}
+
+/* Figma 54:206 / 64:832: 206.65 × 84.65 at x=288, y=410. */
+.ftm__certificate {
+  position: absolute;
+  left: calc(288 / 535 * 100%);
+  top: calc(410 / 535 * 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: calc(6 / 535 * 100cqw);
+  width: calc(206.652 / 535 * 100%);
+  height: calc(84.652 / 535 * 100%);
+  padding: calc(12 / 535 * 100cqw) calc(16.326 / 535 * 100cqw);
+  overflow: hidden;
+  border: max(.326px, 1px) solid rgb(255 255 255 / 12%);
+  border-radius: calc(7 / 535 * 100cqw);
+  background:
+    linear-gradient(136.63deg, rgb(255 255 255 / 1.2%), transparent 50%),
+    linear-gradient(180deg, rgb(30 32 34 / 71.2%), rgb(32 30 29 / 63.2%) 56%, rgb(22 23 24 / 73.6%));
+  box-shadow:
+    inset 0 .326px 0 rgb(255 255 255 / 6%),
+    0 6.521px 15.649px -5.216px rgb(0 0 0 / 52%);
+  backdrop-filter: blur(3.586px);
+}
+
+.ftm__certificate strong {
+  color: rgb(255 255 255 / 95%);
+  font-size: calc(19 / 535 * 100cqw);
+  font-weight: 500;
+  letter-spacing: -.02em;
+  line-height: calc(24 / 535 * 100cqw);
+  white-space: nowrap;
+}
+
+.ftm__certificate-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.ftm__certificate-meta span {
+  color: #9eb0c9;
+  font-size: calc(13 / 535 * 100cqw);
+  font-weight: 400;
+  letter-spacing: -.01em;
+  line-height: calc(18 / 535 * 100cqw);
+  white-space: nowrap;
+}
+
+.ftm__certificate-meta i {
+  display: block;
+  width: calc(28 / 535 * 100cqw);
+  height: calc(28 / 535 * 100cqw);
+  border: 1px solid rgb(255 255 255 / 20%);
+  border-radius: calc(4 / 535 * 100cqw);
+  background:
+    url('/assets/figma-54-206-shield.svg') center / 52% 52% no-repeat,
+    rgb(255 255 255 / 8%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ftm__cloud-base,
+  .ftm__cloud-light,
+  .ftm__cloud-wave { transition: none; animation: none; }
+}

@@ -1,6 +1,6 @@
 import ApplicationSectors from './application-sectors';
 import CardGlow from './card-glow';
-import FstecShield from './fstec-shield';
+import FstecTrustMark from './fstec-trust-mark';
 
 /*
  * Figma 45:6893: панель сертификации на два столбца и два ряда, справа —
@@ -23,7 +23,7 @@ export default function SecurityProofGrid() {
           под фильтром в рантайме занимал бы 1.5 Мп на каждой перерисовке.
         */}
         <div className="figma-security-card__bloom" aria-hidden="true" />
-        <FstecShield />
+        <FstecTrustMark />
         <div className="figma-security-card__copy">
           <h3 id="security-proof-fstec">ФСТЭК России, 4 уровень доверия</h3>
           <p>Соответствует требованиям госсектора<br />и критической инфраструктуры</p>
