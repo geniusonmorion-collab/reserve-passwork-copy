@@ -1,40 +1,26 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import {
-  SCENE,
-  SHIELD_PATH,
-  SHIELD_RATIO,
-  contourWidthAt,
-} from './fstec-shield-geometry';
+import { EMBLEM, FIELD, HERO_PATH, offsetAt } from './fstec-shield-geometry';
 import './fstec-shield.css';
 
 /*
- * Иллюстрация панели сертификации, Figma 65:197: гранёный щит, утащенный вниз
- * так, что в кадре остаются верхушки и прямые линии, поле концентрических
- * контуров и стеклянная плашка сертификата.
+ * Иллюстрация панели сертификации, Figma 45:6893: щит с полем концентрических
+ * контуров и эмблема ФСТЭК на нём гербом.
  *
- * Вся композиция — один SVG в системе координат 535 × 535, включая свечение
- * и эмблему, поэтому она масштабируется вместе с карточкой одним целым и не
- * требует пересчёта координат под брейкпоинты.
+ * Вся композиция — один SVG в системе координат карточки 535 × 535, включая
+ * свечение и эмблему, поэтому она масштабируется вместе с карточкой одним
+ * целым. Пути поля уже посчитаны в этих координатах параллельным офсетом,
+ * так что трансформы группам не нужны.
  *
- * Курсор «выбирает» контур: по его положению считается, через какой по ширине
- * контур он проходит, и близкие к нему кольца разгораются и чуть подаются.
- * Полярная таблица формы из `fstec-shield-geometry` даёт это одним делением,
- * без перебора путей и без замеров геометрии на каждом кадре.
+ * Курсор «выбирает» контур: расстояние от него до подтверждённого контура
+ * сравнивается со сдвигом каждого кольца, и близкие разгораются и подаются.
  */
 
-/** Разброс отклика по ширине контура: за его пределами кольцо не реагирует. */
-const SPREAD = 96;
+/** Разброс отклика по сдвигу контура: за его пределами кольцо не реагирует. */
+const SPREAD = 46;
 /** Постоянная времени сглаживания: за неё проходится 63 % пути до цели. */
 const TAU = 0.13;
-/** Центр нормализованного бокса формы. */
-const BOX_CENTER = { x: 50, y: 59 };
-
-function shieldTransform(width: number) {
-  const height = width * SHIELD_RATIO;
-  return `translate(${SCENE.cx - width / 2} ${SCENE.cy - height / 2}) scale(${width / 100})`;
-}
 
 /* Слои кометы: общая голова, разная длина следа. */
 const cometLayers = [
@@ -44,32 +30,24 @@ const cometLayers = [
   { name: 'head', dash: 0.08 },
 ];
 
-const FIELD = SCENE.field.map((width) => {
-  const distance = Math.abs(width - SCENE.heroWidth) / 260;
-  return { width, opacity: Math.max(0.03, 0.12 - distance * 0.07) };
-});
-
 function attachShieldPointer(root: HTMLElement, card: HTMLElement) {
   const allowed = window.matchMedia(
     '(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)',
   );
-  const rings = Array.from(root.querySelectorAll<SVGPathElement>('[data-ring-width]'));
-  const widths = rings.map((ring) => Number(ring.dataset.ringWidth));
+  const rings = Array.from(root.querySelectorAll<SVGPathElement>('[data-offset]'));
+  const offsets = rings.map((ring) => Number(ring.dataset.offset));
 
   let frame = 0;
-  // Считаем видимым до первого ответа наблюдателя: его колбэк асинхронный,
-  // и иначе самое первое движение курсора не запускало бы цикл.
   let visible = true;
   let previous = 0;
   let hoverTarget = 0;
   let hover = 0;
-  // Ширина контура под курсором: SCENE помечен as const, поэтому тип задаём.
-  let pickTarget: number = SCENE.heroWidth;
-  let pick: number = SCENE.heroWidth;
+  let pickTarget = 0;
+  let pick = 0;
 
   function write() {
     for (let i = 0; i < rings.length; i++) {
-      const near = Math.max(0, 1 - Math.abs(widths[i] - pick) / SPREAD);
+      const near = Math.max(0, 1 - Math.abs(offsets[i] - pick) / SPREAD);
       // Квадрат близости сужает отклик: далёкие кольца не подрагивают.
       rings[i].style.setProperty('--fs-near', (near * near * hover).toFixed(4));
     }
@@ -105,12 +83,12 @@ function attachShieldPointer(root: HTMLElement, card: HTMLElement) {
   function move(event: PointerEvent) {
     const bounds = card.getBoundingClientRect();
     if (!bounds.width) return;
-    // Курсор → координаты карточки 535 → единицы бокса формы.
+    // Курсор → координаты карточки 535, в которых посчитаны все контуры.
     const scale = 535 / bounds.width;
-    const dx = (event.clientX - bounds.left) * scale - SCENE.cx;
-    const dy = (event.clientY - bounds.top) * scale - SCENE.cy;
-    const width = contourWidthAt(BOX_CENTER.x + dx, BOX_CENTER.y + dy);
-    if (width > 0) pickTarget = width;
+    pickTarget = offsetAt(
+      (event.clientX - bounds.left) * scale,
+      (event.clientY - bounds.top) * scale,
+    );
     hoverTarget = 1;
     start();
   }
@@ -182,7 +160,7 @@ export default function FstecShield() {
           </radialGradient>
           <linearGradient id="fs-hero-stroke" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0" stopColor="#e6f0ff" stopOpacity=".72" />
-            <stop offset="1" stopColor="#cce0ff" stopOpacity=".12" />
+            <stop offset="1" stopColor="#cce0ff" stopOpacity=".16" />
           </linearGradient>
           <linearGradient id="fs-hero-fill" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0" stopColor="#a8c8ff" stopOpacity=".1" />
@@ -190,51 +168,47 @@ export default function FstecShield() {
           </linearGradient>
         </defs>
 
-        <ellipse cx="267.5" cy="372" rx="300" ry="272" fill="url(#fs-glow)" />
+        <ellipse cx="267.5" cy="352" rx="300" ry="272" fill="url(#fs-glow)" />
 
         <g className="fs-shield__field">
           {FIELD.map((ring) => (
-            <g key={ring.width} transform={shieldTransform(ring.width)}>
-              <path
-                className="fs-shield__ring"
-                d={SHIELD_PATH}
-                data-ring-width={ring.width}
-                style={{ '--fs-o': ring.opacity.toFixed(3) } as React.CSSProperties}
-              />
-            </g>
-          ))}
-        </g>
-
-        <g transform={shieldTransform(SCENE.heroWidth)}>
-          <path
-            className="fs-shield__hero"
-            d={SHIELD_PATH}
-            data-ring-width={SCENE.heroWidth}
-            fill="url(#fs-hero-fill)"
-            stroke="url(#fs-hero-stroke)"
-          />
-        </g>
-
-        <g transform={shieldTransform(SCENE.heroWidth)}>
-          {cometLayers.map((layer) => (
             <path
-              key={layer.name}
-              className={`fs-shield__comet fs-shield__comet--${layer.name}`}
-              d={SHIELD_PATH}
-              pathLength="1"
-              style={{ '--fs-dash': layer.dash } as React.CSSProperties}
+              key={ring.distance}
+              className="fs-shield__ring"
+              d={ring.d}
+              data-offset={ring.distance}
+              style={{ '--fs-o': ring.opacity.toFixed(3) } as React.CSSProperties}
             />
           ))}
         </g>
-        {/* Эмблема лежит на лицевой части щита и служит его гербом. Внутри
-            SVG она масштабируется и прижимается вместе со всей композицией. */}
+
+        <path
+          className="fs-shield__hero"
+          d={HERO_PATH}
+          data-offset={0}
+          fill="url(#fs-hero-fill)"
+          stroke="url(#fs-hero-stroke)"
+        />
+
+        {cometLayers.map((layer) => (
+          <path
+            key={layer.name}
+            className={`fs-shield__comet fs-shield__comet--${layer.name}`}
+            d={HERO_PATH}
+            pathLength="1"
+            style={{ '--fs-dash': layer.dash } as React.CSSProperties}
+          />
+        ))}
+
+        {/* Эмблема лежит на щите гербом. Декоративна: сам факт сертификации
+            несёт заголовок карточки. */}
         <image
           className="fs-shield__emblem"
           href="/assets/figma-45-6893/fstec-emblem.webp"
-          x="199.5"
-          y="217"
-          width="136"
-          height="176"
+          x={EMBLEM.x}
+          y={EMBLEM.y}
+          width={EMBLEM.width}
+          height={EMBLEM.height}
         />
       </svg>
     </div>

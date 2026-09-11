@@ -1,142 +1,174 @@
 /*
- * Геометрия гранёного щита для панели сертификации, Figma 65:197.
+ * Геометрия щита для панели сертификации, Figma 45:6893.
  *
- * Форма задана вершинами: остриё сверху, прямые плечи, вертикальные борта,
- * длинный сход в точку. Скругляем только вершины — грани остаются прямыми.
+ * Форма повторяет щит на самой эмблеме ФСТЭК: плоский верх, прямые борта до
+ * середины высоты и прямой сход в точку. Скруглены только вершины.
  *
- * Композиция центрирована: щит виден целиком, а мягкость силуэта снимает сама
- * форма — грани прямые, скруглены только вершины небольшим радиусом.
+ * Поле контуров строится честным параллельным офсетом — каждая грань сдвигается
+ * по нормали на одно и то же расстояние. Масштабирование формы от центра, которым
+ * это делалось раньше, концентрических контуров не даёт: расстояние между
+ * линиями получается пропорционально расстоянию от центра, поэтому у широкого
+ * верха они расходятся, а у острия сбиваются в пучок.
  */
 
-/** Вершины в нормализованном боксе 100 × 118 и радиусы скругления углов. */
-const VERTICES = [
-  { x: 50, y: 0, r: 9 },
-  { x: 100, y: 24, r: 11 },
-  { x: 100, y: 64, r: 11 },
-  { x: 50, y: 118, r: 11 },
-  { x: 0, y: 64, r: 11 },
-  { x: 0, y: 24, r: 11 },
-];
-
-const BOX_W = 100;
-const BOX_H = 118;
-
+type Vertex = { x: number; y: number; r: number };
 type Point = { x: number; y: number };
 
-const unit = (a: Point, b: Point): Point => {
-  const dx = a.x - b.x;
-  const dy = a.y - b.y;
+/** Центр композиции и размер подтверждённого контура в координатах карточки. */
+const CX = 267.5;
+const CY = 352;
+const WIDTH = 300;
+const HEIGHT = WIDTH * 1.18;
+/** Доля высоты, на которой борт переходит в сход к острию. */
+const HIP = 0.5;
+
+const unit = (dx: number, dy: number): Point => {
   const length = Math.hypot(dx, dy) || 1;
   return { x: dx / length, y: dy / length };
 };
 
-const joints = VERTICES.map((v, index) => {
-  const count = VERTICES.length;
-  const prev = VERTICES[(index - 1 + count) % count];
-  const next = VERTICES[(index + 1) % count];
-  const incoming = unit(v, prev);
-  const outgoing = unit(next, v);
-  return {
-    v,
-    a: { x: v.x - incoming.x * v.r, y: v.y - incoming.y * v.r },
-    b: { x: v.x + outgoing.x * v.r, y: v.y + outgoing.y * v.r },
-  };
-});
-
 /*
- * Филет пишем кубикой с контрольными точками на 2/3 к вершине — это точная
- * запись квадратичной кривой. Дуги не используем: их не принимает парсер путей
- * Figma, а браузеру такая запись всё равно.
+ * Вершины в координатах карточки, по часовой стрелке. Радиусы даны в долях
+ * ширины, чтобы форма читалась одинаково при любом размере.
  */
-function buildPath(): string {
-  const round = (value: number) => Math.round(value * 100) / 100;
-  let d = `M${round(joints[0].a.x)} ${round(joints[0].a.y)}`;
-  for (let i = 0; i < joints.length; i++) {
+const HERO: Vertex[] = (() => {
+  const left = CX - WIDTH / 2;
+  const right = CX + WIDTH / 2;
+  const top = CY - HEIGHT / 2;
+  const hip = top + HEIGHT * HIP;
+  const tip = top + HEIGHT;
+  const k = WIDTH / 100;
+  return [
+    { x: left, y: top, r: 10 * k },
+    { x: right, y: top, r: 10 * k },
+    { x: right, y: hip, r: 14 * k },
+    { x: CX, y: tip, r: 10 * k },
+    { x: left, y: hip, r: 14 * k },
+  ];
+})();
+
+/**
+ * Параллельный офсет выпуклого контура: грани сдвигаются по внешней нормали,
+ * новая вершина — пересечение сдвинутых граней, радиус растёт на ту же величину.
+ * Все углы формы выпуклые, поэтому митр-соединения достаточно.
+ */
+function offsetVertices(vertices: Vertex[], distance: number): Vertex[] {
+  const n = vertices.length;
+  return vertices.map((v, i) => {
+    const prev = vertices[(i - 1 + n) % n];
+    const next = vertices[(i + 1) % n];
+    // Обход по часовой стрелке в экранных координатах: внешняя нормаль к (dx, dy) — (dy, −dx).
+    const dirIn = unit(v.x - prev.x, v.y - prev.y);
+    const dirOut = unit(next.x - v.x, next.y - v.y);
+    const nIn = { x: dirIn.y, y: -dirIn.x };
+    const nOut = { x: dirOut.y, y: -dirOut.x };
+    const aIn = { x: v.x + nIn.x * distance, y: v.y + nIn.y * distance };
+    const aOut = { x: v.x + nOut.x * distance, y: v.y + nOut.y * distance };
+    // Пересечение двух прямых, заданных точкой и направлением.
+    const cross = dirIn.x * dirOut.y - dirIn.y * dirOut.x;
+    if (Math.abs(cross) < 1e-6) return { x: aIn.x, y: aIn.y, r: v.r + distance };
+    const t = ((aOut.x - aIn.x) * dirOut.y - (aOut.y - aIn.y) * dirOut.x) / cross;
+    return { x: aIn.x + dirIn.x * t, y: aIn.y + dirIn.y * t, r: Math.max(0, v.r + distance) };
+  });
+}
+
+/** Скругляем вершины, оставляя грани прямыми: филет пишем кубикой. */
+function toPath(vertices: Vertex[]): string {
+  const n = vertices.length;
+  const joints = vertices.map((v, i) => {
+    const prev = vertices[(i - 1 + n) % n];
+    const next = vertices[(i + 1) % n];
+    const dirIn = unit(v.x - prev.x, v.y - prev.y);
+    const dirOut = unit(next.x - v.x, next.y - v.y);
+    // Радиус не должен съедать грань целиком.
+    const limit = Math.min(
+      Math.hypot(v.x - prev.x, v.y - prev.y),
+      Math.hypot(next.x - v.x, next.y - v.y),
+    ) / 2;
+    const r = Math.min(v.r, limit);
+    return {
+      v,
+      a: { x: v.x - dirIn.x * r, y: v.y - dirIn.y * r },
+      b: { x: v.x + dirOut.x * r, y: v.y + dirOut.y * r },
+    };
+  });
+  const f = (value: number) => Math.round(value * 100) / 100;
+  let d = `M${f(joints[0].a.x)} ${f(joints[0].a.y)}`;
+  for (let i = 0; i < n; i++) {
     const { v, a, b } = joints[i];
     const c1 = { x: a.x + (v.x - a.x) * 2 / 3, y: a.y + (v.y - a.y) * 2 / 3 };
     const c2 = { x: b.x + (v.x - b.x) * 2 / 3, y: b.y + (v.y - b.y) * 2 / 3 };
-    d += `C${round(c1.x)} ${round(c1.y)} ${round(c2.x)} ${round(c2.y)} ${round(b.x)} ${round(b.y)}`;
-    const nextA = joints[(i + 1) % joints.length].a;
-    d += `L${round(nextA.x)} ${round(nextA.y)}`;
+    d += `C${f(c1.x)} ${f(c1.y)} ${f(c2.x)} ${f(c2.y)} ${f(b.x)} ${f(b.y)}`;
+    d += `L${f(joints[(i + 1) % n].a.x)} ${f(joints[(i + 1) % n].a.y)}`;
   }
   return `${d}Z`;
 }
 
-export const SHIELD_PATH = buildPath();
-export const SHIELD_RATIO = BOX_H / BOX_W;
+export const HERO_PATH = toPath(HERO);
 
-/*
- * Полярная таблица контура: радиус границы для каждого направления от центра
- * бокса. Щит звёздно-выпуклый, поэтому одной таблицы хватает, чтобы для любой
- * точки узнать, на каком по счёту контуре она лежит.
- */
-const POLAR_BUCKETS = 240;
-const CENTER: Point = { x: BOX_W / 2, y: BOX_H / 2 };
+/** Шаг поля: равные расстояния между контурами — в этом весь смысл офсета. */
+const STEP = 15;
+const RINGS = 13;
 
-function buildPolarTable(): number[] {
-  const samples: Point[] = [];
-  for (let i = 0; i < joints.length; i++) {
-    const { v, a, b } = joints[i];
-    for (let t = 0; t <= 12; t++) {
-      const s = t / 12;
-      const m = 1 - s;
-      samples.push({
-        x: m * m * a.x + 2 * m * s * v.x + s * s * b.x,
-        y: m * m * a.y + 2 * m * s * v.y + s * s * b.y,
+export const FIELD = Array.from({ length: RINGS }, (_, i) => {
+  const distance = STEP * (i + 1);
+  return {
+    distance,
+    d: toPath(offsetVertices(HERO, distance)),
+    opacity: Math.max(0.028, 0.115 - (distance / (STEP * RINGS)) * 0.082),
+  };
+});
+
+/* Плотная выборка подтверждённого контура для замеров расстояния до курсора. */
+const OUTLINE: Point[] = (() => {
+  const points: Point[] = [];
+  const n = HERO.length;
+  for (let i = 0; i < n; i++) {
+    const from = HERO[i];
+    const to = HERO[(i + 1) % n];
+    for (let t = 0; t < 24; t++) {
+      points.push({
+        x: from.x + (to.x - from.x) * t / 24,
+        y: from.y + (to.y - from.y) * t / 24,
       });
     }
-    const nextA = joints[(i + 1) % joints.length].a;
-    for (let t = 1; t <= 12; t++) {
-      samples.push({
-        x: b.x + (nextA.x - b.x) * t / 12,
-        y: b.y + (nextA.y - b.y) * t / 12,
-      });
-    }
   }
-  const table = new Array<number>(POLAR_BUCKETS).fill(0);
-  for (const p of samples) {
-    const angle = Math.atan2(p.y - CENTER.y, p.x - CENTER.x);
-    const radius = Math.hypot(p.x - CENTER.x, p.y - CENTER.y);
-    const bucket = Math.floor(((angle + Math.PI) / (Math.PI * 2)) * POLAR_BUCKETS) % POLAR_BUCKETS;
-    if (radius > table[bucket]) table[bucket] = radius;
+  return points;
+})();
+
+function isInside(x: number, y: number): boolean {
+  let hit = false;
+  for (let i = 0, j = HERO.length - 1; i < HERO.length; j = i++) {
+    const a = HERO[i], b = HERO[j];
+    if ((a.y > y) !== (b.y > y) && x < ((b.x - a.x) * (y - a.y)) / (b.y - a.y) + a.x) hit = !hit;
   }
-  // Пустые корзины заполняем ближайшим известным значением.
-  for (let i = 0; i < POLAR_BUCKETS; i++) {
-    if (table[i] > 0) continue;
-    for (let step = 1; step < POLAR_BUCKETS; step++) {
-      const left = table[(i - step + POLAR_BUCKETS) % POLAR_BUCKETS];
-      const right = table[(i + step) % POLAR_BUCKETS];
-      if (left > 0 || right > 0) { table[i] = Math.max(left, right); break; }
-    }
-  }
-  return table;
+  return hit;
 }
-
-const POLAR = buildPolarTable();
 
 /**
- * Ширина контура, проходящего через точку, в единицах бокса.
- * Позволяет узнать, над каким контуром курсор, без перебора путей.
+ * Расстояние от точки до подтверждённого контура в координатах карточки.
+ * Внутри формы отрицательное — так значение прямо сравнивается со сдвигом
+ * контура и сразу говорит, над каким из них курсор.
  */
-export function contourWidthAt(localX: number, localY: number): number {
-  const dx = localX - CENTER.x;
-  const dy = localY - CENTER.y;
-  const radius = Math.hypot(dx, dy);
-  if (radius < 0.001) return 0;
-  const angle = Math.atan2(dy, dx);
-  const bucket = Math.floor(((angle + Math.PI) / (Math.PI * 2)) * POLAR_BUCKETS) % POLAR_BUCKETS;
-  const boundary = POLAR[(bucket + POLAR_BUCKETS) % POLAR_BUCKETS];
-  return boundary > 0 ? (radius / boundary) * BOX_W : 0;
+export function offsetAt(x: number, y: number): number {
+  let min = Infinity;
+  for (const p of OUTLINE) {
+    const d = (p.x - x) ** 2 + (p.y - y) ** 2;
+    if (d < min) min = d;
+  }
+  return Math.sqrt(min) * (isInside(x, y) ? -1 : 1);
 }
 
-/*
- * Центр композиции в координатах карточки 535 × 535 и размеры контуров.
- * Подтверждённый контур виден целиком; внешние контуры поля уходят за нижний
- * край и проходят за копией на малой плотности, как в макете.
- */
-export const SCENE = {
-  cx: 267.5,
-  cy: 362,
-  heroWidth: 300,
-  field: Array.from({ length: 14 }, (_, i) => 168 + i * 23),
-} as const;
+/** Эмблема сидит на щите гербом: по центру формы, чуть выше её середины. */
+export const EMBLEM = (() => {
+  const width = WIDTH * 0.54;
+  const height = width / 0.77;
+  return {
+    width,
+    height,
+    x: CX - width / 2,
+    y: CY - HEIGHT / 2 + HEIGHT * 0.13,
+  };
+})();
+
+export const SCENE = { cx: CX, cy: CY, width: WIDTH, height: HEIGHT } as const;

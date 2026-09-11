@@ -67,10 +67,18 @@ tells the same story. Smoothing is time-based, not per-frame.
 The FSTEC panel's illustration is one self-contained SVG in `fstec-shield.tsx`
 with a 535 viewBox, so it scales with the card as a whole. The composition is
 centred and the card stays square at every breakpoint; the FSTEC emblem sits on
-the shield as its crest. Shield geometry lives in `fstec-shield-geometry.ts`:
-a faceted silhouette with straight edges and small corner fillets — the soft
-Lucide shield read as a blob. Its polar table also tells the pointer which
-contour it is over, so contours respond without measuring geometry each frame.
+the shield as its crest.
+
+Shield geometry lives in `fstec-shield-geometry.ts`. The silhouette echoes the
+shield inside the emblem — flat top, straight sides to mid-height, straight
+taper to a point, fillets only at the vertices. The contour field is built by a
+true parallel offset: every edge moves along its normal by the same distance and
+each corner radius grows with it. Do not build it by scaling the shape about its
+centre — that spaces contours proportionally to their distance from the centre,
+so they spread at the wide top and collapse into a bundle at the point. Every
+contour's bounding box must grow by exactly twice the step. The same offset
+distance, measured from the cursor to the confirmed contour, tells the pointer
+which contour it is over.
 
 # Card copy
 
