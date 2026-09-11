@@ -1,12 +1,4 @@
-@property --ftm-wave-radius {
-  syntax: '<length>';
-  inherits: false;
-  initial-value: 0px;
-}
-
 .ftm {
-  --ftm-x: 260px;
-  --ftm-y: 280px;
   position: absolute;
   z-index: 0;
   inset: 0;
@@ -25,59 +17,29 @@
   aspect-ratio: 535 / 555;
 }
 
-.ftm__cloud-base,
-.ftm__cloud-light,
-.ftm__cloud-wave {
+.ftm__cloud-fallback,
+.ftm__cloud-canvas {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
 }
 
-.ftm__cloud-base {
+.ftm__cloud-fallback {
   display: block;
   opacity: .82;
   background: url('/assets/figma-54-206-dot-cloud.svg') 0 0 / 100% 100% no-repeat;
-  transition: opacity .45s cubic-bezier(.22, 1, .36, 1);
+  transition: opacity .2s ease;
 }
 
-.ftm__cloud-light,
-.ftm__cloud-wave {
+.ftm__cloud-canvas {
+  display: block;
   opacity: 0;
-  mask: url('/assets/figma-54-206-dot-cloud.svg') 0 0 / 100% 100% no-repeat;
-  -webkit-mask: url('/assets/figma-54-206-dot-cloud.svg') 0 0 / 100% 100% no-repeat;
-  transition: opacity .38s cubic-bezier(.22, 1, .36, 1);
+  transition: opacity .2s ease;
 }
 
-/* Pointer-following illumination changes only luminance. Dot positions never
-   move, so entering and leaving the card cannot create a visual jump. */
-.ftm__cloud-light {
-  background: radial-gradient(circle 82px at var(--ftm-x) var(--ftm-y),
-    rgb(255 255 255 / 100%) 0%,
-    rgb(198 225 255 / 78%) 34%,
-    rgb(147 198 255 / 24%) 62%,
-    transparent 100%);
-}
-
-.ftm__cloud-wave {
-  background: radial-gradient(circle at var(--ftm-x) var(--ftm-y),
-    transparent calc(var(--ftm-wave-radius) - 9px),
-    rgb(230 242 255 / 70%) var(--ftm-wave-radius),
-    transparent calc(var(--ftm-wave-radius) + 10px));
-}
-
-.ftm[data-active='true'] .ftm__cloud-base { opacity: .96; }
-.ftm[data-active='true'] .ftm__cloud-light { opacity: .88; }
-.ftm[data-active='true'] .ftm__cloud-wave {
-  opacity: .62;
-  animation: ftm-dot-wave 2.25s cubic-bezier(.25, .7, .3, 1) infinite;
-}
-
-@keyframes ftm-dot-wave {
-  0% { --ftm-wave-radius: 18px; opacity: 0; }
-  16% { opacity: .62; }
-  72%, 100% { --ftm-wave-radius: 150px; opacity: 0; }
-}
+.ftm[data-ready='true'] .ftm__cloud-fallback { opacity: 0; }
+.ftm[data-ready='true'] .ftm__cloud-canvas { opacity: 1; }
 
 /* Figma 54:206 / 64:832: 206.65 × 84.65 at x=288, y=410. */
 .ftm__certificate {
@@ -140,7 +102,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ftm__cloud-base,
-  .ftm__cloud-light,
-  .ftm__cloud-wave { transition: none; animation: none; }
+  .ftm__cloud-fallback,
+  .ftm__cloud-canvas { transition: none; }
 }
