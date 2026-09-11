@@ -60,7 +60,6 @@
 }
 .fh-logo-slot {
   flex: 1 0 0;
-  max-width: 244px;
 }
 .fh-logo {
   display: flex;
@@ -96,8 +95,9 @@
   align-items: center;
   justify-content: flex-end;
   gap: 16px;
-  flex: none;
-  width: 244px;
+  /* Симметрично слоту логотипа: обе стороны забирают свободное место поровну,
+     поэтому ссылки остаются по центру, а логотип и кнопки — по краям сетки. */
+  flex: 1 0 0;
 }
 .fh-link {
   color: rgba(255, 255, 255, 0.8);
@@ -140,6 +140,9 @@
   background: rgba(255, 255, 255, 0.1);
   cursor: pointer;
   transition: background-color 0.2s ease, border-color 0.2s ease, color 0.4s ease;
+  /* Тот же размыв подложки, что у кнопки демо рядом. */
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
 }
 .fh-theme-toggle:hover { background: rgba(255, 255, 255, 0.2); }
 .fh-theme-toggle svg { width: 19px; height: 19px; grid-area: 1 / 1; }

@@ -5755,11 +5755,12 @@ img {
   text-transform: uppercase;
 }
 
-/* Two equal halves; the sector half divides into two equal columns. */
+/* Figma 45:6893: четыре равные колонки, панель сертификации занимает две из них
+   и оба ряда. Контейнер секции 1080 px даёт карточку (1080 − 3 × 10) / 4 = 262.5. */
 .figma-security-grid {
   display: grid;
-  gap: 16px;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
 .figma-security-card {
@@ -5779,8 +5780,20 @@ img {
 }
 
 .figma-security-card.is-fstec {
-  min-height: 400px;
-  background-image: linear-gradient(100.57872875770329deg, #0a111c 9.8042%, #1a2a44 47.613%, #2c4672 91.17%);
+  grid-column: span 2;
+  grid-row: span 2;
+  aspect-ratio: 1;
+  background-image: linear-gradient(97.88deg, #0a111c 9.8042%, #1a2a44 47.613%, #2c4672 91.17%);
+}
+
+/* Запечённое свечение макета лежит поверх градиента и не зависит от темы:
+   карточка сохраняет насыщенный синий и в светлом режиме. */
+.figma-security-card__bloom {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  border-radius: var(--passwork-card-radius);
+  background: url('/assets/figma-45-6893/fstec-bloom.webp') center / cover no-repeat;
 }
 
 /* One cursor-controlled light field illuminates the edge and softly fills the card. */
@@ -5795,7 +5808,10 @@ img {
   z-index: -1;
 }
 
+/* Копия лежит над свечением и иллюстрацией. */
 .figma-security-card__copy {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -5824,42 +5840,57 @@ img {
   white-space: pre-line;
 }
 
+/* Панель сертификации: заголовок в одну строку, интервал задаёт межстрочное
+   расстояние, а не gap — так в макете. */
+.figma-security-card.is-fstec .figma-security-card__copy {
+  gap: 0;
+  padding: 23px;
+}
+
+.figma-security-card.is-fstec h3 {
+  color: #fff;
+  font-size: 20px;
+  letter-spacing: -0.0075em;
+  line-height: 35px;
+}
+
+/* Заголовок панели помещается в одну строку только на ширине макета. */
+@media (min-width: 1280px) {
+  .figma-security-card.is-fstec h3 {
+    white-space: nowrap;
+  }
+}
+
 .figma-security-card.is-fstec p {
-  max-width: 412px;
+  max-width: 352px;
+  color: rgb(255 255 255 / 62%);
 }
 
-.figma-security-grid .figma-sectors {
-  gap: 16px;
-  grid-template-rows: repeat(2, minmax(192px, 1fr));
-}
-
+/* Карточки применения: квадрат, копия в левом верхнем углу, остальное
+   пространство отдано иллюстрации. */
 .figma-security-grid .figma-sector-card {
-  min-height: 192px;
-  padding: 24px;
+  aspect-ratio: 1;
+  min-height: 0;
+  justify-content: flex-start;
+  padding: 0;
 }
 
 .figma-security-grid .figma-sector-card__copy {
-  gap: 12px;
+  position: relative;
+  z-index: 1;
+  gap: 10px;
+  padding: 20px;
 }
 
-.figma-security-grid .figma-sector-card h3 {
-  font-size: 18px;
-  line-height: 24px;
-}
-
-.figma-security-grid .figma-sector-card p {
-  font-size: 14px;
-  line-height: 20px;
-}
-
-.figma-security-grid .figma-security-card__icon {
-  left: 24px;
-  bottom: 24px;
-}
-
-.figma-security-grid .figma-sector-card__icon {
-  top: 24px;
-  left: 24px;
+/* Смена темы: поверхности и копия блока переезжают вместе с иллюстрациями,
+   а не переключаются одним кадром. Токены самих иллюстраций сглаживаются
+   в `sector-illustrations.css`. */
+@media (prefers-reduced-motion: no-preference) {
+  .figma-security :is(.figma-security-card, .figma-sector-card, h2, h3, p) {
+    transition:
+      background-color .5s cubic-bezier(.33, 1, .68, 1),
+      color .5s cubic-bezier(.33, 1, .68, 1);
+  }
 }
 
 /* ---------- Российское решение, Figma 485:9384 ---------- */
@@ -5997,7 +6028,7 @@ img {
   }
 
   .figma-security-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .figma-security__heading h2 {
@@ -6013,7 +6044,8 @@ img {
   }
 
   .figma-security-card.is-fstec {
-    min-height: 320px;
+    grid-column: span 2;
+    grid-row: span 1;
   }
 }
 
@@ -6037,10 +6069,6 @@ img {
   .figma-sectors {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     grid-template-rows: repeat(2, minmax(187px, 1fr));
-  }
-
-  .figma-security-grid {
-    grid-template-columns: minmax(0, 1fr);
   }
 
   .figma-sector-card {
@@ -6154,12 +6182,12 @@ img {
   }
 
   .figma-security-grid {
-    gap: 16px;
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .figma-security-card.is-fstec {
-    min-height: 320px;
+    grid-column: span 2;
+    grid-row: span 1;
   }
 
   .figma-security-card__copy {
@@ -6180,14 +6208,12 @@ img {
 }
 
 @media (max-width: 519.98px) {
-  .figma-security-grid .figma-sectors {
-    grid-template-columns: 1fr;
-    grid-template-rows: none;
-    grid-auto-rows: minmax(160px, auto);
+  .figma-security-grid {
+    grid-template-columns: minmax(0, 1fr);
   }
 
-  .figma-security-grid .figma-sector-card {
-    min-height: 160px;
+  .figma-security-card.is-fstec {
+    grid-column: span 1;
   }
 }
 

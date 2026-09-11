@@ -1,0 +1,58 @@
+/*
+ * Материал иллюстрации панели сертификации, Figma 54:199.
+ *
+ * Композиция живёт в одном SVG с viewBox 535 × 535 и масштабируется вместе
+ * с карточкой, поэтому пересчитывать координаты под брейкпоинты не нужно.
+ * Обводки держим ровно в 1 px на любом размере через `non-scaling-stroke`.
+ */
+
+/* Близость курсора к контуру: пишет движок, читает отклик кольца. */
+@property --fs-near { syntax: '<number>'; inherits: false; initial-value: 0; }
+
+.fs-shield {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  overflow: hidden;
+  border-radius: var(--passwork-card-radius);
+  pointer-events: none;
+}
+
+.fs-shield__art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.fs-shield__ring,
+.fs-shield__hero {
+  vector-effect: non-scaling-stroke;
+  /* Отклик на курсор: кольцо под ним чуть разгорается и едва подаётся наружу.
+     Держим его слабым — контуры сами живут на 5–11 % плотности, и заметная
+     добавка читается как подсветка, а не как часть рисунка.
+     Масштаб живёт в CSS и умножается на трансформ группы, поэтому сам
+     трансформ группы остаётся нетронутым. */
+  transform-box: fill-box;
+  transform-origin: center;
+  scale: calc(1 + var(--fs-near) * .005);
+}
+
+.fs-shield__ring {
+  fill: none;
+  stroke: #fff;
+  stroke-width: calc(1px + var(--fs-near) * .12px);
+  opacity: calc(var(--fs-o) + var(--fs-near) * .085);
+}
+
+.fs-shield__hero {
+  stroke: #d9ebff;
+  stroke-opacity: .62;
+  stroke-width: calc(1.4px + var(--fs-near) * .15px);
+  filter: drop-shadow(0 0 calc(30px + var(--fs-near) * 5px) rgb(140 191 255 / 30%));
+}
+
+/* Эмблема чуть притушена, чтобы не перебивать заголовок карточки. */
+.fs-shield__emblem {
+  opacity: .92;
+}
