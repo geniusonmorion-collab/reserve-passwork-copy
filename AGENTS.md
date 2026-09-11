@@ -82,16 +82,22 @@ that block Framer's transitions. Keep one shared animation engine and timeline
 for both themes. Recolour canvas stars on theme changes without resetting their
 positions or clock, and preserve the single fading certification-card border.
 
-The light hero uses the dark theme's exact saturated blue sky, depth layers,
-white copy, original white Russia mark and button colours, including hover
-states. The header above the hero also uses white text and translucent controls,
-including scrolled and open-menu states. Its palette changes only as the hero's
-bottom fade reaches the navigation, with a smoothly animated masked background;
-resizing must recompute this boundary. White belongs to
-the lower fade into the page. Keep the light dashboard panels and their legible
-dark text, and preserve the shared animations.
+On 2026-09-11 the user replaced the shared dark hero: the light hero now
+inverts with the rest of the page. The sky becomes daylight blue, the depth
+volumes keep their ellipses, blur radii and parallax but turn into the deeper
+blue of a lit sky, the copy, buttons and the Russia mark take the page's ink,
+and the stars use the page's `--star-rgb`. Drive all of it through the
+`.pw-hero` tokens (`--pw-hero-sky`, `--pw-hero-depth-*`, `--pw-hero-ink`,
+`--pw-hero-text`, `--pw-hero-edge`, `--pw-hero-focus`, `--pw-hero-button-*`,
+`--pw-hero-fade`) declared in `app/passwork-hero.css` and re-pointed in
+`app/theme.css`; hero button fills live in `app/theme-motion.ts`. Do not
+reintroduce hard-coded white in the hero.
+The header above the light hero now uses the ordinary light palette in every
+state, so no `data-over-hero` colour switch remains in light mode; the dark
+theme keeps it. Keep the light dashboard panels and their legible dark text,
+and preserve the shared animations.
 The light hero's lower fade uses blue and pale-blue intermediate stops before
-the page colour. Avoid a neutral white overlay on navy that creates a grey band;
+the page colour. Avoid a neutral white overlay that creates a grey band;
 retain the opaque final 8px so the section boundary stays seamless.
 
 Scenario stages also share the saturated landscape, dark overlay, pale stars

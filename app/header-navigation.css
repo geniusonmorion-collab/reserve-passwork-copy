@@ -81,7 +81,7 @@
   overflow: hidden;
   box-shadow: none;
 }
-html[data-theme='light'] .fh-fixed[data-over-hero='false'] {
+html[data-theme='light'] .fh-fixed {
   --fh-dropdown-surface: var(--product-light-glass);
   --fh-dropdown-ink: #171717;
   --fh-dropdown-muted: #34383d;

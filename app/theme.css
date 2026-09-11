@@ -47,38 +47,50 @@ html[data-theme='light'] :is(a, button, [tabindex]):focus-visible {
   outline-offset: 4px;
 }
 
-/* Share the dark hero's sky, white copy and buttons; fade into the light page below. */
+/* The hero inverts with the page: daylight sky, dark copy, page-dark stars.
+   Composition, depth order and motion stay identical to the dark theme; only
+   the hero tokens change, so the header keeps the ordinary light palette. */
 html[data-theme='light'] .pw-hero {
-  --star-rgb: 199 224 255;
+  --star-rgb: 56 118 204;
+  --pw-hero-ink: var(--theme-ink);
+  --pw-hero-text: var(--theme-text);
+  --pw-hero-edge: var(--theme-line);
+  --pw-hero-focus: var(--theme-focus);
+  --pw-hero-button-ink: var(--theme-page);
+  --pw-hero-button-edge: var(--theme-ink);
 }
-html[data-theme='light'] .pw-hero__actions { --theme-focus: #fff3f0; }
-html[data-theme='light'] .fh-fixed[data-over-hero='true'] {
-  --theme-ink: #fff3f0;
-  --theme-text: rgb(255 255 255 / 80%);
-  --theme-accent: #fff3f0;
-  --theme-line: rgb(255 255 255 / 10%);
-  --theme-focus: #fff3f0;
+html[data-theme='light'] .pw-hero__sky {
+  --pw-hero-sky: radial-gradient(ellipse 85% 54% at 50% 58%, #e8f2ff 0%, rgb(232 242 255 / 0%) 100%),
+    linear-gradient(180deg, #ffffff 0%, #f7fbff 38%, #e5f0ff 74%, #cee3fd 100%);
 }
-html[data-theme='light'] .fh-fixed[data-over-hero='true'] .fh-logo-wordmark {
-  filter: brightness(1);
+/* The dark theme's glowing volumes become the daylight sky's deeper blue ones,
+   keeping the same ellipses, blur radii and parallax. */
+html[data-theme='light'] .pw-hero__depth--distant {
+  --pw-hero-depth-distant:
+    radial-gradient(ellipse 42% 32% at 62% 55%, rgb(146 192 249 / 28%) 0%, rgb(124 174 244 / 15%) 48%, transparent 100%),
+    radial-gradient(ellipse 52% 42% at 26% 68%, rgb(126 182 247 / 34%) 0%, rgb(174 213 252 / 14%) 65%, transparent 100%);
 }
-html[data-theme='light'] .fh-fixed[data-over-hero='true'] :is(.fh-signup, .fh-theme-toggle) {
-  background: rgb(255 255 255 / 10%);
+html[data-theme='light'] .pw-hero__depth--middle {
+  --pw-hero-depth-middle:
+    radial-gradient(ellipse 52% 62% at 15% 84%, #92c3f9 0%, #aad3fb 44%, rgb(198 226 253 / 80%) 59%, rgb(233 244 255 / 44%) 67%, transparent 80%),
+    radial-gradient(ellipse 56% 70% at 89% 94%, #8ebffa 0%, #a7d0fb 46%, rgb(195 224 252 / 72%) 62%, rgb(235 245 255 / 34%) 69%, transparent 81%);
 }
-html[data-theme='light'] .fh-fixed[data-over-hero='true'] .fh-signup:hover {
-  background: rgb(255 255 255 / 25%);
+html[data-theme='light'] .pw-hero__depth--foreground {
+  --pw-hero-depth-foreground:
+    radial-gradient(ellipse 63% 90% at 5% 112%, #6aa8ef 0%, #87bcf4 54%, rgb(163 205 249 / 76%) 64%, rgb(214 234 253 / 30%) 70%, transparent 81%),
+    radial-gradient(ellipse 62% 100% at 98% 119%, #67a5ed 0%, #85b9f2 50%, rgb(166 206 249 / 72%) 62%, rgb(216 235 253 / 29%) 69%, transparent 80%),
+    radial-gradient(ellipse 42% 26% at 56% 82%, rgb(160 199 246 / 18%), transparent 100%);
 }
-html[data-theme='light'] .fh-fixed[data-over-hero='true'] .fh-theme-toggle:hover {
-  background: rgb(255 255 255 / 20%);
-}
+/* The white vector mark reads as the page's ink over the daylight sky. */
+html[data-theme='light'] .pw-hero__origin img { filter: brightness(0); }
 html[data-theme='light'] .pw-hero__fade {
-  /* Blue intermediate stops keep the navy-to-white blend from turning grey. */
+  /* Blue intermediate stops keep the blend off grey, as in the dark theme. */
   --pw-hero-fade: linear-gradient(180deg,
-    rgb(112 162 226 / 0%) 0%,
-    rgb(127 175 237 / 32%) 24%,
-    rgb(170 205 249 / 78%) 48%,
-    rgb(217 235 255 / 96%) 70%,
-    #f1f7fe 86%,
+    rgb(191 219 252 / 0%) 0%,
+    rgb(203 228 253 / 28%) 24%,
+    rgb(222 238 254 / 70%) 48%,
+    rgb(239 247 255 / 94%) 70%,
+    #f9fcff 86%,
     var(--theme-page) calc(100% - 8px));
 }
 html[data-theme='light'] .figma-client-logo__frame img { filter: grayscale(1) brightness(.15); }

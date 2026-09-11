@@ -3,16 +3,21 @@
 import { useSyncExternalStore } from 'react';
 import { isLightTheme, subscribeToTheme } from './theme-preference';
 
-// The hero has the same dark sky and button colours in both page themes.
-const heroButtons = {
+// The hero follows the page theme: white controls on the night sky, ink on the
+// daylight one. Both pairs keep the same weights, so the transitions are shared.
+const darkHeroButtons = {
   primary: 'rgba(255,255,255,.8)', primaryHover: '#fff3f0',
   secondary: 'rgba(255,255,255,.06)', secondaryHover: 'rgba(255,255,255,.12)',
+};
+const lightHeroButtons = {
+  primary: 'rgba(23,23,23,.88)', primaryHover: '#171717',
+  secondary: 'rgba(23,23,23,.06)', secondaryHover: 'rgba(23,23,23,.12)',
 };
 
 // Both themes share the same Framer transitions; only their colour targets differ.
 export const motionPalettes = {
   dark: {
-    ...heroButtons,
+    ...darkHeroButtons,
     headerBackground: '#000000', headerSurface: 'rgba(0,0,0,.85)',
     introRestOpacity: 0.25,
     ink: '#fff3f0', text: 'rgba(255,255,255,.8)',
@@ -21,7 +26,7 @@ export const motionPalettes = {
     clear: 'rgba(0,0,0,0)', clearEdge: 'rgba(255,255,255,0)',
   },
   light: {
-    ...heroButtons,
+    ...lightHeroButtons,
     headerBackground: '#fafafa', headerSurface: 'rgba(250,250,250,.96)',
     // 64% charcoal on the page retains > 4.5:1 even between scroll highlights.
     introRestOpacity: 0.64,
