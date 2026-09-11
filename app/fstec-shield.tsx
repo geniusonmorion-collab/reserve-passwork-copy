@@ -15,9 +15,8 @@ import './fstec-shield.css';
  * контуров и стеклянная плашка сертификата.
  *
  * Вся композиция — один SVG в системе координат 535 × 535, включая свечение
- * и эмблему. `preserveAspectRatio="xMaxYMax meet"` прижимает её к правому
- * нижнему углу, поэтому карточка может быть любых пропорций: на узких
- * брейкпоинтах иллюстрация просто занимает меньше места, не искажаясь.
+ * и эмблему, поэтому она масштабируется вместе с карточкой одним целым и не
+ * требует пересчёта координат под брейкпоинты.
  *
  * Курсор «выбирает» контур: по его положению считается, через какой по ширине
  * контур он проходит, и близкие к нему кольца разгораются и чуть подаются.
@@ -174,12 +173,7 @@ export default function FstecShield() {
 
   return (
     <div ref={rootRef} className="fs-shield" aria-hidden="true">
-      <svg
-        className="fs-shield__art"
-        viewBox="0 0 535 535"
-        preserveAspectRatio="xMaxYMax meet"
-        fill="none"
-      >
+      <svg className="fs-shield__art" viewBox="0 0 535 535" fill="none">
         <defs>
           <radialGradient id="fs-glow">
             <stop offset="0" stopColor="#8cbeff" stopOpacity=".2" />
@@ -196,7 +190,7 @@ export default function FstecShield() {
           </linearGradient>
         </defs>
 
-        <ellipse cx="409" cy="476" rx="325" ry="280" fill="url(#fs-glow)" />
+        <ellipse cx="267.5" cy="372" rx="300" ry="272" fill="url(#fs-glow)" />
 
         <g className="fs-shield__field">
           {FIELD.map((ring) => (
@@ -237,10 +231,10 @@ export default function FstecShield() {
         <image
           className="fs-shield__emblem"
           href="/assets/figma-45-6893/fstec-emblem.webp"
-          x="316"
-          y="270"
-          width="152"
-          height="197"
+          x="199.5"
+          y="217"
+          width="136"
+          height="176"
         />
       </svg>
     </div>

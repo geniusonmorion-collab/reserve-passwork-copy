@@ -65,11 +65,12 @@ wires. `sector-hover.ts` restarts its cycle on every enter, so one hover always
 tells the same story. Smoothing is time-based, not per-frame.
 
 The FSTEC panel's illustration is one self-contained SVG in `fstec-shield.tsx`
-with a 535 viewBox and `preserveAspectRatio="xMaxYMax meet"`, so the card can
-take any aspect: the composition anchors bottom-right and simply occupies less.
-Shield geometry lives in `fstec-shield-geometry.ts` — a faceted silhouette whose
-lower vertices fall below the card edge, leaving only the peaks and straight
-lines in frame. Its polar table also tells the pointer which contour it is over.
+with a 535 viewBox, so it scales with the card as a whole. The composition is
+centred and the card stays square at every breakpoint; the FSTEC emblem sits on
+the shield as its crest. Shield geometry lives in `fstec-shield-geometry.ts`:
+a faceted silhouette with straight edges and small corner fillets — the soft
+Lucide shield read as a blob. Its polar table also tells the pointer which
+contour it is over, so contours respond without measuring geometry each frame.
 
 # Card copy
 

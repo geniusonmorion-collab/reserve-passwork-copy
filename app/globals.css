@@ -6046,9 +6046,6 @@ img {
   .figma-security-card.is-fstec {
     grid-column: span 2;
     grid-row: span 1;
-    /* Квадрат на всю ширину съедал бы экран: делаем баннером. Иллюстрация
-       прижата к правому нижнему углу внутри SVG и просто занимает меньше. */
-    aspect-ratio: 20 / 9;
   }
 }
 
@@ -6191,8 +6188,6 @@ img {
   .figma-security-card.is-fstec {
     grid-column: span 2;
     grid-row: span 1;
-    /* Ниже 810 карточка уже, поэтому оставляем больше высоты под копию. */
-    aspect-ratio: 3 / 2;
   }
 
   .figma-security-card__copy {
