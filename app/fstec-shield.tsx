@@ -1,53 +1,51 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { EMBLEM, FIELD, HERO_PATH, offsetAt } from './fstec-shield-geometry';
+import {
+  EMBLEM,
+  FIELD,
+  HERO_WIDTH,
+  SHIELD_PATH,
+  contourTransform,
+  contourWidthAt,
+} from './fstec-shield-geometry';
 import './fstec-shield.css';
 
 /*
- * Иллюстрация панели сертификации, Figma 45:6893: щит с полем концентрических
- * контуров и эмблема ФСТЭК на нём гербом.
+ * Иллюстрация панели сертификации, Figma 54:199: поле концентрических контуров
+ * щита, подтверждённый контур и эмблема ФСТЭК по его центру.
  *
- * Вся композиция — один SVG в системе координат карточки 535 × 535, включая
- * свечение и эмблему, поэтому она масштабируется вместе с карточкой одним
- * целым. Пути поля уже посчитаны в этих координатах параллельным офсетом,
- * так что трансформы группам не нужны.
+ * Композиция — один SVG в системе координат карточки 535 × 535, поэтому
+ * масштабируется вместе с ней одним целым.
  *
- * Курсор «выбирает» контур: расстояние от него до подтверждённого контура
- * сравнивается со сдвигом каждого кольца, и близкие разгораются и подаются.
+ * Единственное движение — отклик на курсор: по его положению считается, контур
+ * какой ширины через него проходит, и близкие к нему кольца разгораются
+ * и чуть подаются.
  */
 
-/** Разброс отклика по сдвигу контура: за его пределами кольцо не реагирует. */
-const SPREAD = 46;
+/** Разброс отклика по ширине контура: за его пределами кольцо не реагирует. */
+const SPREAD = 78;
 /** Постоянная времени сглаживания: за неё проходится 63 % пути до цели. */
 const TAU = 0.13;
-
-/* Слои кометы: общая голова, разная длина следа. */
-const cometLayers = [
-  { name: 'tail', dash: 0.34 },
-  { name: 'mid', dash: 0.18 },
-  { name: 'glow', dash: 0.08 },
-  { name: 'head', dash: 0.08 },
-];
 
 function attachShieldPointer(root: HTMLElement, card: HTMLElement) {
   const allowed = window.matchMedia(
     '(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)',
   );
-  const rings = Array.from(root.querySelectorAll<SVGPathElement>('[data-offset]'));
-  const offsets = rings.map((ring) => Number(ring.dataset.offset));
+  const rings = Array.from(root.querySelectorAll<SVGPathElement>('[data-width]'));
+  const widths = rings.map((ring) => Number(ring.dataset.width));
 
   let frame = 0;
   let visible = true;
   let previous = 0;
   let hoverTarget = 0;
   let hover = 0;
-  let pickTarget = 0;
-  let pick = 0;
+  let pickTarget = HERO_WIDTH;
+  let pick = HERO_WIDTH;
 
   function write() {
     for (let i = 0; i < rings.length; i++) {
-      const near = Math.max(0, 1 - Math.abs(offsets[i] - pick) / SPREAD);
+      const near = Math.max(0, 1 - Math.abs(widths[i] - pick) / SPREAD);
       // Квадрат близости сужает отклик: далёкие кольца не подрагивают.
       rings[i].style.setProperty('--fs-near', (near * near * hover).toFixed(4));
     }
@@ -83,12 +81,13 @@ function attachShieldPointer(root: HTMLElement, card: HTMLElement) {
   function move(event: PointerEvent) {
     const bounds = card.getBoundingClientRect();
     if (!bounds.width) return;
-    // Курсор → координаты карточки 535, в которых посчитаны все контуры.
+    // Курсор → координаты карточки 535, в которых заданы все контуры.
     const scale = 535 / bounds.width;
-    pickTarget = offsetAt(
+    const width = contourWidthAt(
       (event.clientX - bounds.left) * scale,
       (event.clientY - bounds.top) * scale,
     );
+    if (width > 0) pickTarget = width;
     hoverTarget = 1;
     start();
   }
@@ -153,55 +152,36 @@ export default function FstecShield() {
     <div ref={rootRef} className="fs-shield" aria-hidden="true">
       <svg className="fs-shield__art" viewBox="0 0 535 535" fill="none">
         <defs>
-          <radialGradient id="fs-glow">
-            <stop offset="0" stopColor="#8cbeff" stopOpacity=".2" />
-            <stop offset=".55" stopColor="#73adff" stopOpacity=".06" />
-            <stop offset="1" stopColor="#73adff" stopOpacity="0" />
-          </radialGradient>
-          <linearGradient id="fs-hero-stroke" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stopColor="#e6f0ff" stopOpacity=".72" />
-            <stop offset="1" stopColor="#cce0ff" stopOpacity=".16" />
-          </linearGradient>
           <linearGradient id="fs-hero-fill" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stopColor="#a8c8ff" stopOpacity=".1" />
-            <stop offset="1" stopColor="#80b0ff" stopOpacity="0" />
+            <stop offset="0" stopColor="#9ec9ff" stopOpacity=".14" />
+            <stop offset="1" stopColor="#9ec9ff" stopOpacity="0" />
           </linearGradient>
         </defs>
 
-        <ellipse cx="267.5" cy="352" rx="300" ry="272" fill="url(#fs-glow)" />
-
         <g className="fs-shield__field">
           {FIELD.map((ring) => (
-            <path
-              key={ring.distance}
-              className="fs-shield__ring"
-              d={ring.d}
-              data-offset={ring.distance}
-              style={{ '--fs-o': ring.opacity.toFixed(3) } as React.CSSProperties}
-            />
+            <g key={ring.width} transform={contourTransform(ring.width)}>
+              <path
+                className="fs-shield__ring"
+                d={SHIELD_PATH}
+                data-width={ring.width}
+                style={{ '--fs-o': ring.opacity } as React.CSSProperties}
+              />
+            </g>
           ))}
         </g>
 
-        <path
-          className="fs-shield__hero"
-          d={HERO_PATH}
-          data-offset={0}
-          fill="url(#fs-hero-fill)"
-          stroke="url(#fs-hero-stroke)"
-        />
-
-        {cometLayers.map((layer) => (
+        <g transform={contourTransform(HERO_WIDTH)}>
           <path
-            key={layer.name}
-            className={`fs-shield__comet fs-shield__comet--${layer.name}`}
-            d={HERO_PATH}
-            pathLength="1"
-            style={{ '--fs-dash': layer.dash } as React.CSSProperties}
+            className="fs-shield__hero"
+            d={SHIELD_PATH}
+            data-width={HERO_WIDTH}
+            fill="url(#fs-hero-fill)"
           />
-        ))}
+        </g>
 
-        {/* Эмблема лежит на щите гербом. Декоративна: сам факт сертификации
-            несёт заголовок карточки. */}
+        {/* Эмблема по центру щита. Декоративна: сам факт сертификации несёт
+            заголовок карточки. */}
         <image
           className="fs-shield__emblem"
           href="/assets/figma-45-6893/fstec-emblem.webp"

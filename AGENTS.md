@@ -64,21 +64,20 @@ Hover never moves anything. Planes light up in sequence through the smoothed
 wires. `sector-hover.ts` restarts its cycle on every enter, so one hover always
 tells the same story. Smoothing is time-based, not per-frame.
 
-The FSTEC panel's illustration is one self-contained SVG in `fstec-shield.tsx`
-with a 535 viewBox, so it scales with the card as a whole. The composition is
-centred and the card stays square at every breakpoint; the FSTEC emblem sits on
-the shield as its crest.
+The FSTEC panel's illustration reproduces Figma `54:199` and should be changed
+only against that node. It is one SVG in a 535 viewBox, so it scales with the
+card as a whole, and the card stays square at every breakpoint. Fourteen
+concentric shield contours step 23px in width from 132 to 431, all centred at
+(267.5, 350), with the confirmed contour at 268 and the agency emblem 73 x 92 at
+the same centre. Widths and per-contour opacities come from the node; keep them
+in `fstec-shield-geometry.ts` rather than deriving them from a formula.
 
-Shield geometry lives in `fstec-shield-geometry.ts`. The silhouette echoes the
-shield inside the emblem — flat top, straight sides to mid-height, straight
-taper to a point, fillets only at the vertices. The contour field is built by a
-true parallel offset: every edge moves along its normal by the same distance and
-each corner radius grows with it. Do not build it by scaling the shape about its
-centre — that spaces contours proportionally to their distance from the centre,
-so they spread at the wide top and collapse into a bundle at the point. Every
-contour's bounding box must grow by exactly twice the step. The same offset
-distance, measured from the cursor to the confirmed contour, tells the pointer
-which contour it is over.
+The only motion is the pointer response: the cursor's distance from the centre
+gives the width of the contour running through it, so nearby contours brighten
+and ease outward. A polar table of the silhouette supplies that in one division,
+without measuring geometry each frame. Do not add ambient motion — no travelling
+light along the contours, no breathing field, no glow layer. They were tried and
+removed.
 
 # Card copy
 
